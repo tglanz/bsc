@@ -24,8 +24,7 @@ public class Trapezoid
         System.out.print("Second base width: ");
         int secondBaseWidth = scanner.nextInt();
 
-        // Make some calculations which will be used in the area and perimeter calculations
-        double sumOfBasesWidths = firstBaseWidth + secondBaseWidth;
+        // Calculate the right point coordinates for further use
         double firstBaseRightX = firstBaseLeftX + firstBaseWidth;
         double secondBaseRightX = secondBaseLeftX + secondBaseWidth;
 
@@ -40,7 +39,7 @@ public class Trapezoid
         */
         double leftSideLength = Math.sqrt(
             Math.pow(firstBaseLeftX - secondBaseLeftX, 2) + 
-            Math.pow(firstBaseY - secondBaseY), 2);
+            Math.pow(firstBaseY - secondBaseY, 2));
 
         double rightSideLength = Math.sqrt(
             Math.pow(firstBaseRightX - secondBaseRightX, 2) + 
@@ -61,6 +60,7 @@ public class Trapezoid
                 [(0-0)^2 + (y1 - y2)^2]^.5 == (y1 - y2)^2^.5
         */
         double height = Math.sqrt(Math.pow(firstBaseY - secondBaseY, 2));
+        double area = (firstBaseWidth + secondBaseWidth) * height * .5;
 
         // Output the results to the user
         System.out.println("The area of the trapezoid is " + area);
