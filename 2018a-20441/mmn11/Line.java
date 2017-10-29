@@ -7,6 +7,7 @@ public class Line
         // Acquire input from the user. two 2d points
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter 4 integers");
+        
         System.out.println("Please enter x1:");
         int x1 = scan.nextInt();
         System.out.println("Please enter y1:");
