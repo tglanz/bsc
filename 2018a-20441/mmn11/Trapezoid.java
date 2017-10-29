@@ -24,10 +24,6 @@ public class Trapezoid
         System.out.print("Second base width: ");
         int secondBaseWidth = scanner.nextInt();
 
-        // Calculate the right point coordinates for further use
-        double firstBaseRightX = firstBaseLeftX + firstBaseWidth;
-        double secondBaseRightX = secondBaseLeftX + secondBaseWidth;
-
         /*
             Calculate the perimeter.
             perimeter = 
@@ -37,6 +33,10 @@ public class Trapezoid
             We will calculate the length of the sides using the distance between two point formula
             which was introduced in Line.java excercise
         */
+        
+        double firstBaseRightX = firstBaseLeftX + firstBaseWidth;
+        double secondBaseRightX = secondBaseLeftX + secondBaseWidth;
+        
         double leftSideLength = Math.sqrt(
             Math.pow(firstBaseLeftX - secondBaseLeftX, 2) + 
             Math.pow(firstBaseY - secondBaseY, 2));
