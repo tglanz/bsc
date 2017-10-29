@@ -1,10 +1,15 @@
 import java.util.Scanner;
 
+/*
+    Class    : Line.java
+    Author   : Tal Glanzman
+    Summuary : Calculate the distance between two 2d points
+*/
 public class Line
 {
     public static void main(String[] args)
     {
-        // Acquire input from the user. two 2d points
+        // Acquire input from the user
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter 4 integers");
         
@@ -17,7 +22,7 @@ public class Line
         System.out.println("Please enter x2:");
         int y2 = scan.nextInt();
         
-        // Calculate the distance using the formula: [(x1-x2)^2 + (y1-y2)^2]^0.5
+        // Calculate the distance using the formula: [(x1-x2)^2 + (y1-y2)^2]^.5
         double xDeltaSquared = Math.pow(x1 - x2, 2);
         double yDeltaSquared = Math.pow(y1 - y2, 2);
         double distance = Math.sqrt(xDeltaSquared + yDeltaSquared);

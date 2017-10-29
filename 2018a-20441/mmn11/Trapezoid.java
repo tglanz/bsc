@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/*
+    Class    : Trapezoid.java
+    Author   : Tal Glanzman
+    Summuary : Calculate the area and the perimeter of a trapezoid given a specific input
+*/
 public class Trapezoid
 {
     public static void main(String[] args)
