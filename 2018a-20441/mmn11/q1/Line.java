@@ -28,5 +28,5 @@ public class Line
             "(" + x2 + "," + y2 + ") is " +
             distance
         );
-    }
-}
+    } // end of method main
+} // end of class Line
