@@ -1,5 +1,3 @@
-import javax.net.ssl.ExtendedSSLSession;
-
 /**
  * Represents time - hours:minutes. Coordinates cannot be negative.
  */
@@ -23,9 +21,11 @@ public class Time1
      */
     public Time1(int h, int m)
     {
+        // Default initialization
         _hour = DEFAULT_HOUR;
         _minute = DEFAULT_MINUTE;
 
+        // Check the validity of h and m as hour and minute representatives
         if (isValidHour(h))
         {
             _hour = h;
@@ -42,8 +42,9 @@ public class Time1
      */
     public Time1(Time1 t)
     {
-        _hour = t.getHour();
-        _minute = t.getMinute();
+        // Copy the fields themselves
+        _hour = t._hour;
+        _minute = t._minute;
     }
 
     /**
@@ -74,6 +75,8 @@ public class Time1
         {
             _hour = num;
         }
+        
+        // else remain unchanged
     }
 
     /**
@@ -86,6 +89,8 @@ public class Time1
         {
             _minute = num;
         }
+        
+        // else remain unchanged
     }
 
     /**
@@ -132,7 +137,7 @@ public class Time1
      */
     public boolean equals(Time1 other)
     {
-        return getHour() == other.getHour() && getMinute() == other.getMinute();
+        return minFromMidnight() == other.minFromMidnight();
     }
 
     /**
