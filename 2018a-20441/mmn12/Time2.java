@@ -3,7 +3,7 @@ import javax.net.ssl.ExtendedSSLSession;
 /**
  * Represents time - hours:minutes. Coordinates cannot be negative.
  */
-public class Time1
+public class Time2
 {
     private static final int MAX_HOUR = 23;
     private static final int MIN_HOUR = 0;
@@ -15,35 +15,35 @@ public class Time1
 
     private static final int MINUTES_IN_HOUR = 60;
 
-    private int _hour;
-    private int _minute;    
+    private int _minFromMid;
 
     /**
-     * Constructs a Time1 object.
+     * Constructs a Time2 object.
      */
-    public Time1(int h, int m)
+    public Time2(int h, int m)
     {
-        _hour = DEFAULT_HOUR;
-        _minute = DEFAULT_MINUTE;
+        int hour = DEFAULT_HOUR;
+        int minute = DEFAULT_MINUTE;
 
         if (isValidHour(h))
         {
-            _hour = h;
+            hour = h;
         }
 
         if (isValidMinute(m))
         {
-            _minute = m;
+            minute = m;
         }
+
+        _minFromMid = calcMinFromMid(hour, minute);
     }
 
     /**
-     * Copy constructor for Time1.
+     * Copy constructor for Time2.
      */
-    public Time1(Time1 t)
+    public Time2(Time2 t)
     {
-        _hour = t.getHour();
-        _minute = t.getMinute();
+        _minFromMid = t.minFromMidnight();
     }
 
     /**
@@ -52,7 +52,7 @@ public class Time1
      */
     public int getHour()
     {
-        return _hour;
+        return _minFromMid / MINUTES_IN_HOUR;
     }
 
     /**
@@ -61,7 +61,7 @@ public class Time1
      */
     public int getMinute()
     {
-        return _minute;
+        return _minFromMid % MINUTES_IN_HOUR;
     }
 
     /**
@@ -72,7 +72,7 @@ public class Time1
     {
         if (isValidHour(num))
         {
-            _hour = num;
+            _minFromMid = calcMinFromMid(num, getMinute());
         }
     }
 
@@ -84,7 +84,7 @@ public class Time1
     {
         if (isValidMinute(num))
         {
-            _minute = num;
+            _minFromMid = calcMinFromMid(getHour(), num);
         }
     }
 
@@ -122,7 +122,7 @@ public class Time1
      */
     public int minFromMidnight()
     {
-        return getHour() * MINUTES_IN_HOUR + getMinute();
+        return _minFromMid;
     }
 
     /**
@@ -130,9 +130,9 @@ public class Time1
      * @param other The time to be compared with this time
      * @return boolean True if the received time is equal to this time
      */
-    public boolean equals(Time1 other)
+    public boolean equals(Time2 other)
     {
-        return getHour() == other.getHour() && getMinute() == other.getMinute();
+        return minFromMidnight() == other.minFromMidnight();
     }
 
     /**
@@ -140,7 +140,7 @@ public class Time1
      * @param other The time to check if this time is before
      * @return boolean True if this time is before other time
     */
-    public boolean before(Time1 other)
+    public boolean before(Time2 other)
     {
         return minFromMidnight() < other.minFromMidnight();
     }
@@ -150,18 +150,22 @@ public class Time1
      * @param other The time to check if this time is before
      * @return boolean True if this time is after other time
     */
-    public boolean after(Time1 other)
+    public boolean after(Time2 other)
     {
         return other.before(this);
     }
 
-    public int difference(Time1 other)
+    public int difference(Time2 other)
     {
-        // return (getHour() - other.getHour()) * MINUTES_IN_HOUR + (getMinute() - other.getMinute());
         return minFromMidnight() - other.minFromMidnight();
     }
 
     /* Private methods */
+
+    private static int calcMinFromMid(int hour, int minute)
+    {
+        return (hour * MINUTES_IN_HOUR) + minute;
+    }
 
     private static boolean isInRange(int value, int min, int max)
     {
