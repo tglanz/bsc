@@ -1,5 +1,3 @@
-import java.sql.Time;
-
 public class Flight
 {
     private static final int MINUTES_IN_HOUR = 60;
@@ -44,6 +42,7 @@ public class Flight
      * @param depMinute The departure minute (should be between 0-59).
      * @param durTimeMinutes The duration time in minutes(should not be negative).
      * @param noOfPass The number of passengers (should be between 0-maximum capacity).
+     * @param price The price for a ticket
      */
     public Flight(String origin,
         String dest,
