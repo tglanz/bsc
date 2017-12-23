@@ -1,6 +1,6 @@
 public class Maman13StudentTester
 {
-	public static void main(String []args)
+	public static void main(String[] args)
 	{
 
 		/*******************************  Airport CLASS TESTER *******************************/
