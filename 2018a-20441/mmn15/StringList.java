@@ -7,14 +7,21 @@ public class StringList {
 
     /**
      * Creates a new, empty, StringList
+     * 
+     * Time complexity  : O(1)
+     * Memory complexity: O(1)
+     * 
      */
-    public StringList()
-    {
+    public StringList(){
         _head = null;
     }
 
     /**
      * Creates a new StringList, starting with the given node
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(n)
+     * 
      * @param node The head of the list
      */
     public StringList(CharNode node) {
@@ -33,6 +40,10 @@ public class StringList {
 
     /**
      * Constructrs a new instance of StringList, representing a given string
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(n)
+     * 
      * @param s The string this list based on
      */
     public StringList(String s){
@@ -61,6 +72,10 @@ public class StringList {
 
     /**
      * Deep copies another given StringList
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(n)
+     * 
      * @param other The StringList to copy
      */
     public StringList (StringList other){
@@ -84,6 +99,10 @@ public class StringList {
 
     /**
      * Gets the char at the given index
+     * 
+     * Time complexity  : O(1) - Depends on the argument i, not on the size of the list n
+     * Memory complexity: O(1)
+     * 
      * @param i The index to get the char at
      * @return char The character at the given index
      */
@@ -109,6 +128,11 @@ public class StringList {
 
     /**
      * Concatenate this with another given list, and creates a new StringList object
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(1)
+     *      Note: we ignore the complexities within new StringList and treat it as a single instantiation of a StringList
+     * 
      * @param str The list to concatenate this with
      * @return StringList a new StringList object
      */
@@ -138,6 +162,11 @@ public class StringList {
 
     /**
      * Find the index of the first occurrence of a given character
+     * 
+     * Complexities same as indexOf(int i, int j)
+     * Time complexity  : O(n)
+     * Memory complexity: O(1)
+     * 
      * @param ch The character to look for in this list
      * @return int The index of the first occurrence of the given character. -1 if not found
      */
@@ -147,6 +176,10 @@ public class StringList {
 
     /**
      * Find the index of the first occurrence of a given character after a given index to start lookin from inclusive
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(1)
+     * 
      * @param ch The character to look for in this list
      * @param fromIndex The first index to look from, inclusive
      * @return int The index of the first occurrence of the given character after the given index to start lookin from. -1 if not found
@@ -178,6 +211,10 @@ public class StringList {
 
     /**
      * Checks wether this list deeply equals to another list
+     * 
+     * Time complexity  : O(n) - n recursion steps
+     * Memory complexity: O(n) - 2 (constant) instantiations of StringList in each recursion step (n of those)
+     * 
      * @param str The other list to check for equality with
      * @return boolean true if the lists are deeply equal. empty lists are considered equal
      */
@@ -215,6 +252,10 @@ public class StringList {
 
     /**
      * Compares this list to another one.
+     * 
+     * Time complexity  : O(n) - per each node, there are constant iterations for equalities
+     * Memory complexity: O(1)
+     * 
      * @param str The other list to compare this to
      * @return int comparison result. 0=equal, negative when this list is lt the other,  positive if this list is gt the other
      */
@@ -278,6 +319,10 @@ public class StringList {
 
     /**
      * Returns a StringList representing the substring of this StringList from a given index
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(1) - Treat new StringList(this) as constant
+     * 
      * @param i The start of the substring inclusive
      * @return StringList A new StringList instance, representing the relevant substring of this StringList
      */
@@ -302,6 +347,12 @@ public class StringList {
 
     /**
      * Returns a StringList representing the substring of this StringList from a given index to a given index
+     * 
+     * Time complexity :
+     *  - if we take in to account inner logics (of substring and trim end) the complexity is O(n)
+     *  - if we only take into account the "high level" operations its O(1)
+     * Memory complexity: O(1)
+     * 
      * @param i The start index of the substring inclusive
      * @param j The end index of the substring exclusive
      * @return StringList A new StringList instance, representing the relevant substring of this StringList
@@ -314,6 +365,10 @@ public class StringList {
 
     /**
      * Returns the number of characters in the string represented by this StringList instance
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(1)
+     * 
      * @return int the number of characters in the string represented by this StringList instance
      */
     public int length(){
@@ -334,6 +389,10 @@ public class StringList {
 
     /**
      * Returns the string represented but this StringList instance
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(1)
+     * 
      * @return String string represented by this instance
      */
     public String toString(){
@@ -357,6 +416,10 @@ public class StringList {
     /**
      * Changes this list to have no more than the given number of characters.
      * Does so by removing tail characters.
+     * 
+     * Time complexity  : O(n)
+     * Memory complexity: O(1)
+     * 
      * @param total max number of characters
      */
     private void trimEnd(int total){
@@ -383,32 +446,5 @@ public class StringList {
         }
 
         return;
-    }
-
-    public void DEBUG_PrintStuff(){
-        if (_head == null){
-            System.out.println("EMPTY");
-            return;
-        }
-
-        CharNode next = _head;
-        while (next != null){
-            next.Debug();
-            next = next.getNext();
-        }
-    }
-
-    public void DEBUG_SetNext(CharNode next){
-        if (_head == null){
-            _head = next;
-            return;
-        }
-
-        CharNode node = _head;
-        while (node.getNext() != null){
-            node = node.getNext();
-        }
-
-        node.setNext(next);
     }
 }
