@@ -82,6 +82,11 @@ public class StringList {
         }
     }
 
+    /**
+     * Gets the char at the given index
+     * @param i The index to get the char at
+     * @return char The character at the given index
+     */
     public char charAt(int i){
         if (_head == null){
             return '\0';
@@ -97,6 +102,8 @@ public class StringList {
             passed += node.getValue();
         }
 
+        // The first node that doesn't meet the above condition is the node containing
+        // the character at the index i
         return node.getData();
     }
 
