@@ -276,6 +276,115 @@ public class StringList {
         return thisCharsLeft - otherCharsLeft;
     }
 
+    /**
+     * Returns a StringList representing the substring of this StringList from a given index
+     * @param i The start of the substring inclusive
+     * @return StringList A new StringList instance, representing the relevant substring of this StringList
+     */
+    public StringList substring(int i){
+        StringList retVal = new StringList(this);
+
+        if (retVal._head == null){
+            return retVal;
+        }
+
+        int acc = 0;
+        acc += retVal._head.getValue();
+        while (acc < i){
+            retVal._head = retVal._head.getNext();
+            acc += retVal._head.getValue();
+        }
+
+        retVal._head.setValue(retVal._head.getValue() - i);
+
+        return retVal;
+    }
+
+    /**
+     * Returns a StringList representing the substring of this StringList from a given index to a given index
+     * @param i The start index of the substring inclusive
+     * @param j The end index of the substring exclusive
+     * @return StringList A new StringList instance, representing the relevant substring of this StringList
+     */
+    public StringList substring(int i, int j){
+        StringList retVal = substring(i);
+        retVal.trimEnd(j - i);
+        return retVal;
+    }
+
+    /**
+     * Returns the number of characters in the string represented by this StringList instance
+     * @return int the number of characters in the string represented by this StringList instance
+     */
+    public int length(){
+        if (_head == null){
+            return 0;
+        }
+
+        CharNode node = _head;
+        int acc = 0;
+
+        while (node != null){
+            acc += node.getValue();
+            node = node.getNext();
+        }
+
+        return acc;
+    }
+
+    /**
+     * Returns the string represented but this StringList instance
+     * @return String string represented by this instance
+     */
+    public String toString(){
+        String retVal = "\"";
+
+        CharNode node = _head;
+        while (node != null){
+            for (int idx = 0; idx < node.getValue(); ++idx){
+                retVal += node.getData();
+            }
+
+            node = node.getNext();
+        }
+
+        retVal += "\"";
+        return retVal;
+    }
+
+    /* Utilities */
+
+    /**
+     * Changes this list to have no more than the given number of characters.
+     * Does so by removing tail characters.
+     * @param total max number of characters
+     */
+    private void trimEnd(int total){
+        if (_head == null){
+            return;
+        }
+
+        int passed = 0;
+        CharNode node = _head;
+
+        while (node != null){
+            passed += node.getValue();
+
+            if (passed > total){
+                node.setValue(passed - total);
+            }
+
+            if (passed >= total){
+                
+                node.setNext(null);                
+            }
+
+            node = node.getNext();
+        }
+
+        return;
+    }
+
     public void DEBUG_PrintStuff(){
         if (_head == null){
             System.out.println("EMPTY");
