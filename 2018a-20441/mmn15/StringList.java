@@ -136,6 +136,34 @@ public class StringList {
         return retVal;
     }
 
+    /**
+     * Find the index of the first occurrence of a given character
+     * @param ch The character to look for in this list
+     * @return int The index of the first occurrence of the given character. -1 if not found
+     */
+    public int indexOf(int ch){
+        if (_head != null){
+            CharNode node = _head;
+            int passed = 0;       
+            
+            // Iterate through all nodes
+            while (node != null){
+                if (node.getData() == ch){
+                    // We have found a node containg the character ch, return its index
+                    return passed;
+                }
+
+                // Haven't found ch yet, increment the how much have we passed, and set the next node in the list
+                passed += node.getValue();
+                node = node.getNext();
+            }
+        }
+
+        // Head is null or we just havn't found the character.
+        // Anyway, character is not in this list..
+        return -1;
+    }
+
     public void DEBUG_PrintStuff(){
         if (_head == null){
             System.out.println("EMPTY");
