@@ -176,6 +176,41 @@ public class StringList {
         return -1;
     }
 
+    /**
+     * Checks wether this list deeply equals to another list
+     * @param str The other list to check for equality with
+     * @return boolean true if the lists are deeply equal. empty lists are considered equal
+     */
+    public boolean equals(StringList str){
+
+        boolean headsAreEqual = false;
+        boolean restOfTheListsAreEqual = false;
+
+        if (_head == null && str._head == null){
+            // Both lists are empty
+            // We assume that two empty lists are considered equal
+            headsAreEqual = true;
+            restOfTheListsAreEqual = true;
+        } else if (_head != null && str._head != null){
+            // Check if the heads are equal
+            headsAreEqual =
+                _head.getData() == str._head.getData() &&
+                _head.getValue() == str._head.getValue();
+
+            if (headsAreEqual){
+                // Check if the rest of lists are equal
+                
+                // The recursion step, rely on the correctness of StringList.equals
+                restOfTheListsAreEqual = 
+                    new StringList(_head.getNext()).equals(new StringList(str._head.getNext()));
+            }       
+        }
+
+        // Code structured this way just to be a bit verbose
+        // The lists are equal iff heads are equal, and the lists without the heads are equal
+        return headsAreEqual && restOfTheListsAreEqual;
+    }
+
     public void DEBUG_PrintStuff(){
         if (_head == null){
             System.out.println("EMPTY");
