@@ -9,6 +9,9 @@ public class CharNode {
 
     /**
      * A constructor for CharNode
+     *
+     * Time complexity     : O(1)
+     * Memory complexity   : O(1)
      * 
      * @param c The character contained in the node
      * @param val The number of squential appearances
@@ -22,6 +25,10 @@ public class CharNode {
 
     /**
      * Gets the next node in the list
+     * 
+     * Time complexity     : O(1)
+     * Memory complexity   : O(1)
+     * 
      * @return CharNode The next node in the list
      */
     public CharNode getNext() {
@@ -30,6 +37,10 @@ public class CharNode {
 
     /**
      * Sets the next node in the list
+     * 
+     * Time complexity     : O(1)
+     * Memory complexity   : O(1)
+     * 
      * @param node The next node to set in the list
      */
     public void setNext(CharNode node) {
@@ -38,6 +49,10 @@ public class CharNode {
 
     /**
      * Gets the number of sequential appearances of the character in the list
+     * 
+     * Time complexity     : O(1)
+     * Memory complexity   : O(1)
+     * 
      * @return int The number of sequential appearances of the character in the list
      */
     public int getValue() {
@@ -46,6 +61,10 @@ public class CharNode {
 
     /**
      * Sets the number of sequential appearances of the character in the list
+     * 
+     * Time complexity     : O(1)
+     * Memory complexity   : O(1)
+     * 
      * @param v the number of sequential appearances of the character in the list
      */
     public void setValue(int v) {
@@ -54,6 +73,10 @@ public class CharNode {
 
     /**
      * Gets the character contained in the node
+     * 
+     * Time complexity     : O(1)
+     * Memory complexity   : O(1)
+     * 
      * @return char the character contained in the node
      */
     public char getData() {
@@ -62,13 +85,13 @@ public class CharNode {
 
     /**
      * Sets the character contained in the node
+     * 
+     * Time complexity     : O(1)
+     * Memory complexity   : O(1)
+     * 
      * @param c the character contained in the node
      */
     public void setData(char c) {
         _data = c;
-    }
-
-    public void Debug(){
-        System.out.println("CN:" + _data + ":" + _value);
     }
 }
