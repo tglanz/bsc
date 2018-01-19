@@ -3,9 +3,15 @@ public class MyDriver {
         StringList a, b;
 
         a = new StringList("01234");
-        for (int idx = 0; idx < 6; ++idx){
-            System.out.println("Char at " + idx + ": " + a.charAt(-1));
-        }
+        b = new StringList("abcde");
+        
+        System.out.println("COncat");
+        a.concat(b).DEBUG_PrintStuff();
 
+        System.out.println("A");
+        a.DEBUG_PrintStuff();
+
+        System.out.println("B");
+        b.DEBUG_PrintStuff();
     }
 }

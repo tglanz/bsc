@@ -107,6 +107,35 @@ public class StringList {
         return node.getData();
     }
 
+    /**
+     * Concatenate this with another given list, and creates a new StringList object
+     * @param str The list to concatenate this with
+     * @return StringList a new StringList object
+     */
+    public StringList concat (StringList str){
+
+        // If this is an empty list, concatenating str to it is just str
+        if (_head == null){
+            return str;
+        }
+
+        // Deep copy, don't change this
+        StringList retVal = new StringList(this);
+
+        // If it isn't Empty, traverse the return value to find the last value
+        if (str._head != null){
+            // Traverse the list to get to the last node
+            CharNode node = retVal._head;
+            while (node.getNext() != null){
+                node = node.getNext();
+            }
+
+            node.setNext(str._head);
+        } // else: str is empty, we have nothing to concatenate with, leave retVal as is
+
+        return retVal;
+    }
+
     public void DEBUG_PrintStuff(){
         if (_head == null){
             System.out.println("EMPTY");
