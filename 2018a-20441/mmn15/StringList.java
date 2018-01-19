@@ -142,6 +142,16 @@ public class StringList {
      * @return int The index of the first occurrence of the given character. -1 if not found
      */
     public int indexOf(int ch){
+        return indexOf(ch, 0);
+    }
+
+    /**
+     * Find the index of the first occurrence of a given character after a given index to start lookin from inclusive
+     * @param ch The character to look for in this list
+     * @param fromIndex The first index to look from, inclusive
+     * @return int The index of the first occurrence of the given character after the given index to start lookin from. -1 if not found
+     */
+    public int indexOf(int ch, int fromIndex){
         if (_head != null){
             CharNode node = _head;
             int passed = 0;       
@@ -149,8 +159,11 @@ public class StringList {
             // Iterate through all nodes
             while (node != null){
                 if (node.getData() == ch){
-                    // We have found a node containg the character ch, return its index
-                    return passed;
+                    // Check if we are in the allowed range depending on the first index the look from
+                    if (fromIndex < passed + node.getValue()){
+                        // We have found a node containg the character ch, return its index
+                        return passed;
+                    }
                 }
 
                 // Haven't found ch yet, increment the how much have we passed, and set the next node in the list
@@ -159,8 +172,7 @@ public class StringList {
             }
         }
 
-        // Head is null or we just havn't found the character.
-        // Anyway, character is not in this list..
+        // Head is null, or we just havn't found the character from the first index given...s
         return -1;
     }
 
