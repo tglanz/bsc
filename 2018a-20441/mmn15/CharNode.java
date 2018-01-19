@@ -67,4 +67,8 @@ public class CharNode {
     public void setData(char c) {
         _data = c;
     }
+
+    public void Debug(){
+        System.out.println("CN:" + _data + ":" + _value);
+    }
 }
