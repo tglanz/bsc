@@ -183,6 +183,8 @@ public class StringList {
      */
     public boolean equals(StringList str){
 
+        // Note: could have used compareTo, but recursion required
+
         boolean headsAreEqual = false;
         boolean restOfTheListsAreEqual = false;
 
@@ -204,11 +206,74 @@ public class StringList {
                 restOfTheListsAreEqual = 
                     new StringList(_head.getNext()).equals(new StringList(str._head.getNext()));
             }       
-        }
+        } // Else: one is empty and the other is not, not equal
 
         // Code structured this way just to be a bit verbose
         // The lists are equal iff heads are equal, and the lists without the heads are equal
         return headsAreEqual && restOfTheListsAreEqual;
+    }
+
+    /**
+     * Compares this list to another one.
+     * @param str The other list to compare this to
+     * @return int comparison result. 0=equal, negative when this list is lt the other,  positive if this list is gt the other
+     */
+    public int compareTo(StringList str){
+        
+        // The algorithm basically compares each character at each index
+        // by "remembering" how many characters in a node, and compare it's data for node.getValue() times
+
+        CharNode thisNode = _head;
+        CharNode otherNode = str._head;
+
+        int thisCharsLeft = -1;
+        if (thisNode != null){
+            // How many character we haven't compared yet in thisNode
+            thisCharsLeft = thisNode.getValue();
+        }
+        
+        int otherCharsLeft = -1;
+        if (otherNode != null){
+            // How many character we haven't compared yet in otherNode
+            otherCharsLeft = otherNode.getValue();
+        }
+
+        // As long as there are characters to compare
+        while (thisCharsLeft > 0 && otherCharsLeft > 0){
+            // Make the comparison
+            if (thisNode.getData() != otherNode.getData()){
+                // If the character aren't equal return the ordinal comparison
+                return thisNode.getData() - otherNode.getData();
+            }
+
+            // -1 character left
+            --thisCharsLeft;
+            --otherCharsLeft;
+
+            // If no more characters in thisNode
+            if (thisCharsLeft == 0){
+                // Attempt to proceed in the list
+                thisNode = thisNode.getNext();
+                if (thisNode != null){
+                    // If there is still a node to proceed to, there are more characters to check
+                    thisCharsLeft += thisNode.getValue();
+                }
+            }
+
+            // If no more characters in thisNode
+            if (otherCharsLeft == 0){
+                // Attempt to proceed in the list
+                otherNode = otherNode.getNext();
+                if (otherNode != null){
+                    // If there is still a node to proceed to, there are more characters to check
+                    otherCharsLeft += otherNode.getValue();
+                }
+            }
+        }
+
+        // We reach here only if at least one of the lists comparisons have been exhausted, it is the smaller one,
+        // unless both exhausted, and they are equal. It is basically depends on the characters left to compare.
+        return thisCharsLeft - otherCharsLeft;
     }
 
     public void DEBUG_PrintStuff(){
