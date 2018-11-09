@@ -1,0 +1,15 @@
+Please enter values for operands a and b below
+ > a: 22091
+ > b: 2123416624
+
+Binary Computation
+  0000 0101 0110 0100 1011 
++ 0000 1100 0100 0011 0000 
+--------------------------
+= 0001 0001 1010 0111 1011 
+
+Decimal Compuation
+   22091
++ 2123416624
+--------
+=  72315
