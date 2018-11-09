@@ -154,7 +154,15 @@ unsigned int my_add(unsigned int a, unsigned int b){
         a_bits[idx] = a % PARITY; 
         b_bits[idx] = b % PARITY;
 
-        sum = carry + a_bits[idx ] + b_bits[idx ];
+        /*
+         * Didn't fully understand from the task if this operation is what we needed
+         * to do, or by if conditions; such as
+         * if (a_bits[idx] == b_bits[idx] && a_bits[idx] == 1){
+         *     sum = 0;
+         *     carry = 1;
+         * } etc.. 
+         */
+        sum = carry + a_bits[idx] + b_bits[idx];
         carry = sum / PARITY; 
         result_bits[idx] = sum % PARITY; 
 
