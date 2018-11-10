@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-/*
+/**
  * Definitions
  *
  * EXIT_CODE_OK - An exit code, indicates that the program finished execution successfully
@@ -17,7 +17,7 @@
 #define MAX_BITS (20)
 #define PARITY (2)
 
-/*
+/**
  * Prints a binary computation to stdout
  * Assumes that the arrays have length of MAX_BITS
  */
@@ -26,23 +26,24 @@ void print_binary_computation(
         unsigned char * b_bits,
         unsigned char * result_bits);
 
-/*
+/**
  * Prints a decimal computation to stdout
  */
 void print_decimal_computation(unsigned int a, unsigned int b, unsigned int result);
 
-/*
+/**
  * Reads the input from stdin
  */
 void read_input(unsigned int * a, unsigned int * b);
 
-/*
+/**
  * Prints a given array to stdout
  */
 void print_array(unsigned char * array, unsigned int count);
 
-/*
- * The function we actually care about, Simulates the addition operation in base 2
+/**
+ * The function we actually care about.
+ * Simulate the addition operation in base 2
  *
  * To get the rightmost bit, we use the modulu operation
  * Given two bits, a and b, we notice that the base two result is (a+b)%2 and carry is (a+b)/2
@@ -60,10 +61,9 @@ unsigned int my_add(unsigned int a, unsigned int b);
  * Print base 10 computation
  */
 int main(int argc, char ** argv){
-
-    unsigned int a;
-    unsigned int b;
-    unsigned int result;
+    unsigned int a;         /* the first operand */
+    unsigned int b;         /* the second operand */
+    unsigned int result;    /* the result of the addition */
 
     read_input(&a, &b);
     printf("\n");
@@ -74,12 +74,9 @@ int main(int argc, char ** argv){
     return EXIT_CODE_OK;
 }
 
-/*
- * Implementations
- */
-
-void print_decimal_computation(unsigned int a, unsigned int b, unsigned int result){
-    /* Just print */
+void print_decimal_computation(
+    unsigned int a, unsigned int b, unsigned int result){
+        
     unsigned int idx;
     printf("\nDecimal Compuation\n");
     printf("  %6d\n", a);
