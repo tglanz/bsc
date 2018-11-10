@@ -37,7 +37,7 @@ void print_decimal_computation(unsigned int a, unsigned int b, unsigned int resu
 void read_input(unsigned int * a, unsigned int * b);
 
 /**
- * Prints a given array to stdout
+ * Prints a given bit array to stdout
  */
 void print_array(unsigned char * array, unsigned int count);
 
@@ -76,7 +76,7 @@ int main(int argc, char ** argv){
 
 void print_decimal_computation(
     unsigned int a, unsigned int b, unsigned int result){
-        
+
     unsigned int idx;
     printf("\nDecimal Compuation\n");
     printf("  %6d\n", a);
@@ -102,7 +102,7 @@ void print_binary_computation(
     printf("\n+ ");
     print_array(b_bits, MAX_BITS);
     printf("\n");
-    for (idx = 0; idx < 2 + MAX_BITS; ++idx){
+    for (idx = 0; idx < 6 + MAX_BITS; ++idx){
         printf("-");
     }
     printf("\n= ");
@@ -125,6 +125,9 @@ void print_array(unsigned char * array, unsigned int count){
     unsigned int idx;
     for (idx = 0; idx < count; ++idx){
         printf("%d", array[count - idx - 1]);
+        if ((count - idx - 1) % 4 == 0){
+            printf(" ");
+        }
     }
 }
 
@@ -136,8 +139,8 @@ unsigned int my_add(unsigned int a, unsigned int b){
     unsigned int power;     /* Base 2 power,
                                used to reconstruct the result from it's bits */
 
-    unsigned char carry;    /* The carry for the current addition,
-                               acquired in the previous iteration */
+    unsigned char carry = 0;    /* The carry for the current addition,
+                                    acquired in the previous iteration */
 
     /* The bits for each operand and result */
     unsigned char a_bits[MAX_BITS];
@@ -153,7 +156,6 @@ unsigned int my_add(unsigned int a, unsigned int b){
 
         sum = carry + a_bits[idx ] + b_bits[idx ];
         carry = sum / PARITY; 
-
         result_bits[idx] = sum % PARITY; 
 
         a /= PARITY;

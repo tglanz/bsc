@@ -54,6 +54,7 @@ int palindrome(char s[]);
  * Read a line, check if it's a palindrome, and print the result
  */
 int main(int argc, char ** argv){
+    unsigned int idx = 0;
     char string[MAX_STRING_LENGTH];
     int is_palindrome = 0;
 
@@ -61,7 +62,17 @@ int main(int argc, char ** argv){
     fgets(string, MAX_STRING_LENGTH, stdin);
 
     is_palindrome = palindrome(string);
-    printf("The string is %sa palindrome!!\n", is_palindrome ? "" : "NOT ");
+
+    /**
+     * print the results
+     */
+    printf("The string \"");
+    while (idx < MAX_STRING_LENGTH && string[idx] != '\n' && string[idx] != '\0'){
+        printf("%c", string[idx]);
+        ++idx;
+    }
+    printf("\" is %sa palindrome !!", is_palindrome ? "" : "NOT ");
+
     return EXIT_CODE_OK;
 }
 
