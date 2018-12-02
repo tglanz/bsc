@@ -44,12 +44,19 @@ static set_t* get_set() {
      */
     set_t* set = set_new();
 
+    printf("Getting numbers from input\n");
     /* As long as we havn't reached the eof token, read integers */
     while ((ret_val = scanf("%d", &input_number)) != EOF){
+        printf("  - got %d, ", input_number);
         /* Use the set api to add the number */
-        set_add(set, input_number);
+        if (set_add(set, input_number)){
+            printf("it was added\n");
+        } else {
+            printf("it was NOT added\n");
+        }
     }
 
+    printf("\n");
     return set;
 }
 
@@ -62,18 +69,19 @@ static void print_set(set_t* const set) {
 
     unsigned int index = 0;
 
+    printf("The set\n");
     if (!set){
-        printf("Unable to print null set...\n");
+        printf("  - unable to print null set...\n");
     } else {
-        printf("-------- Set --------\n");
-        printf("Count: %d\n", set->count);
-        printf("Capacity: %d\n", set->capacity);
+        printf("  - count: %d\n", set->count);
+        printf("  - capacity: %d\n", set->capacity);
         if (set->count > 0){
-            printf("Items:\n");
+            printf("  - items:\n");
             for (index = 0; index < set->count; ++index){
-                printf("  %d. %d\n", index, set->items[index]);
+                printf("    -  %d. %d\n", index + 1, set->items[index]);
             }
         }
-        printf("---------------------\n");
     }
+
+    printf("\n");
 }
