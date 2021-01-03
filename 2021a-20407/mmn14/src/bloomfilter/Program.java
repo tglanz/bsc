@@ -13,14 +13,6 @@ import java.util.stream.Stream;
 
 public class Program {
 
-    static Logger logger = Logger.getLogger(Program.class.getName());
-
-    static class LogFormatter extends Formatter {
-        public String format(LogRecord record) {
-            return String.format("[%s] %s %n", record.getLevel(), formatMessage(record));
-        }
-    }
-
     public static void main(String[] args) {
         Arguments arguments = new Arguments(args);
         validateArguments(arguments);
@@ -36,13 +28,14 @@ public class Program {
             } else {
                 // otherwise, work with the add and check input files
                 readInput(arguments.addPath).forEach(bloomFilter::add);
-                readInput(arguments.checkPath).forEach(item -> logger.fine(
+                readInput(arguments.checkPath).forEach(item -> System.out.println(
                     String.format("contains(%s) = %s", item, bloomFilter.contains(item))));
             }
 
-            logger.fine(String.format("current bloom filter's error: %.9f", bloomFilter.getError()));
+            System.out.println(String.format(
+                        "current bloom filter's error: %.9f", bloomFilter.getError()));
         } catch (Exception exception) {
-            logger.severe(exception.getMessage());
+            System.err.println(exception.getMessage());
             System.exit(1);
         }
     }
@@ -53,18 +46,18 @@ public class Program {
         }
 
         if (arguments.addPath == null) {
-            logger.severe("argument not specified: add-path");
+            System.err.println("argument not specified: add-path");
             System.exit(1);
         }
 
         if (arguments.checkPath == null) {
-            logger.severe("argument not specified: check-path");
+            System.err.println("argument not specified: check-path");
             System.exit(1);
         }
 
         for (Path path : new Path[] { arguments.addPath, arguments.checkPath }) {
             if (!path.toFile().exists()) {
-                logger.severe("no such file: " + path);
+                System.err.println("no such file: " + path);
                 System.exit(1);
             }
         }
