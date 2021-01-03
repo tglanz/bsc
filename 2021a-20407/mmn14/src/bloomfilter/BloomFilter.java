@@ -14,8 +14,10 @@ public interface BloomFilter<T> {
     /**
      * adds an item to the construct.
      * 
-     * complexity: O(K)
-     *      where K is the number of hash functions the construct uses
+     * complexity: O(K * P) where
+     *      K is the number of hash functions the construct uses
+     *      P is the time complexity of a hash function
+     * 
      * 
      * @param item item to add
      */
@@ -24,8 +26,9 @@ public interface BloomFilter<T> {
     /**
      * checks whether some item is contained in the construct.
      * 
-     * complexity: O(K)
-     *      where K is the number of hash functions the construct uses
+     * complexity: O(K * P) where
+     *      K is the number of hash functions the construct uses
+     *      P is the time complexity of a hash function
      * 
      * @param item item to check if is contained
      * @return
@@ -50,6 +53,8 @@ public interface BloomFilter<T> {
      * a standard implementation of {@link BloomFilter}.
      * 
      * this implementation is invariant to the hash implementation which is parametrized.
+     * 
+     * the gaurantees of runtime complexities are described in the interface definition {@link BloomFilter}
      */
     public static class Default implements BloomFilter<String> {
 

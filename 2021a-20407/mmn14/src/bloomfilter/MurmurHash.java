@@ -8,6 +8,12 @@ public class MurmurHash {
         this.seed = seed;
     }
 
+    /**
+     * compute the has of a string.
+     * 
+     * complexity: O(N)
+     *     where N is the length of the string
+     */
     public int hashString(String key) {
         return hash(key.getBytes(), seed);
     }
