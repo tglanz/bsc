@@ -284,9 +284,35 @@ iappend(uint inum, void *xp, int n)
       }
       x = xint(indirect[fbn-NDIRECT]);
     } else {
-      for (int idx = 0; idx < 100; ++idx) {
-        printf("HALLO? fbn=%d\n", fbn);
+
+      // is it even necessary?
+
+      if (xint(din.addrs[NDIRECT + 1]) == 0) {
+        din.addrs[NDIRECT + 1] = xint(freeblock++);
       }
+
+      rsect(xint(din.addrs[NDIRECT + 1]), (char*)indirect);
+
+      uint fbnRelative = fbn - NDIRECT - NINDIRECT;
+
+      uint topIndex = fbnRelative / NINDIRECT;
+      uint subIndex = fbnRelative % NINDIRECT;
+
+      if (xint(indirect[topIndex]) == 0) {
+        indirect[topIndex] = xint(freeblock++);
+        wsect(xint(din.addrs[NDIRECT + 1]), (char*)indirect);
+      }
+
+      // second level
+      uint indirect2[NINDIRECT];
+      rsect(xint(indirect[topIndex]), (char*)indirect2);
+
+      if (xint(indirect2[subIndex]) == 0) {
+        indirect2[subIndex] = xint(freeblock++);
+        wsect(xint(indirect[topIndex]), (char*)indirect2);
+      }
+
+      x = xint(indirect2[subIndex]);
     }
     n1 = min(n, (fbn + 1) * BSIZE - off);
     rsect(x, buf);
