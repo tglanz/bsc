@@ -32,9 +32,10 @@ struct superblock {
   should be a singly-indirect block (just like the current one); the 13th should be your new doubly-indirect block.
 
 */
-#define NDIRECT 12
+#define NDIRECT 11
 #define NINDIRECT (BSIZE / sizeof(uint))
-#define MAXFILE (NDIRECT + NINDIRECT)
+#define NDINDIRECT (NINDIRECT * NINDIRECT)
+#define MAXFILE (NDIRECT + NINDIRECT + NDINDIRECT)
 
 // On-disk inode structure
 struct dinode {
@@ -43,7 +44,7 @@ struct dinode {
   short minor;          // Minor device number (T_DEV only)
   short nlink;          // Number of links to inode in file system
   uint size;            // Size of file (bytes)
-  uint addrs[NDIRECT+1];   // Data block addresses
+  uint addrs[NDIRECT+2];   // Data block addresses
 };
 
 // Inodes per block.

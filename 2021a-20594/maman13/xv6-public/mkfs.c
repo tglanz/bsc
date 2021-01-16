@@ -273,7 +273,7 @@ iappend(uint inum, void *xp, int n)
         din.addrs[fbn] = xint(freeblock++);
       }
       x = xint(din.addrs[fbn]);
-    } else {
+    } else if (fbn - NDIRECT < NINDIRECT) {
       if(xint(din.addrs[NDIRECT]) == 0){
         din.addrs[NDIRECT] = xint(freeblock++);
       }
@@ -283,6 +283,10 @@ iappend(uint inum, void *xp, int n)
         wsect(xint(din.addrs[NDIRECT]), (char*)indirect);
       }
       x = xint(indirect[fbn-NDIRECT]);
+    } else {
+      for (int idx = 0; idx < 100; ++idx) {
+        printf("HALLO? fbn=%d\n", fbn);
+      }
     }
     n1 = min(n, (fbn + 1) * BSIZE - off);
     rsect(x, buf);
