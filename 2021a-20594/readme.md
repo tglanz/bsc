@@ -15,3 +15,9 @@
 - for make, supply a ```makefile```. not others
 
 - use -Wall when compiling
+
+
+
+When making xv6 we can get permissions denied on perl files. this can be resolved just by adding executions permissions.
+
+    find . -name "*.pl" | xargs chmod +x
