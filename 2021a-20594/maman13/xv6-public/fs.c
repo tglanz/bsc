@@ -397,7 +397,6 @@ bmap(struct inode *ip, uint bn)
       log_write(bp);
     }
     brelse(bp);
-    // cprintf("  - return single, addr=%d \n", addr);
     return addr;
   }
   
@@ -457,16 +456,13 @@ itrunc(struct inode *ip)
   uint *a;
   uint *a2;
 
-  // cprintf(" - truncating direct: start \n");
   for(i = 0; i < NDIRECT; i++){
     if(ip->addrs[i]){
       bfree(ip->dev, ip->addrs[i]);
       ip->addrs[i] = 0;
     }
   }
-  // cprintf(" - truncating direct: done \n");
 
-  // cprintf(" - truncating single: start \n");
   if(ip->addrs[NDIRECT]){
     bp = bread(ip->dev, ip->addrs[NDIRECT]);
     a = (uint*)bp->data;
@@ -479,7 +475,6 @@ itrunc(struct inode *ip)
     bfree(ip->dev, ip->addrs[NDIRECT]);
     ip->addrs[NDIRECT] = 0;
   }
-  // cprintf(" - truncating single: end \n");
 
   /*
     
@@ -487,7 +482,6 @@ itrunc(struct inode *ip)
   
   */
   
-  // cprintf(" - truncating double: start \n");
   if (ip->addrs[NDIRECT + 1]) {
     bp = bread(ip->dev, ip->addrs[NDIRECT + 1]);
     a = (uint*)bp->data;
@@ -511,7 +505,6 @@ itrunc(struct inode *ip)
     bfree(ip->dev, ip->addrs[NDIRECT + 1]);
     ip->addrs[NDIRECT + 1] = 0;
   }
-  // cprintf(" - truncating double: done\n");
 
   ip->size = 0;
   iupdate(ip);
