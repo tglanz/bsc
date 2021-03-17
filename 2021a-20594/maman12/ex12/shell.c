@@ -59,7 +59,7 @@ void printJobs(struct jobSet * jobList) {
     while (job) {
         printf(JOB_STATUS_FORMAT,
             job->jobId,
-            job == jobList->fg ? "Running" : "Stopped",
+            job->stoppedProgs == job->numProgs ? "Stopped" : "Running",
             job->text);
         job = job->next;
     }
