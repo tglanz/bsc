@@ -48,6 +48,62 @@ struct job {
     int stoppedProgs;       /* number of programs alive, but stopped */
 };
 
+/**
+ * print the jobs using the format specified at JOB_STATUS_FORMAT.
+ * The Running job is identified as the job which is currently in the foreground.
+ * 
+ * @param jobList the list of jobs to print
+ */
+void printJobs(struct jobSet * jobList) {
+    struct job * job = jobList->head;
+    while (job) {
+        printf(JOB_STATUS_FORMAT,
+            job->jobId,
+            job == jobList->fg ? "Running" : "Stopped",
+            job->text);
+        job = job->next;
+    }
+}
+
+/**
+ * traverse the list of jobs until a relevant job is found
+ * or until list exhausted
+ * 
+ * @param jobList the list of jobs to search
+ * @param jobId the job's id to search for
+ * @return a job in the list that has jobId of {jobId}; null if non-found
+ */
+struct job * findJob(struct jobSet * jobList, int jobId) {
+    struct job * job = jobList->head;
+    while (job && job->jobId != jobId) {
+        job = job->next;
+    }
+
+    return job;
+}
+
+void resumeJob(struct jobSet * jobList, struct job * job, int bringToForeground) {
+    // if command if "fg" we will bring the job to foreground
+    // by invoking tcsetpgrp which sets the process group to 
+    // be in the foreground
+    if (bringToForeground) {
+        jobList->fg = job;
+        if (tcsetpgrp(0, job->pgrp)) {
+            perror("tcsetpgrp");
+        }
+    }
+
+    // either when "fg" or "bg" we will send a signal to the
+    // process group to continue execution and adjusting
+    // the relevant flags indicating that the programs
+    // are not stopped anymore
+    kill(-job->pgrp, SIGCONT);
+    job->stoppedProgs = 0;
+    for (int idx = 0; idx < job->numProgs; ++idx) {
+        job->progs[idx].isStopped = 0;
+    }
+}
+
 void freeJob(struct job * cmd) {
     int i;
 
@@ -319,28 +375,28 @@ int runCommand(struct job newJob, struct jobSet * jobList,
                     strerror(errno));
         return 0;
     } else if (!strcmp(newJob.progs[0].argv[0], "jobs")) {
-        // FILL IN HERE
-        // Scan the job list and print jobs' status
-	// using the following function 
-        //    printf(JOB_STATUS_FORMAT, job->jobId, statusString,
-        //            job->text);
- 	// while statusString is one of the {Stopped, Running}
-
+        printJobs(jobList);
         return 0;
     } else if (!strcmp(newJob.progs[0].argv[0], "fg") ||
                !strcmp(newJob.progs[0].argv[0], "bg")) {
- 
-         // FILL IN HERE
-	// First of all do some syntax checking. 
-	// If the syntax check fails return 1
-	// else find the job in the job list 
-  	// If job not found return 1
-	// If strcmp(newJob.progs[0].argv[0] == "f"
-	// then put the job you found in the foreground (use tcsetpgrp)
-	// Don't forget to update the fg field in jobList
-	// In any case restart the processes in the job by calling 
-	// kill(-job->pgrp, SIGCONT). Don't forget to set isStopped = 0   
-	// in every proicess and stoppedProgs = 0 in the job
+
+        int jobId;
+
+        // acquire the job if from the command's argument
+        // reminder: double '%' is an escaped '%' sign
+        if (!sscanf(newJob.progs[0].argv[1], "%%%d", &jobId)) {
+            return 1;
+        }
+
+        job = findJob(jobList, jobId);
+        if (!job) {
+            return 1;
+        }
+
+        // resume execution of a job.
+        // if command is "fg" indicate that the process should be
+        // brought back to foreground
+        resumeJob(jobList, job, newJob.progs[0].argv[0][0] == 'f');
 
         return 0;
     }
