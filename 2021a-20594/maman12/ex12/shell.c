@@ -1,5 +1,5 @@
 /* 
- * Student : XXX
+ * Student : Tal Glanzman, 302800354 
  * Date    : 2021-03-17
  *
  * Solution for the practical part of maman12

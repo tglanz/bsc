@@ -1,4 +1,4 @@
-# Student : XXX 
+# Student : Tal Glanzman 
 # Standard usage to rebuild : make clean && make
 
 smash:
