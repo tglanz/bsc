@@ -1,6 +1,15 @@
 /* 
- * TODO: - fill the missing parts
- *       - write Makefile with 'shell' executable as a target
+ * Student : XXX
+ * Date    : 2021-03-17
+ *
+ * Solution for the practical part of maman12
+ * - Add functionality of job control
+ * 
+ * Modifications
+ * - added function `printJobs `
+ * - added function `findJob`
+ * - added function `resumeJobs`
+ * - modified code at `runCommand`
  */
 #include <ctype.h>
 #include <errno.h>
