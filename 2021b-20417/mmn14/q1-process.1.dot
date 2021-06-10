@@ -1,0 +1,20 @@
+digraph {
+
+    rankdir=LR;
+    label="G residual, Step 1, delta=32 where _/_ means forward-capacity/backward-capacity"
+
+    s -> a [label="0/32", color=red];
+    a -> v1 [label="0/32", color=red];
+    v1 -> f [label="24/0"];
+
+    s -> b [label="16/0"];
+    b -> v2 [label="16/0"];
+    v2 -> f [label="16/32", color=red];
+
+    s -> c [label="16/0"];
+    c -> v1 [label="16/0"];
+
+    v1 -> v2 [label="0/32", color=red];
+
+    f -> t [label="32/16", color=red];
+}

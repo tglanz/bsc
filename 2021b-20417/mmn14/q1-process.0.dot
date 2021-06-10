@@ -1,0 +1,20 @@
+digraph {
+
+    rankdir=LR;
+    label="G where e=(v1, v2)";
+
+    s -> a [label="32"];
+    a -> v1 [label="32"];
+    v1 -> f [label="24"];
+
+    s -> b [label="16"];
+    b -> v2 [label="16"];
+    v2 -> f [label="40"];
+
+    s -> c [label="16"];
+    c -> v1 [label="16"];
+
+    v1 -> v2 [label="32", color=blue];
+
+    f -> t [label="48"];
+}
