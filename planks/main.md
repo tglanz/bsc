@@ -300,7 +300,7 @@ $$w(K) \leq \sum_{P \in A}{w(A)}$$
 
 :::
 
-# ההוכחה של Ball
+# משפט Ball
 
 ## 1990 Ball,
 
@@ -331,11 +331,15 @@ $A$
 אוסף **בן-מניה** של קרשים. אם
 $K \subseteq \bigcup_{P \in A} P$
 אז
-$$\sum_{P \in A} w_A(K) \geq 1$$
+$$\sum_{P \in A} w_P(K) \geq 1$$
+
+&nbsp;
+
+כדי להוכיח את המשפט, $Ball$ מתרגם את הבעיה תחילה לעולם האנליזה הפונקציונלית, ומשם לאגברה לינארית.
 
 [^2]: https://en.wikipedia.org/wiki/Keith_Martin_Ball
 
-## Ball
+## רדוקציה לאנליזה פונקציונלית Ball,
 
 ### משפט $Ball~1$
 
@@ -361,9 +365,78 @@ $$| \phi_i(x) - m_i | \leq w_i$$
 אז
 $$\sum_i w_i \geq 1$$
 
-$$\Updownarrow$$
+## רדוקציה לאנליזה פונקציונלית Ball,
 
-## Ball
+### הגדרה
+
+**הנורמה האופרטורית** של פונקצינל לינארי
+$\phi : (\mathbb{R}^d, ||\cdot||) \rightarrow \mathbb{R}$
+מוגדרת על ידי
+$$||\phi||_{OP} = \sup_{||x|| \leq 1}{||\phi(x)||}$$
+.
+
+. . .
+
+&nbsp;
+
+כל פונקציונל לינארי
+$\phi : \mathbb{R}^d \rightarrow \mathbb{R}$
+ניתן להצגה כמכפלה פנימית
+$\phi(x) = \langle x, y \rangle$
+עבור
+$y \in \mathbb{R}^d$
+כלשהו
+
+$$\{ x : |\langle x, y \rangle - m| \leq w \} = \{ x : |\phi(x) - m| \leq w \}$$
+
+## רדוקציה לאנליזה פונקציונלית Ball,
+
+### Ball 1 <= Ball
+
+אבחנה מרכזית לשם הצגת השקילות היא שכל גוף קמור סימטרי $K$ מגדיר מרחב נורמי 
+$(\mathbb{R}^d, ||\cdot||_K)$
+ש-
+$K$
+הוא כדור היחידה שלו. כלומר,
+$K = B_{||\cdot||_K}(1)$
+ומתקיים
+$||\phi||_{K_{OP}} = h_K(y)$
+כאשר
+$\phi(x) = \langle x, y \rangle$
+.
+
+&nbsp;
+
+יהיו $K$
+גוף קמור סימטרי
+ו- 
+$P_i = \{ x : |\psi_i(x) - m_i| \leq w_i \}$
+סדרה בת-מנייה של קרשים כך שלכל
+$x \in K$
+קיים
+$i$
+עבורו
+$|\psi_i(x) - m_i| \leq w_i$
+.
+
+נסמן
+$\phi_i(x) = \frac{\psi_i(x)}{||\psi_i||_{K_{OP}}}$
+פונקציונל יחידה ב-
+$(\mathbb{R}^d, ||\cdot||_{K_{OP}})$.
+
+מכך ש-
+$$\{ x : |\phi_i(x) - \frac{m_i}{||\psi_i||_{K_{OP}}}| \leq \frac{w_i}{||\psi_i||_{K_{OP}}} \} = \{ x : |\psi_i(x) - m_i| \leq w_i \}$$
+
+&nbsp;
+
+נובע ממשפט
+$Ball~1$
+ש-
+$\sum{\frac{w_i}{||\psi_i||_{K_{OP}}}} = \sum{\frac{w_i}{h_K(y_i)}} \geq 1$
+
+\qed
+
+## רדוקציה לאנליזה פונקציונלית Ball,
 
 ### משפט $Ball~2$
 
@@ -382,15 +455,74 @@ $\sum_{1}^{n}{w_i}=1$.
 
 אז קיימת נקודה
 $x \in B(1)_{||\cdot||} \subset \mathbb{R}^d$
-
 כך שלכל
 $1 \leq i \leq n$
 מתקיים
 $$|\phi_i(x) - m_i| \geq w_i$$
 
-$$\Updownarrow$$
+## רדוקציה לאנליזה פונקציונלית Ball,
 
-## Ball
+משיקולי קומפקטיות, משפט
+$Ball~1$
+ומשפט
+$Ball~2$
+שקולים. בפרט,
+
+### Ball 2 <= Ball 1
+
+יהי
+$(\phi_i)_{1}^{n}$
+אוסף סופי של פונקציונלים לינארים ב-
+$\mathbb{R}^d$
+בעלי נורמה 1
+,
+מספרים ממשיים
+$(m_i)_{1}^{n}$
+ומספרים חיוביים
+$(w_i)_{1}^{n}$
+כך שלכל
+$x \in B(1) \subseteq \mathbb{R}^d$
+קיים
+$i$
+עבורו 
+$|\phi(x) - m_i| \leq w_i$.
+
+&nbsp;
+
+נניח בשלילה
+$\sum_{i=1}^{n}{w_i} = r < 1$
+ולכל
+$n \in \mathbb{N}$
+נסמן
+$\varepsilon_n = r - \sum_{I=1}^{n}{w_i}$.
+
+הרי ש-
+$\sum_{I=1}^{n}{\frac{w_i}{r - \varepsilon}} = 1$
+ולכן ממשפט
+$Ball~2$
+לכל
+$n$
+קיים
+$x_n \in B(1)$
+כך שלכל
+$1 \leq i \leq n$
+$$|\phi(x_n) - m_i| \geq \frac{w_i}{r - \varepsilon_n} > \frac{w_i}{r}$$.
+
+מהקומפקטיות של
+$B(1)$
+ומרציפות הגבול קיים
+$x \in B(1)$
+כך ש-
+
+$|\phi(x) - m_i| \geq \frac{w_i}{r}$
+לכל
+$1 \leq i \leq n$
+,
+בסתירה.
+
+\qed
+
+## רדוקציה לאלגברה לינארית Ball,
 
 ### משפט $Ball~2'$
 
@@ -407,6 +539,8 @@ $(w_i)_{1}^{n}$
 כך ש-
 $\sum_{i=1}^{n} w_i \leq 1$.
 
+&nbsp;
+
 אז קיימת סדרת ממשיים
 $(\lambda_i)_{1}^{n}$
 כך ש-
@@ -414,5 +548,144 @@ $\sum_{j=1}^{n}{|\lambda_j|} \leq 1$
 
 ולכל $i=1,2...n$
 $$|\sum_{j=1}^{n}{a_{ij}\lambda_j - m_i}| \geq w_i$$
+
+## רדוקציה לאלגברה לינארית Ball,
+
+$Ball~2$
+ומשפט
+$Ball~2'$
+שקולים. בפרט,
+
+### Ball 2' <= Ball 2
+
+
+יהי
+$(\phi_i)_{1}^{n}$
+אוסף סופי של פונקציונלים לינארים ב-
+$\mathbb{R}^d$
+בעלי נורמה 1
+,
+מספרים ממשיים
+$(m_i)_{1}^{n}$
+ומספרים חיוביים
+$(w_i)_{1}^{n}$
+כך ש-
+$\sum_{1}^{n}{w_i}=1$.
+
+&nbsp;
+
+תהי
+$(x_j)_1^n$
+סדרת נקודות ב-
+$\mathbb{R}^d$
+כך ש-
+$||x_j|| = 1$
+ובהן
+$\phi_j(x_j) = ||\phi_j||_{OP}$.
+
+נגדיר את המטריצה
+$A = (a_{ij}) = \phi_i(x_j)$
+לכל
+$1 \leq i, j \leq n$
+.
+ממשפט
+$Ball~2'$
+קיימת סדרת ממשיים
+$(\lambda_j)_1^n$
+כך ש-
+$\sum_{j=1}^{n}|\lambda_j| \leq 1$.
+
+&nbsp;
+
+עבור
+$x = \sum_{j=1}^{n}{\lambda_j x_j}$
+מתקיים כי
+$$||x|| = ||\sum_{j=1}^{n}{\lambda_j x_j}|| \leq \sum_{j=1}^{n}{|\lambda_j|||x_j||} = \sum_{j=1}^{n}{|\lambda_j|} \leq 1$$
+כלומר,
+$x \in B(1)$
+.
+
+---
+
+מלינאריות
+$$\phi_i(x) = \phi_i(\sum_{j=1}^{n}{\lambda_j x_j}) = \sum_{j=1}^{n}{\lambda_j \phi_i(x_j)} = \sum_{j=1}^{n}{a_{ij} \lambda_j}$$
+
+ממשפט
+$Ball~2'$
+נובע שלכל
+$i=1, 2, ..., n$
+$$|\sum_{j=1}^{n}{a_{ij}\lambda_j} - m_i| \geq w_i$$
+
+ולכן
+$|\phi_i(x) - m_i| \geq w_i$.
+
+\qed
+
+::: notes
+
+- there exists such points x_j according to operator norm properties. The norm is achieved on unit circle boundary
+
+:::
+
+# הוכחת משפט Ball
+
+## הוכחת Ball
+
+### למה 3 (Bang)
+
+
+תהי
+$H = (h_{ij})$
+מטריצה ממשית וסימטרית מסדר
+$n \times n$
+כך ש-
+$h_{ii} = 1$,
+סדרת ממשיים
+$(\mu_i)_{1}^{n}$
+וסדרת מספרים אי-שליליים
+$(\theta_i)_{1}^{n}$.
+
+&nbsp;
+
+אז קיימת סדרת סימנים
+$(\varepsilon_j)_{1}^{n}$
+כך שלכל
+$i$,
+$$
+    \sum_{j=1}^{n}{|h_{ij}\varepsilon_j\theta_j - \mu_i| \geq \theta_i}
+$$
+
+## הוכחת Ball
+
+### למה 4
+
+תהי
+$A \in \RR^{n \times n}$
+כך ש-
+$a_{i*} \neq 0$
+לכל
+$i$.
+
+אז קיימת סדרת מספרים חיוביים
+$(\theta_i)_{1}^{n}$
+ומטריצה אורתוגונלית
+$U$
+כך שהמטריצה
+$H = (h_{ij})$
+הנתונה ע"י
+\[
+    h_{ij} = \theta_i(AU)_{ij}
+\]
+היא חיובית ובעלת אלכסון שכולו אחדות.
+
+כלומר,
+לכל
+$x \in \RRN$
+מתקיים ש-
+$x^* H x \geq 0$
+ו-
+$h_{ii} = 1$
+לכל
+$i$.
 
 <style> * { direction: rtl; } pre { direction: ltr; } span.math, span.math * { direction: ltr; }</style>
