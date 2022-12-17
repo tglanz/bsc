@@ -7,7 +7,7 @@ author:
 
 # הקדמה
 
-##
+## הקדמה
 
 כמה מלבנים בגודל
 $1 \times k$
@@ -25,17 +25,18 @@ $k$
 &nbsp;
 להכניס איור
 
-##
+## הקדמה
 
-משפחת בעיות הקרשים היא משפחה של בעיות העוסקות בקיום ותכונות של כיסוי **גופים קמורים** באמצעות אובייקטים הנקראים **קרשים**.
+**בעיית הקרשים** עוסקת בקיום ותכונות של כיסוי **גופים קמורים** באמצעות אובייקטים הנקראים **קרשים**.
 
-. . .
+## הקדמה
 
 כאן נעסוק בכיסוי של **גופים קמורים**, ובעיקר **סימטריים**, במרחבים **ממשיים בעלי מימד סופי**.
 
-# גוף קמור
+# גופים קמורים
 
-גוף קמור
+### הגדרה
+**גוף קמור**
 $K \in \mathbb{R}^d$
 הוא קבוצה קומפקטית, בעלת פנים לא ריק כך שלכל
 $x, y \in K$
@@ -43,21 +44,30 @@ $x, y \in K$
 $\lambda \in [0, 1]$
 $$(1 - \lambda)x + \lambda y \in K$$
 
+---
+
 ## על-מישור תומך
+
+### הגדרה
 
 לכל
 $y \in \mathbb{R}^d$
 ו-
 $w \in \mathbb{R}$
 ,
-קבוצה מהצורה
+קבוצה $L$ מהצורה
 $\{ x : \langle y, x \rangle = w \}$
-תקרא **על-מישור**
+תקרא **על-מישור**.
 
 . . .
 
-**כיוון העל מישור**
-$\frac{y}{||y||} \in \mathbb{S}^d$.
+&nbsp;
+
+**כיוון העל-מישור**
+$L$
+הוא וקטור הכיוון
+$\frac{y}{||y||} \in \mathbb{S}^d$
+.
 
 . . .
 
@@ -67,6 +77,7 @@ $\frac{y}{||y||} \in \mathbb{S}^d$.
 $L^+ = \{ x : \langle y, x \rangle \geq w \}$
 ו-
 $L^- = \{ x : \langle y, x \rangle \leq w \}$
+.
 
 . . .
 
@@ -77,24 +88,27 @@ $L$
 ייקרא **על-מישור תומך** של
 $K$
 כאשר
-
 $K \cap L \neq \phi$
 וגם
 $K \subseteq L^-$
 או
 $K \subseteq L^+$
+.
 
 &nbsp;
 להכניס איור
 
 ::: notes
 
-- קבוצת פתרונות של מערכת משוואות לינארית
-- הגדרות נוספות שקולות, תת מרחב אפיני בעל קו-מימד 1
+- Solutions of a linear system
+
+- There are other definitions for hyperplanes, e.g CoDim1. CoDim1 gives a bit of insight about the "why plank" question
 
 :::
 
 ## רוחב מכוון
+
+### הגדרה
 
 **התומך** של
 $K$
@@ -103,17 +117,24 @@ $h_K(\theta) = \sup_{x \in K} \langle x, \theta \rangle$
 
 . . .
 
+&nbsp;
+
 **הרוחב של $K$ בכיוון $\theta$** 
 ,
-$w_K(\theta)$
+$w_\theta(K)$
 הוא המרחק האוקלידי בין שני העל-מישורים
  התומכים $\{ x : x \cdot (\pm \theta) = h_K(\pm \theta) \}$
 ומתקיים
-$$w_K(\theta) = h_K(\theta) + h_K(- \theta)$$
+$$w_\theta(K) = h_K(\theta) + h_K(- \theta)$$
+
+. . .
+
+אם $K$ סימטרי אז
+$w_\theta(K) = 2h_K(\theta)$
 
 ::: notes
 
-- רוחב מכוון כאשר הגוף סימטרי
+- התומך בכיוון טטה מודד את את המרחק אל העל מישור התומך בכיוון טטה
 
 :::
 
@@ -128,52 +149,81 @@ $K$
 $K$
 מבין כל הכיוונים
 $\theta \in \mathbb{S}^d$
-$$w(K) = \min_{\theta \in \mathbb{S}^d}{w_K(\theta)}$$
+
+$$w(K) = \min_{\theta \in \mathbb{S}^d}{w_\theta(K)}$$
+
+. . .
+
+###
+
+וכאשר
+$K$
+סימטרי
+
+$$w(K) = 2 \min_{\theta \in \mathbb{S}^d}{w_\theta(K)}$$
 
 # בעיית הקרשים של $Tarski$
 
 ## קרש
 
+### הגדרה
+
 קבוצה
-$A$
+$P$
 מהצורה
 $\{ x : |\langle x, y \rangle - m| \leq w \}$
 תקרא **קרש**.
 
 . . .
 
-**כוון הקרש**
-$\frac{y}{||y||}$
+&nbsp;
 
-. . .
-
-$A$
+$P$
 הוא התחום הכלוא בין שני העל-מישורים
 $\{ x : \langle x, y \rangle = w \pm m \}$
 
 . . .
 
+&nbsp;
+
+**כוון הקרש**
+$P$
+הוא וקטור הכיוון
+$\frac{y}{||y||}$
+.
+
+&nbsp;
+
 **רוחב הקרש**
+$P$
 $\frac{2w}{||y||}$
+.
 
 . . .
 
 &nbsp;
 
-**הרוחב של גוף קמור $K$ ביחס לקרש $A$** מוגדר ע״י
-$$w(K, A) = \frac{w(A)}{w_K(\frac{y}{||y||})}$$
+**הרוחב של גוף קמור
+$K$
+ביחס לקרש
+$P$**
+מוגדר ע״י
+$w_P(K) = \frac{w(P)}{w_K(\frac{y}{||y||})}$
+.
 
-אם $K$ סימטרי אז
-$w(K, A) = \frac{w}{h_K(y)}$
+כאשר
+$K$
+סימטרי
+$w_P(K) =  \frac{\frac{2w}{||y||}}{2h_K(\frac{y}{||y||})} = \frac{w}{h_K(y)}$
+.
 
-. . .
+::: notes
 
-&nbsp;
+- why plank? Plank frees a single dimension to choose a fitting width. We can always replace a plank with a convex body translating a plank covering problem to a convex covering problem. 
 
-> קרש הוא ״כמעט״, וניתן להחלפה ע״י גוף קמור
+:::
 
-## Tarski 1930
-
+## 1930 Tarski,
 ב-
 $1930$
 העלה המתמטיקאי
@@ -188,17 +238,21 @@ $Alfred~Tarski$
 יהי
 $K$
 גוף קמור ו-
-$P$
+$A$
 אוסף סופי של קרשים. אם
-$K \subseteq \bigcup_{A \in P} A$
+$K \subseteq \bigcup_{P \in A} A$
 אז
-$\sum_{A \in P}{w(A) \geq w(K)}$
+$\sum_{P \in A}{w(P) \geq w(K)}$
 
-> $Tarski$ הוכיח השערה זו למקרה הפרטי עבור דיסקים ב-$\mathbb{R}^2$
+. . .
+
+&nbsp;
+
+$Tarski$ הוכיח השערה זו למקרה הפרטי עבור דיסקים ב-$\mathbb{R}^2$
 
 [^1]: https://en.wikipedia.org/wiki/Alfred_Tarski
 
-## Bang 1950
+## 1950 Bang,
 
 ב-
 $1950$
@@ -221,11 +275,34 @@ $K$
 גוף קמור ו-
 $P$
 אוסף סופי של קרשים. אם
-$K \subseteq \bigcup_{A \in P} A$
+$K \subseteq \bigcup_{P \in A} P$
 אז
-$$\sum_{A \in P} w(K, A) \geq 1$$
+$$\sum_{P \in A} w_A(K) \geq 1$$
 
-# Ball
+## Bang 1950
+
+ההשערה של
+$Bang$
+קשה יותר מ-
+$Tarski$
+
+$$1 \leq \sum_{P \in A}{w_A(K)} = \sum_{P \in A}{\frac{w(A)}{w_\theta(K)}} \leq \frac{1}{w(K)} \sum_{P \in A}{w(A)}$$
+
+ולכן
+
+$$w(K) \leq \sum_{P \in A}{w(A)}$$
+
+::: notes
+
+- Right inequality is by definition of **minimal** width
+
+- Conceptually, Tarski measures the Planks with no relation to the body. Bang tightens the measurement.
+
+:::
+
+# ההוכחה של Ball
+
+## 1990 Ball,
 
 השערתו של 
 $Bang$
@@ -233,27 +310,28 @@ $Bang$
 
 . . .
 
-המתמטיקאי
+ב-
+$1990$
+הוכיח המתמטיקאי
 $Keith~Ball$[^2]
-הוכיח את השערתו של
+את ההשערה של
 $Bang$
 במקרה הפרטי והחשוב עבור גופים סימטרים. 
 
 . . .
+
 &nbsp;
 
 ### משפט $Ball$
 
 יהי
 $K$
-גוף סימטרי קמור ו-
-$P$
+גוף **סימטרי** קמור ו-
+$A$
 אוסף **בן-מניה** של קרשים. אם
-$K \subseteq \bigcup_{A \in P} A$
+$K \subseteq \bigcup_{P \in A} P$
 אז
-$$\sum_{A \in P} w(K, A) \geq 1$$
-
-$$\Updownarrow$$
+$$\sum_{P \in A} w_A(K) \geq 1$$
 
 [^2]: https://en.wikipedia.org/wiki/Keith_Martin_Ball
 
