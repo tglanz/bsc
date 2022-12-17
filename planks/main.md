@@ -549,6 +549,8 @@ $\sum_{j=1}^{n}{|\lambda_j|} \leq 1$
 ולכל $i=1,2...n$
 $$|\sum_{j=1}^{n}{a_{ij}\lambda_j - m_i}| \geq w_i$$
 
+
+
 ## רדוקציה לאלגברה לינארית Ball,
 
 $Ball~2$
@@ -557,7 +559,6 @@ $Ball~2'$
 שקולים. בפרט,
 
 ### Ball 2' <= Ball 2
-
 
 יהי
 $(\phi_i)_{1}^{n}$
@@ -605,7 +606,7 @@ $$||x|| = ||\sum_{j=1}^{n}{\lambda_j x_j}|| \leq \sum_{j=1}^{n}{|\lambda_j|||x_j
 $x \in B(1)$
 .
 
----
+##
 
 מלינאריות
 $$\phi_i(x) = \phi_i(\sum_{j=1}^{n}{\lambda_j x_j}) = \sum_{j=1}^{n}{\lambda_j \phi_i(x_j)} = \sum_{j=1}^{n}{a_{ij} \lambda_j}$$
@@ -617,9 +618,8 @@ $i=1, 2, ..., n$
 $$|\sum_{j=1}^{n}{a_{ij}\lambda_j} - m_i| \geq w_i$$
 
 ולכן
-$|\phi_i(x) - m_i| \geq w_i$.
 
-\qed
+$$|\phi_i(x) - m_i| \geq w_i$$
 
 ::: notes
 
@@ -632,7 +632,6 @@ $|\phi_i(x) - m_i| \geq w_i$.
 ## הוכחת Ball
 
 ### למה 3 (Bang)
-
 
 תהי
 $H = (h_{ij})$
@@ -660,11 +659,13 @@ $$
 ### למה 4
 
 תהי
-$A \in \RR^{n \times n}$
+$A \in \mathbb{R}^{n \times n}$
 כך ש-
 $a_{i*} \neq 0$
 לכל
 $i$.
+
+&nbsp;
 
 אז קיימת סדרת מספרים חיוביים
 $(\theta_i)_{1}^{n}$
@@ -673,19 +674,191 @@ $U$
 כך שהמטריצה
 $H = (h_{ij})$
 הנתונה ע"י
-\[
-    h_{ij} = \theta_i(AU)_{ij}
-\]
+$h_{ij} = \theta_i(AU)_{ij}$
 היא חיובית ובעלת אלכסון שכולו אחדות.
+
+&nbsp;
 
 כלומר,
 לכל
-$x \in \RRN$
+$x \in \mathbb{R}^n$
 מתקיים ש-
 $x^* H x \geq 0$
 ו-
 $h_{ii} = 1$
 לכל
 $i$.
+
+## הוכחת Ball
+
+### למה 5
+
+תהי מטריצה חיובית
+$H=(h_{ij}) \in \mathbb{R}^{n \times n}$
+בעלת אלכסון ראשי שאיבריו שונים מ-0
+ומטריצה אורתוגנלית
+$U \in \mathbb{R}^{n \times n}$.
+
+&nbsp;
+
+אז
+$$\sum_{i=1}^{n}{\frac{(HU)_{ii}^2}{h_{ii}} \leq tr(H)}$$
+
+## הוכחת Ball
+
+### הגדרה
+
+הערכים הסינולרים של מטריצה
+$M$
+הם שורשי הערכים העצמיים
+של
+$MM^*$
+.
+
+&nbsp;
+
+בהינתן
+$M = U \Sigma V^*$
+הערכים הסינגולרים של
+$M$
+הם 
+$diag(\Sigma)$
+.
+
+&nbsp;
+
+הפונקציה המוגדרת על ידי
+$||A||_1 = tr(\Sigma)$
+היא נורמה הנקראת
+**נורמת העקבה**.
+
+
+### למה 6
+
+תהי
+$H \in \mathbb{R}^{n \times n}$
+כך ש-
+$h_{ii} \neq 0$
+לכל
+$i$.
+
+אז
+$$||(\frac{1}{\sqrt{h_{ii}}}h_{ij})||_1 \leq \sqrt{n} \sqrt{||H||_1}$$
+
+## הוכחת Ball
+
+יש בידינו את הכלים להוכחת משפט
+$Ball$
+,
+המסתכמת בהוכחת משפט
+$Ball~2'$
+
+### הוכחת משפט $Ball~2'$
+
+נרצה להראות כי עבור מטריצה
+$A = (a_{ij})$
+מסדר
+$n \times n$
+כך ש-
+$a_ii = 1$
+וסדרת ממשיים
+$(m_i)_1^n$
+קיימת סדרת ממשיים
+$(\lambda_i)_1^n$
+כך ש-
+$\sum_{j=1}^{n}{\lambda_j} \leq 1$
+ולכל
+$i = 1, 2, ..., n$
+$$|\sum_{j=1}^{n}{a_{ij} \lambda_j} - m_i| \geq \frac{1}{n}$$
+.
+
+---
+
+באמצעות למה 4 נבחר סדרת מספרים חיוביים
+$(\theta_i)_1^n$
+ומטריצה אורתוגונלית
+$U = (u_{ij})$
+כך שהמטריצה
+$H = (\theta_i(AU)_{ij})$
+חיובית ו-
+$h_{ii} = 1$
+.
+
+על ידי בחירת
+$(\mu_j)_1^n = (n \theta_j m_j)_1^n$
+והפעלת למה 3
+נסיק שקיימת סדרת סימנים
+$(\varepsilon_j)_1^n$
+כך שלכל $i$
+$$|\sum_{j=1}^{n}{h_{ij} \varepsilon_j \theta_j} - n \theta_i  m_i| \geq \theta_i$$
+
+על ידי פישוט נקבל
+$$|\sum_{k=1}^{n}{a_{ik}(\frac{1}{n} \sum_{j=1}^{n}{u_{kj} \varepsilon_j \theta_j}) - m_i} \geq \frac{1}{n}$$
+
+נסמן
+$\lambda_k = \frac{1}{n} \sum_{j=1}{n}{u_{kj} \varepsilon_j \theta_j}$
+והרי שהראינו את האי שוויון הדרוש
+$$|\sum_{j=1}^{n}{a_{ij} \lambda_j - m_i}| \geq \frac{1}{n}$$
+
+---
+
+נותר להראות כי
+$\sum_{j=1}^{n}|\lambda_j| \leq 1$
+
+$$
+	\sum_{j=1}^{n}{\lambda_k^2} = \sum_{k=1}^{n}{(\frac{1}{n} \sum_{j=1}^{n}{u_{kj} \varepsilon_j \theta_j})^2} =
+	\frac{1}{n^2} \sum_{k=1}^{n} (\sum_{j=1}^{n}{u_{kj} \varepsilon_j \theta_j}) (\sum_{i=1}^{n}{u_{ki} \varepsilon_i \theta_i})
+$$
+$$
+	=
+	\frac{1}{n^2} \sum_{k,j,i} (u_{kj} u_{ki})(\varepsilon_j \varepsilon_i)(\theta_j \theta_i) =
+	\frac{1}{n^2} \sum_{j,i}^{n}\Bigg((\varepsilon_j \varepsilon_i)(\theta_j \theta_i) \sum_{k=1}^{n}{(u_{kj} u_{ki})}\Bigg)
+$$
+
+כי
+$U$
+אורתוגונלית
+
+$$
+	\sum_{j=1}^{n}{\lambda_k^2}
+	=
+	\frac{1}{n^2} \sum_{j,i}^{n}\Bigg((\varepsilon_j \varepsilon_i)(\theta_j \theta_i) \delta_{ij} \Bigg)
+$$
+
+---
+
+מהשוואת סימנים, נקבל
+$\sum_{k=1}^{n} \lambda_k^2 = \frac{1}{n^2} \sum_{k=1}^{n} \theta_k^2$
+
+
+מכך ש- 
+$H = (\theta_i (AU)_{ij})$
+נובע כי
+$HU^* = (\theta_i a_{ij})$,
+ומכך ש-
+$a_{ii} = 1$
+נובע כי
+$\theta_i = (HU^*)_{ii}$
+
+נסיק מלמה 5 כי
+$$
+	\sum_{i=1}^n \theta_i^2  =
+	\sum_{i=1}^n (HU^*)_{ii}^2 =
+	\sum_{i=1}^n \frac{(HU^*)^2_{ii}}{h_{ii}} \leq
+	\sum_{i=1}^n h_{ii} =
+	\sum_{i=1}^n 1 =
+	n
+$$
+
+נקבל ש-
+$\sum_{k=1}^{n} \lambda_k^2 = \frac{1}{n^2} \sum_{k=1}^{n} \theta_k^2 \leq \frac{1}{n}$
+ומאי-שוויון קושי-שוורץ
+$$
+	\sum_{k=1}^{n}{|\lambda_k|} \leq
+	n \sum_{k=1}^{n}{\lambda_k^2} \leq
+	1
+$$
+
+
 
 <style> * { direction: rtl; } pre { direction: ltr; } span.math, span.math * { direction: ltr; }</style>
