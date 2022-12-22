@@ -9,21 +9,21 @@ author:
 
 ## הקדמה
 
-כמה מלבנים בגודל
-$1 \times k$
-נדרשים על מנת לכסות דיסק בעל קוטר $k$?
+בהינתן דיסק בקוטר
+$d$
+וכמות בלתי מוגבלת של מלבנים בגודל
+$1 \times d$
+נשאל כמה מלבנים כאלה לכל הפחות נדרשים על מנות לכסות את הדיסק?
 
-&nbsp;
-להכניס איור
+\beginL ![Bad Covering](drawings/image-0.png){ width=200 } \endL
 
-. . .
+## הקדמה
 
 לפחות במישור, האינטואיציה תוביל אותנו להשערה שנדרשים לפחות
-$k$
+$d$
 מלבנים כאלה
 
-&nbsp;
-להכניס איור
+\beginL ![Optimal Covering](drawings/image-1.png){ width=200 } \endL
 
 ## הקדמה
 
@@ -36,6 +36,7 @@ $k$
 # גופים קמורים
 
 ### הגדרה
+
 **גוף קמור**
 $K \in \mathbb{R}^d$
 הוא קבוצה קומפקטית, בעלת פנים לא ריק כך שלכל
@@ -44,9 +45,21 @@ $x, y \in K$
 $\lambda \in [0, 1]$
 $$(1 - \lambda)x + \lambda y \in K$$
 
----
+:::: columns
+::: column
+\beginL ![Not Convex](drawings/image-3.png){ width=200 } \endL
+**לא קמור**
+:::
+::: column
+\beginL ![Convex](drawings/image-2.png){ width=200 } \endL
+**קמור**
+:::
+::::
 
-## על-מישור תומך
+&nbsp;
+&nbsp;
+
+## על-מישור
 
 ### הגדרה
 
@@ -69,19 +82,34 @@ $L$
 $\frac{y}{||y||} \in \mathbb{S}^d$
 .
 
-. . .
+&nbsp;
+
+:::: columns
+::: column
+\beginL ![Supporting Hyperplane](drawings/image-4.png){ width=200 } \endL
+:::
+::: column
+
+**לדוגמא**
+נסתכל על העל-מישורים הנתונים על ידי
+$$\{ x : 2x_1 + 4x_2 \in \{8, 4, 0, -4, -8 \} \}$$
+
+:::
+::::
 
 &nbsp;
 
-העל מישור $L$ חוצה את $\mathbb{R}^d$ לשני חצאי מרחב
+## על-מישור תומך
+
+כל על מישור
+$L \subseteq \mathbb{R}^d$
+חוצה את המרחב לשני חצאי מרחב
+
 $L^+ = \{ x : \langle y, x \rangle \geq w \}$
 ו-
 $L^- = \{ x : \langle y, x \rangle \leq w \}$
-.
 
 . . .
-
-&nbsp;
 
 על-מישור
 $L$
@@ -95,8 +123,7 @@ $K \subseteq L^-$
 $K \subseteq L^+$
 .
 
-&nbsp;
-להכניס איור
+\beginL ![Supporting Hyperplane](drawings/image-5.png){ width=200 } \endL
 
 ::: notes
 
@@ -115,9 +142,6 @@ $K$
 הוא הפונקציונל הלינארי
 $h_K(\theta) = \sup_{x \in K} \langle x, \theta \rangle$
 
-. . .
-
-&nbsp;
 
 **הרוחב של $K$ בכיוון $\theta$** 
 ,
@@ -125,7 +149,15 @@ $w_\theta(K)$
 הוא המרחק האוקלידי בין שני העל-מישורים
  התומכים $\{ x : x \cdot (\pm \theta) = h_K(\pm \theta) \}$
 ומתקיים
+
+:::: columns
+::: column
+\beginL ![Supporting Hyperplane](drawings/image-6.png){ width=150 } \endL
+:::
+::: column
 $$w_\theta(K) = h_K(\theta) + h_K(- \theta)$$
+:::
+::::
 
 . . .
 
@@ -137,9 +169,6 @@ $w_\theta(K) = 2h_K(\theta)$
 - התומך בכיוון טטה מודד את את המרחק אל העל מישור התומך בכיוון טטה
 
 :::
-
-&nbsp;
-להכניס איור
 
 ## רוחב מינימלי
 
@@ -185,30 +214,45 @@ $\{ x : \langle x, y \rangle = w \pm m \}$
 . . .
 
 &nbsp;
+&nbsp;
+
+:::: columns
+::: column
+\beginL ![Supporting Hyperplane](drawings/image-7.png){ width=250 } \endL
+:::
+::: column
+
+&nbsp;
 
 **כוון הקרש**
 $P$
 הוא וקטור הכיוון
-$\frac{y}{||y||}$
+$\theta(P) = \frac{y}{||y||}$
 .
 
 &nbsp;
 
 **רוחב הקרש**
 $P$
-$\frac{2w}{||y||}$
+הוא המרחק בין העל מישורים
+$w(P) = \frac{2w}{||y||}$
 .
-
-. . .
+:::
+::::
 
 &nbsp;
+&nbsp;
+
+## קרש
 
 **הרוחב של גוף קמור
 $K$
 ביחס לקרש
 $P$**
+בעל כיוון
+$\theta$
 מוגדר ע״י
-$w_P(K) = \frac{w(P)}{w_K(\frac{y}{||y||})}$
+$$w_P(K) = \frac{w(P)}{w_\theta(K)}$$
 .
 
 כאשר
@@ -286,7 +330,7 @@ $Bang$
 קשה יותר מ-
 $Tarski$
 
-$$1 \leq \sum_{P \in A}{w_A(K)} = \sum_{P \in A}{\frac{w(A)}{w_\theta(K)}} \leq \frac{1}{w(K)} \sum_{P \in A}{w(A)}$$
+$$1 \leq \sum_{P \in A}{w_A(K)} = \sum_{P \in A}{\frac{w(A)}{w_{\theta(P)}(K)}} \leq \frac{1}{w(K)} \sum_{P \in A}{w(A)}$$
 
 ולכן
 
@@ -468,7 +512,7 @@ $Ball~1$
 $Ball~2$
 שקולים. בפרט,
 
-### Ball 2 <= Ball 1
+### Ball 2 $\Leftarrow$ Ball 1
 
 יהי
 $(\phi_i)_{1}^{n}$
@@ -558,7 +602,7 @@ $Ball~2$
 $Ball~2'$
 שקולים. בפרט,
 
-### Ball 2' <= Ball 2
+### Ball 2' $\Leftarrow$ Ball 2
 
 יהי
 $(\phi_i)_{1}^{n}$
@@ -620,6 +664,30 @@ $$|\sum_{j=1}^{n}{a_{ij}\lambda_j} - m_i| \geq w_i$$
 ולכן
 
 $$|\phi_i(x) - m_i| \geq w_i$$
+
+## כיסוי ע״י קרשים ברוחבים שווים Ball,
+
+בהינתן גוף קמור
+$K$
+וקרשים
+$P_1, P_2, ..., P_n$
+בעלי רוחבים
+$w_1, w_2, ..., P_n$
+המכסים את
+$P$
+קיים כיסוי שקול המורכב מקרשים
+$T_1, T_2, ..., T_N$
+בעלי רוחבים שווים
+$w = \frac{1}{N}$.
+
+במקרה של רוחבים שווים, טענת משפט
+$Ball~2'$
+חזקה יותר
+$$\sum_{i=1}^{n}{\lambda_i^2} \leq \frac{1}{n}$$
+
+(ולכן
+$\sum_{i=1}^{n}{|\lambda_i|} \leq 1$
+(
 
 ::: notes
 
@@ -858,7 +926,3 @@ $$
 	n \sum_{k=1}^{n}{\lambda_k^2} \leq
 	1
 $$
-
-
-
-<style> * { direction: rtl; } pre { direction: ltr; } span.math, span.math * { direction: ltr; }</style>
