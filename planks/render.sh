@@ -17,7 +17,6 @@ function outputPDF() {
      -V theme:"boxes" -V mainfont:"Times New Roman" -V lang:"he-IL" \
      -V navigation:"horizontal" \
      -H beamer-additional-headers.tex \
-     --lua-filter tikz.lua \
      --pdf-engine=xelatex \
      -s -i --slide-level=2 -t beamer -o out.pdf
 }

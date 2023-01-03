@@ -240,27 +240,6 @@ $w(P) = \frac{2w}{||y||}$
 :::
 ::::
 
-&nbsp;
-&nbsp;
-
-## קרש
-
-**הרוחב של גוף קמור
-$K$
-ביחס לקרש
-$P$**
-בעל כיוון
-$\theta$
-מוגדר ע״י
-$$w_P(K) = \frac{w(P)}{w_\theta(K)}$$
-.
-
-כאשר
-$K$
-סימטרי
-$w_P(K) =  \frac{\frac{2w}{||y||}}{2h_K(\frac{y}{||y||})} = \frac{w}{h_K(y)}$
-.
-
 ::: notes
 
 - why plank? Plank frees a single dimension to choose a fitting width. We can always replace a plank with a convex body translating a plank covering problem to a convex covering problem. 
@@ -284,7 +263,7 @@ $K$
 גוף קמור ו-
 $A$
 אוסף סופי של קרשים. אם
-$K \subseteq \bigcup_{P \in A} A$
+$K \subseteq \bigcup_{P \in A} P$
 אז
 $\sum_{P \in A}{w(P) \geq w(K)}$
 
@@ -295,6 +274,24 @@ $\sum_{P \in A}{w(P) \geq w(K)}$
 $Tarski$ הוכיח השערה זו למקרה הפרטי עבור דיסקים ב-$\mathbb{R}^2$
 
 [^1]: https://en.wikipedia.org/wiki/Alfred_Tarski
+
+## 1950 Bang,
+
+**הרוחב של גוף קמור
+$K$
+ביחס לקרש
+$P$**
+בעל כיוון
+$\theta$
+מוגדר ע״י
+$$w_P(K) = \frac{w(P)}{w_\theta(K)}$$
+.
+
+כאשר
+$K$
+סימטרי
+$w_P(K) =  \frac{\frac{2w}{||y||}}{2h_K(\frac{y}{||y||})} = \frac{w}{h_K(y)}$
+.
 
 ## 1950 Bang,
 
@@ -317,11 +314,11 @@ $Thoger~Bang$
 יהי
 $K$
 גוף קמור ו-
-$P$
+$A$
 אוסף סופי של קרשים. אם
 $K \subseteq \bigcup_{P \in A} P$
 אז
-$$\sum_{P \in A} w_A(K) \geq 1$$
+$$\sum_{P \in A} w_P(K) \geq 1$$
 
 ## Bang 1950
 
@@ -435,7 +432,7 @@ $$\{ x : |\langle x, y \rangle - m| \leq w \} = \{ x : |\phi(x) - m| \leq w \}$$
 
 ## רדוקציה לאנליזה פונקציונלית Ball,
 
-### Ball 1 <= Ball
+### Ball 1 $Leftarrow$ Ball
 
 אבחנה מרכזית לשם הצגת השקילות היא שכל גוף קמור סימטרי $K$ מגדיר מרחב נורמי 
 $(\mathbb{R}^d, ||\cdot||_K)$
@@ -515,15 +512,15 @@ $Ball~2$
 ### Ball 2 $\Leftarrow$ Ball 1
 
 יהי
-$(\phi_i)_{1}^{n}$
-אוסף סופי של פונקציונלים לינארים ב-
+$(\phi_i)_{1}^{\infty}$
+אוסף בן-מניה של פונקציונלים לינארים ב-
 $\mathbb{R}^d$
 בעלי נורמה 1
 ,
 מספרים ממשיים
-$(m_i)_{1}^{n}$
+$(m_i)_{1}^{\infty}$
 ומספרים חיוביים
-$(w_i)_{1}^{n}$
+$(w_i)_{1}^{\infty}$
 כך שלכל
 $x \in B(1) \subseteq \mathbb{R}^d$
 קיים
@@ -534,17 +531,17 @@ $|\phi(x) - m_i| \leq w_i$.
 &nbsp;
 
 נניח בשלילה
-$\sum_{i=1}^{n}{w_i} = r < 1$
+$\sum_{i=1}^{\infty}{w_i} = r < 1$
 ולכל
 $n \in \mathbb{N}$
 נסמן
 $\varepsilon_n = r - \sum_{I=1}^{n}{w_i}$.
 
-הרי ש-
+כיוון ש-
 $\sum_{I=1}^{n}{\frac{w_i}{r - \varepsilon}} = 1$
-ולכן ממשפט
+נסיק ממשפט
 $Ball~2$
-לכל
+שלכל
 $n$
 קיים
 $x_n \in B(1)$
@@ -602,7 +599,7 @@ $Ball~2$
 $Ball~2'$
 שקולים. בפרט,
 
-### Ball 2' $\Leftarrow$ Ball 2
+### Ball 2' $Leftarrow$ Ball 2
 
 יהי
 $(\phi_i)_{1}^{n}$
@@ -671,13 +668,13 @@ $$|\phi_i(x) - m_i| \geq w_i$$
 $K$
 וקרשים
 $P_1, P_2, ..., P_n$
-בעלי רוחבים
-$w_1, w_2, ..., P_n$
-המכסים את
+בעלי חצאי-רוחבים
+$w_1, w_2, ..., w_n$
+בהתאמה המכסים את
 $P$
 קיים כיסוי שקול המורכב מקרשים
 $T_1, T_2, ..., T_N$
-בעלי רוחבים שווים
+בעלי חצאי-רוחבים שווים
 $w = \frac{1}{N}$.
 
 במקרה של רוחבים שווים, טענת משפט
@@ -687,6 +684,7 @@ $$\sum_{i=1}^{n}{\lambda_i^2} \leq \frac{1}{n}$$
 
 (ולכן
 $\sum_{i=1}^{n}{|\lambda_i|} \leq 1$
+על סמך אי שוויון קושי שוורץ
 (
 
 ::: notes
@@ -828,13 +826,13 @@ $A = (a_{ij})$
 מסדר
 $n \times n$
 כך ש-
-$a_ii = 1$
+$a_{ii} = 1$
 וסדרת ממשיים
 $(m_i)_1^n$
 קיימת סדרת ממשיים
 $(\lambda_i)_1^n$
 כך ש-
-$\sum_{j=1}^{n}{\lambda_j} \leq 1$
+$\sum_{j=1}^{n}{|\lambda_j|} \leq 1$
 ולכל
 $i = 1, 2, ..., n$
 $$|\sum_{j=1}^{n}{a_{ij} \lambda_j} - m_i| \geq \frac{1}{n}$$
