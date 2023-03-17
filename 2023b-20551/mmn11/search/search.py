@@ -171,9 +171,10 @@ class SearchAlgorithm:
                 if nextState not in reached:
                     successor = SearchAlgorithm.Node(nextState, node, action, cost)
                     frontier.push(successor)
+                    
+                    # we are done investigating node. add it to reached.
+                    reached.add(nextState)
             
-            # we are done investigating node. add it to reached.
-            reached.add(node.state)
         
         # No solution was found.
         return None
