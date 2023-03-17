@@ -142,6 +142,7 @@ $K$
 הוא הפונקציונל הלינארי
 $h_K(\theta) = \sup_{x \in K} \langle x, \theta \rangle$
 
+&nbsp;
 
 **הרוחב של $K$ בכיוון $\theta$** 
 ,
@@ -194,7 +195,6 @@ $$w(K) = 2 \min_{\theta \in \mathbb{S}^d}{w_\theta(K)}$$
 # בעיית הקרשים של $Tarski$
 
 ## קרש
-
 ### הגדרה
 
 קבוצה
@@ -211,18 +211,9 @@ $P$
 הוא התחום הכלוא בין שני העל-מישורים
 $\{ x : \langle x, y \rangle = w \pm m \}$
 
+&nbsp;
+
 . . .
-
-&nbsp;
-&nbsp;
-
-:::: columns
-::: column
-\beginL ![Supporting Hyperplane](drawings/image-7.png){ width=250 } \endL
-:::
-::: column
-
-&nbsp;
 
 **כוון הקרש**
 $P$
@@ -230,15 +221,14 @@ $P$
 $\theta(P) = \frac{y}{||y||}$
 .
 
-&nbsp;
 
 **רוחב הקרש**
 $P$
 הוא המרחק בין העל מישורים
 $w(P) = \frac{2w}{||y||}$
 .
-:::
-::::
+
+\beginL ![Supporting Hyperplane](drawings/image-7.png){ width=250 } \endL
 
 ::: notes
 
@@ -277,6 +267,24 @@ $Tarski$ הוכיח השערה זו למקרה הפרטי עבור דיסקים 
 
 ## 1950 Bang,
 
+ב-
+$1950$
+הוכיח המתמטיקאי
+$Thoger~Bang$ 
+את השערת $Tarski$.
+
+. . .
+
+&nbsp;
+
+בהוכחתו, העלה השערה חדשה המנוסחת בצורה יחסית
+
+. . .
+
+&nbsp;
+
+### הגדרה
+
 **הרוחב של גוף קמור
 $K$
 ביחס לקרש
@@ -294,20 +302,6 @@ $w_P(K) =  \frac{\frac{2w}{||y||}}{2h_K(\frac{y}{||y||})} = \frac{w}{h_K(y)}$
 .
 
 ## 1950 Bang,
-
-ב-
-$1950$
-הוכיח המתמטיקאי
-$Thoger~Bang$ 
-את השערת $Tarski$.
-
-. . .
-
-&nbsp;
-
-בהוכחתו, העלה השערה חדשה
-
-&nbsp;
 
 ### השערת $Bang$
 
@@ -327,11 +321,11 @@ $Bang$
 קשה יותר מ-
 $Tarski$
 
-$$1 \leq \sum_{P \in A}{w_A(K)} = \sum_{P \in A}{\frac{w(A)}{w_{\theta(P)}(K)}} \leq \frac{1}{w(K)} \sum_{P \in A}{w(A)}$$
+$$1 \leq \sum_{P \in A}{w_P(K)} = \sum_{P \in A}{\frac{w(P)}{w_{\theta(P)}(K)}} \leq \frac{1}{w(K)} \sum_{P \in A}{w(P)}$$
 
 ולכן
 
-$$w(K) \leq \sum_{P \in A}{w(A)}$$
+$$w(K) \leq \sum_{P \in A}{w(P)}$$
 
 ::: notes
 
@@ -380,7 +374,7 @@ $$\sum_{P \in A} w_P(K) \geq 1$$
 
 [^2]: https://en.wikipedia.org/wiki/Keith_Martin_Ball
 
-## רדוקציה לאנליזה פונקציונלית Ball,
+## רדוקציה לאנליזה פונקציונלית, כדור יחידה Ball,
 
 ### משפט $Ball~1$
 
@@ -406,7 +400,9 @@ $$| \phi_i(x) - m_i | \leq w_i$$
 אז
 $$\sum_i w_i \geq 1$$
 
-## רדוקציה לאנליזה פונקציונלית Ball,
+## רדוקציה לאנליזה פונקציונלית, כדור יחידה Ball,
+
+לפני שנראה את הרדוקציה,
 
 ### הגדרה
 
@@ -430,9 +426,9 @@ $y \in \mathbb{R}^d$
 
 $$\{ x : |\langle x, y \rangle - m| \leq w \} = \{ x : |\phi(x) - m| \leq w \}$$
 
-## רדוקציה לאנליזה פונקציונלית Ball,
+## רדוקציה לאנליזה פונקציונלית, כדור יחידה Ball,
 
-### Ball 1 $Leftarrow$ Ball
+### Ball 1 $\Leftarrow$ Ball
 
 אבחנה מרכזית לשם הצגת השקילות היא שכל גוף קמור סימטרי $K$ מגדיר מרחב נורמי 
 $(\mathbb{R}^d, ||\cdot||_K)$
@@ -477,7 +473,7 @@ $\sum{\frac{w_i}{||\psi_i||_{K_{OP}}}} = \sum{\frac{w_i}{h_K(y_i)}} \geq 1$
 
 \qed
 
-## רדוקציה לאנליזה פונקציונלית Ball,
+## רדוקציה לאנליזה פונקציונלית, כדור יחידה Ball,
 
 ### משפט $Ball~2$
 
@@ -501,7 +497,7 @@ $1 \leq i \leq n$
 מתקיים
 $$|\phi_i(x) - m_i| \geq w_i$$
 
-## רדוקציה לאנליזה פונקציונלית Ball,
+## רדוקציה לאנליזה פונקציונלית, כדור יחידה Ball,
 
 משיקולי קומפקטיות, משפט
 $Ball~1$
@@ -599,7 +595,7 @@ $Ball~2$
 $Ball~2'$
 שקולים. בפרט,
 
-### Ball 2' $Leftarrow$ Ball 2
+### Ball 2' $\Leftarrow$ Ball 2
 
 יהי
 $(\phi_i)_{1}^{n}$
@@ -692,6 +688,43 @@ $\sum_{i=1}^{n}{|\lambda_i|} \leq 1$
 - there exists such points x_j according to operator norm properties. The norm is achieved on unit circle boundary
 
 :::
+
+# בעיות קרשים נוספות ויישומים
+
+## בעיית הקרשים המרוכבת
+
+### משפט $Ball~Complex$
+
+יהיו
+$(v_j)_{j=1}^n$
+וקטורי יחידה ב-
+$\mathbb{C}^d$
+ותהי
+$(t_j)_{j=1}^n$
+סדרת חיוביים כך ש-
+$\sum_{j=1}^{n}{t_j^2}=1$.
+
+אז קיים וקטור יחידה
+$z$
+עבורו
+$$
+    |\langle v_j, z \rangle| \geq t_j
+$$ 
+
+
+## בעיית הקרשים ספרית
+
+### השערת $Fejes~Toth’s~zone~conjecture$
+
+
+סכום רוחבים איזורים
+$(zones)$
+המכסים את מעגל היחידה הוא לפחות
+$\pi$.
+
+\beginL ![Toths](https://i0.wp.com/babylonradio.com/wp-content/uploads/2017/12/LFT-zone-conjecture.png){ width=250 } \endL
+
+$Zilin~Jiang,~Alexandr~Polyanskii$
 
 # הוכחת משפט Ball
 
