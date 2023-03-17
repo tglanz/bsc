@@ -91,8 +91,7 @@ def depthFirstSearch(problem):
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    return SearchAlgorithm(util.Queue).solve(problem)
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
@@ -110,7 +109,82 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+class SearchAlgorithm:
+    class Node:
+        def __init__(self, state, previous=None, action=None, cost=None):
+            self.state = state
+            self.previous = previous
+            self.action = action
+            self.cost = cost
+        
+        def __iter__(self):
+            return self.previousState, self.currentState, self.action, self.cost
 
+        def iterateAncestors(self):
+            yield self
+            previous = self.previous
+            while previous is not None:
+                yield previous
+                previous = previous.previous
+
+    """
+    SearchAlgorithm is the algorithm that perform the searches.
+
+    Every search algorithm, be it DFS, BFS, A* and so on, differ only by the strategy
+    at which it chooses the next nodes to explore - This is managed according to the fringe's
+    datastructure which is given as a dependency. 
+
+    Practically this is a "hosting" algorithm that should be
+    injected with different strategies for execution - a.k.a strategy pattern.
+
+    Parameters
+      frontierConstructor: A function to create the frontier to be used by the algorihm.
+                Usually it is one of the datastructures in util.py.
+                Every frontier should support the following interface:
+                - push(element: Any)
+                - pop() -> Any
+                - isEmpty() -> Boolean
+
+    Example
+      algorithm = SearchAlgorithm(util.Stack)
+      solution = algorithm.solve(problem)
+    """
+    def __init__(self, frontierConstructor):
+        self.createFrontier = frontierConstructor
+    
+    def solve(self, problem: SearchProblem):
+        startState = problem.getStartState()
+
+        # initialize a new frontier, containing the initial state
+        # as well as the reached state containing the same state.
+        frontier = self.createFrontier()
+        frontier.push(SearchAlgorithm.Node(startState))
+        reached = set([startState])
+
+        # as long as the frontier is not empty, meaning we have additionals
+        # states to investigate, investigate.
+        while not frontier.isEmpty():
+            node = frontier.pop()
+            state = node.state
+
+            # if we have reached the goal state we should trace back the
+            # search tree and generate the actions that lead to the goal.
+            if problem.isGoalState(state):
+                actions = [ancestor.action
+                    for ancestor
+                    in node.iterateAncestors()
+                    if ancestor.action is not None]
+                return list(reversed(actions))
+            
+            # get the successors of the current state and add them to the
+            # frontier if they still haven't been investigated.
+            for nextState, action, cost in problem.getSuccessors(state):
+                if nextState not in reached:
+                    successor = SearchAlgorithm.Node(nextState, node, action, cost)
+                    frontier.push(successor)
+        
+        # No solution was found.
+        return None
 
 # Abbreviations
 bfs = breadthFirstSearch
