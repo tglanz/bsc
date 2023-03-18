@@ -149,14 +149,17 @@ def uniformCostSearch(problem):
     # as well as the reached state containing the same state.
     frontier = util.PriorityQueueWithFunction(lambda node: node.cost)
     frontier.push(node)
-    frontierStates = set([node.state])
     reached = set()
+
+    # In UCS we need access to the Node according to state in order to check
+    # whether it provides a cheaper route, and if so we should replace it.
+    frontierStates = {node.state: node}
 
     # as long as the frontier is not empty, meaning we have additionals
     # states to investigate, investigate.
     while not frontier.isEmpty():
         node = frontier.pop()
-        frontierStates.remove(node.state)
+        del frontierStates[node.state]
         reached.add(node.state)
 
         # if we have reached the goal state we should trace back the
@@ -168,9 +171,17 @@ def uniformCostSearch(problem):
         # frontier if they still haven't been investigated.
         for nextState, action, cost in problem.getSuccessors(node.state):
             childNode = Node(nextState, node, action, node.cost + cost)
+
             if nextState not in reached and nextState not in frontierStates:
                 frontier.push(childNode)
-                frontierStates.add(nextState)
+                frontierStates[nextState] = childNode
+            elif nextState in frontierStates and frontierStates[nextState].isMoreExpensive(childNode):
+                # In UCS we should also check, even if a child is already in the frontier,
+                # perhaps the current route to it is cheaper then before? if so, we need to replace it!
+                frontierStates[nextState].copyFrom(childNode)
+                frontier.update(frontierStates[nextState], childNode.cost)
+
+
         
     
     # No solution was found.
@@ -242,6 +253,15 @@ class Node:
             for ancestor in self.iterateAncestors()
             if ancestor.action is not None
         ]))
+    
+    def isMoreExpensive(self, otherNode):
+        return self.cost > otherNode.cost
+
+    def copyFrom(self, otherNode):
+        self.state = otherNode.state
+        self.previous = otherNode.previous
+        self.action = otherNode.action
+        self.cost = otherNode.cost
 
 
 # Abbreviations
