@@ -78,58 +78,59 @@ def depthFirstSearch(problem):
     """
     node = Node(problem.getStartState())
 
-    # initialize a new frontier, containing the initial state
-    # as well as the reached state containing the same state.
+    # Initialize a new frontier, containing the initial state's
+    # node as well as a set to hold the reached states.
     frontier = util.Stack()
     frontier.push(node)
     reached = set()
 
-    # as long as the frontier is not empty, meaning we have additionals
+    # As long as the frontier is not empty, meaning we have additionals
     # states to investigate, investigate.
     while not frontier.isEmpty():
         node = frontier.pop()
         reached.add(node.state)
 
-        # if we have reached the goal state we should trace back the
+        # If we have reached the goal state we should trace back the
         # search tree and generate the actions that lead to the goal.
         if problem.isGoalState(node.state):
             return node.traceActions()
         
-        # get the successors of the current state and add them to the
+        # Get the successors of the current state and add them to the
         # frontier if they still haven't been investigated.
         for nextState, action, cost in problem.getSuccessors(node.state):
             childNode = Node(nextState, node, action, cost)
             if nextState not in reached:
                 frontier.push(childNode)
-        
     
-    # No solution was found.
+    # No solution was found
     return None
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     node = Node(problem.getStartState())
 
-    # initialize a new frontier, containing the initial state
-    # as well as the reached state containing the same state.
+    # Initialize a new frontier, containing the initial state's
+    # node as well as a set to hold the reached states.
+    # We will also check if states are in the frontiers. To do this efficiently
+    # we will store a set of the frontier states (vs the node).
     frontier = util.Queue()
     frontier.push(node)
     frontierStates = set([node.state])
     reached = set()
 
-    # as long as the frontier is not empty, meaning we have additionals
+    # As long as the frontier is not empty, meaning we have additionals
     # states to investigate, investigate.
     while not frontier.isEmpty():
         node = frontier.pop()
         frontierStates.remove(node.state)
         reached.add(node.state)
 
-        # if we have reached the goal state we should trace back the
+        # If we have reached the goal state we should trace back the
         # search tree and generate the actions that lead to the goal.
         if problem.isGoalState(node.state):
             return node.traceActions()
         
-        # get the successors of the current state and add them to the
+        # Get the successors of the current state and add them to the
         # frontier if they still haven't been investigated.
         for nextState, action, cost in problem.getSuccessors(node.state):
             childNode = Node(nextState, node, action, cost)
@@ -137,16 +138,15 @@ def breadthFirstSearch(problem):
                 frontier.push(childNode)
                 frontierStates.add(nextState)
         
-    
-    # No solution was found.
+    # No solution was found
     return None
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     node = Node(problem.getStartState(), cost=0)
 
-    # initialize a new frontier, containing the initial state
-    # as well as the reached state containing the same state.
+    # Initialize a new frontier, containing the initial state's
+    # node as well as a set to hold the reached states.
     frontier = util.PriorityQueueWithFunction(lambda node: node.cost)
     frontier.push(node)
     reached = set()
@@ -155,23 +155,25 @@ def uniformCostSearch(problem):
     # whether it provides a cheaper route, and if so we should replace it.
     frontierStates = {node.state: node}
 
-    # as long as the frontier is not empty, meaning we have additionals
-    # states to investigate, investigate.
+    # Get the successors of the current state and add them to the
+        # frontier if they still haven't been investigated.
     while not frontier.isEmpty():
         node = frontier.pop()
         del frontierStates[node.state]
         reached.add(node.state)
 
-        # if we have reached the goal state we should trace back the
+        # If we have reached the goal state we should trace back the
         # search tree and generate the actions that lead to the goal.
         if problem.isGoalState(node.state):
             return node.traceActions()
         
-        # get the successors of the current state and add them to the
+        # Get the successors of the current state and add them to the
         # frontier if they still haven't been investigated.
         for nextState, action, cost in problem.getSuccessors(node.state):
             childNode = Node(nextState, node, action, node.cost + cost)
 
+            # If the state hasn't been reached yet and it is not in the frontier
+            # we must surely investigate it in the future.
             if nextState not in reached and nextState not in frontierStates:
                 frontier.push(childNode)
                 frontierStates[nextState] = childNode
@@ -181,7 +183,7 @@ def uniformCostSearch(problem):
                 frontierStates[nextState].copyFrom(childNode)
                 frontier.update(frontierStates[nextState], childNode.cost)
     
-    # No solution was found.
+    # No solution was found
     return None
 
 def nullHeuristic(state, problem=None):
@@ -207,7 +209,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     # whether it provides a cheaper route, and if so we should replace it.
     frontierStates = {node.state: node}
 
-    # as long as the frontier is not empty, meaning we have additionals
+    # As long as the frontier is not empty, meaning we have additionals
     # states to investigate, investigate.
     while not frontier.isEmpty():
         node = frontier.pop()
@@ -219,11 +221,13 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         if problem.isGoalState(node.state):
             return node.traceActions()
         
-        # get the successors of the current state and add them to the
+        # Get the successors of the current state and add them to the
         # frontier if they still haven't been investigated.
         for nextState, action, cost in problem.getSuccessors(node.state):
             childNode = Node(nextState, node, action, node.cost + cost)
 
+            # If the state hasn't been reached yet and it is not in the frontier
+            # we must surely investigate it in the future.
             if nextState not in reached and nextState not in frontierStates:
                 frontier.push(childNode)
                 frontierStates[nextState] = childNode
@@ -237,34 +241,14 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     return None
 
 class Node:
-        def __init__(self, state, previous=None, action=None, cost=None):
-            self.state = state
-            self.previous = previous
-            self.action = action
-            self.cost = cost
-        
-        def __iter__(self):
-            return self.previousState, self.currentState, self.action, self.cost
-
-        def __str__(self):
-            """ Mainly for debugging purposes """
-            return "{}, {}".format(self.state, self.action)
-
-        def iterateAncestors(self):
-            yield self
-            previous = self.previous
-            while previous is not None:
-                yield previous
-                previous = previous.previous
-        
-        def traceActions(self):
-            return list(reversed([
-                ancestor.action
-                for ancestor in self.iterateAncestors()
-                if ancestor.action is not None
-            ]))
-
-class Node:
+    """Node is an implicit datastructure which represents a node in the SearchTree/SearchGraph
+    
+    Parameters
+      state: The state this node holds
+      previous: The ancestor of this node
+      action: The action used to transition to this state from the ancestor
+      cost: The cost of the action
+    """
     def __init__(self, state, previous=None, action=None, cost=None):
         self.state = state
         self.previous = previous
@@ -272,13 +256,11 @@ class Node:
         self.cost = cost
     
     def __iter__(self):
+        """Used for convinient"""
         return self.previousState, self.currentState, self.action, self.cost
 
-    def __str__(self):
-        """ Mainly for debugging purposes """
-        return "{}, {}".format(self.state, self.action)
-
     def iterateAncestors(self):
+        """Iterate all of the ancestors in order"""
         yield self
         previous = self.previous
         while previous is not None:
@@ -286,6 +268,7 @@ class Node:
             previous = previous.previous
     
     def traceActions(self):
+        """Create a list of actions used to reach this state from the start"""
         return list(reversed([
             ancestor.action
             for ancestor in self.iterateAncestors()
@@ -293,14 +276,25 @@ class Node:
         ]))
     
     def isMoreExpensive(self, otherNode):
+        """Checks whether this node's cost is more exensive the otherNode
+        
+        Parameters
+          otherNode: The Node to compare the cost with.
+        """
         return self.cost > otherNode.cost
 
     def copyFrom(self, otherNode):
+        """Copy the data from another node
+        
+        Use this function to replace data from another node but keep the same reference.
+
+        Parameters:
+          otherNode: The Node to copy data from.
+        """
         self.state = otherNode.state
         self.previous = otherNode.previous
         self.action = otherNode.action
         self.cost = otherNode.cost
-
 
 # Abbreviations
 bfs = breadthFirstSearch
