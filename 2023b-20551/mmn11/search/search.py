@@ -180,9 +180,6 @@ def uniformCostSearch(problem):
                 # perhaps the current route to it is cheaper then before? if so, we need to replace it!
                 frontierStates[nextState].copyFrom(childNode)
                 frontier.update(frontierStates[nextState], childNode.cost)
-
-
-        
     
     # No solution was found.
     return None
@@ -196,8 +193,49 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    node = Node(problem.getStartState(), cost=0)
+
+    # Initialize a new frontier, containing the initial state as well as the reached state containing the same state.
+    # The aStartSearch algorithm is very similiar to UCS with the difference of the prioritization function - 
+    # aStart uses cost + heuristic where UCS only uses cost.
+    frontier = util.PriorityQueueWithFunction(lambda node: node.cost + heuristic(node.state, problem))
+    frontier.push(node)
+    reached = set()
+
+    # We need access to the Node according to state in order to check
+    # whether it provides a cheaper route, and if so we should replace it.
+    frontierStates = {node.state: node}
+
+    # as long as the frontier is not empty, meaning we have additionals
+    # states to investigate, investigate.
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        del frontierStates[node.state]
+        reached.add(node.state)
+
+        # If we have reached the goal state we should trace back the
+        # search tree and generate the actions that lead to the goal.
+        if problem.isGoalState(node.state):
+            return node.traceActions()
+        
+        # get the successors of the current state and add them to the
+        # frontier if they still haven't been investigated.
+        for nextState, action, cost in problem.getSuccessors(node.state):
+            childNode = Node(nextState, node, action, node.cost + cost)
+
+            if nextState not in reached and nextState not in frontierStates:
+                frontier.push(childNode)
+                frontierStates[nextState] = childNode
+            elif nextState in frontierStates and frontierStates[nextState].isMoreExpensive(childNode):
+                # We should also check, even if a child is already in the frontier,
+                # perhaps the current route to it is cheaper then before? if so, we need to replace it!
+                frontierStates[nextState].copyFrom(childNode)
+                frontier.update(frontierStates[nextState], childNode.cost)
+    
+    # No solution was found.
+    return None
+
 class Node:
         def __init__(self, state, previous=None, action=None, cost=None):
             self.state = state
