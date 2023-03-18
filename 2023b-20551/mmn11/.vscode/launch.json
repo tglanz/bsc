@@ -125,6 +125,42 @@
                 "-p", "AStarCornersAgent",
                 "-z", "0.5"
             ]
+        },
+        {
+            "name": "pacman, tinySearch, AStarFoodSearchAgent",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+
+                "-l", "tinySearch",
+                "-p", "AStarFoodSearchAgent",
+            ]
+        },
+        {
+            "name": "pacman, mediumSearch, AStarFoodSearchAgent",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+
+                "-l", "mediumSearch",
+                "-p", "AStarFoodSearchAgent",
+            ]
+        },
+        {
+            "name": "pacman, trickySearch, AStarFoodSearchAgent",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+
+                "-l", "trickySearch",
+                "-p", "AStarFoodSearchAgent",
+            ]
         }
     ],
     "compounds": []
