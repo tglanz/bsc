@@ -112,6 +112,19 @@
                 "-p", "SearchAgent",
                 "-a", "fn=bfs,prob=CornersProblem",
             ]
+        },
+        {
+            "name": "pacman, mediumCorners, A*, CornersProblem",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+
+                "-l", "mediumCorners",
+                "-p", "AStarCornersAgent",
+                "-z", "0.5"
+            ]
         }
     ],
     "compounds": []

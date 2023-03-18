@@ -384,22 +384,39 @@ class CornersProblem(search.SearchProblem):
 
 def cornersHeuristic(state, problem):
     """
-    A heuristic for the CornersProblem that you defined.
+    A heuristic for the CornersProblem.
 
       state:   The current search state
                (a data structure you chose in your search problem)
 
       problem: The CornersProblem instance for this layout.
 
-    This function should always return a number that is a lower bound on the
-    shortest path from the state to a goal of the problem; i.e.  it should be
-    admissible (as well as consistent).
+    The heuristic provides the minimum manhaattan distance from the current state's position,
+    to an unvisited corner.
+
+    Admissible proof: The minimum number of steps (manhatten distance) to a goal state is at least as large as the
+                      minimum number of steps to the farthest, unvisited corner - Which is the exactly what this
+                      heuristic provides: The minimum distance to the farthest unvistied corner.
+
+    Consistency proof: Given a node U and it's sucessor V and let the transition action be U->V.
+                       If V is farther or equal distance from the goal than U: h(U) - h(V) <= 0 < c(U, U->V, V).
+                       Otherwise, h(U) < Path(U, Goal) < Path(U, V) + h(V)
+                                    admissability      longer-path+admissability
+                              so, h(U) < c(U, U->V, V) + h(V)
+
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
-    "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    unvisitedCorners = []
+    for index, visited in enumerate(state.cornerVisitation):
+        if not visited:
+            unvisitedCorners.append(corners[index])
+
+    if not unvisitedCorners:
+        return 0
+
+    return max(util.manhattanDistance(state.position, corner) for corner in unvisitedCorners)
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
