@@ -273,6 +273,28 @@ class CornersProblem(search.SearchProblem):
     You must select a suitable state space and successor function
     """
 
+    class State:
+        def __init__(self, position, cornerVisitation):
+            """ Represents a state within the CornersProblem.
+
+            Parameters
+              position: a tuple of (column, row)
+              cornerVisitation: A tuple of 4 Booleans each representing
+                                whether the correlated corner has been visited.
+                                The order of corners is according to the CornersProblem.corners field.
+
+            """
+            self.position = position
+            self.cornerVisitation = cornerVisitation
+        
+        def __hash__(self):
+            """Generate a hash so instances of this class can be used as Set/Dict keys"""
+            return hash((*self.position, *self.cornerVisitation))
+
+        def __eq__(self, other):
+            """Implement equality so instances of this class can be used as Set/Dict keys"""
+            return self.position == other.position and self.cornerVisitation == other.cornerVisitation
+
     def __init__(self, startingGameState):
         """
         Stores the walls, pacman's starting position and corners.
@@ -285,24 +307,19 @@ class CornersProblem(search.SearchProblem):
             if not startingGameState.hasFood(*corner):
                 print('Warning: no food in corner ' + str(corner))
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
-        # Please add any code here which you would like to use
-        # in initializing the problem
-        "*** YOUR CODE HERE ***"
 
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return CornersProblem.State(self.startingPosition, tuple(False for _ in self.corners))
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return state.cornerVisitation == (True, True, True, True)
 
     def getSuccessors(self, state):
         """
@@ -317,14 +334,24 @@ class CornersProblem(search.SearchProblem):
 
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
-            # Add a successor state to the successor list if the action is legal
-            # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
+            col, row = state.position
+            dcol, drow = Actions.directionToVector(action)
+            nextCol, nextRow = int(col + dcol), int(row + drow)
+            hitsWall = self.walls[nextCol][nextRow]
+            nextPosition = (nextCol, nextRow)
 
-            "*** YOUR CODE HERE ***"
+            if not hitsWall:
+                nextCornerVisitation = list(state.cornerVisitation)
+
+                # If the next position is a corner, set the relvant visitation to True.
+                # Otherwise, the visitation remains the same
+                for index in range(len(nextCornerVisitation)):
+                    if nextPosition == self.corners[index]:
+                        nextCornerVisitation[index] = True
+                
+                nextState = CornersProblem.State(nextPosition, tuple(nextCornerVisitation))
+                successors.append((nextState, action, 1))
+
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -341,7 +368,19 @@ class CornersProblem(search.SearchProblem):
             x, y = int(x + dx), int(y + dy)
             if self.walls[x][y]: return 999999
         return len(actions)
-
+    
+    @staticmethod
+    def iterateCornerVistitationPermutations(corners):
+        masks = [0b0001, 0b0010, 0b0100, 0b1000]
+        # For each one of the visitation possibilities (i.e permutation of [x,x,x,x] where x is True or False)
+        # create a state with position and the permutation.
+        # For every one of the 4 corners we have 2 options - So the total number of possibilities is 16 = 2^4.
+        for visitationPossibilitiesBits in range(16):
+            permutation = [False] * len(corners)
+            for index, corner in enumerate(corners):
+                mask = masks[index]
+                permutation[index] = (visitationPossibilitiesBits & mask) == mask
+            yield permutation
 
 def cornersHeuristic(state, problem):
     """
