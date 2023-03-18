@@ -76,7 +76,7 @@ def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
     """
-    node = SearchAlgorithm.Node(problem.getStartState())
+    node = Node(problem.getStartState())
 
     # initialize a new frontier, containing the initial state
     # as well as the reached state containing the same state.
@@ -98,7 +98,7 @@ def depthFirstSearch(problem):
         # get the successors of the current state and add them to the
         # frontier if they still haven't been investigated.
         for nextState, action, cost in problem.getSuccessors(node.state):
-            childNode = SearchAlgorithm.Node(nextState, node, action, cost)
+            childNode = Node(nextState, node, action, cost)
             if nextState not in reached:
                 frontier.push(childNode)
         
@@ -108,7 +108,7 @@ def depthFirstSearch(problem):
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    node = SearchAlgorithm.Node(problem.getStartState())
+    node = Node(problem.getStartState())
 
     # initialize a new frontier, containing the initial state
     # as well as the reached state containing the same state.
@@ -132,7 +132,7 @@ def breadthFirstSearch(problem):
         # get the successors of the current state and add them to the
         # frontier if they still haven't been investigated.
         for nextState, action, cost in problem.getSuccessors(node.state):
-            childNode = SearchAlgorithm.Node(nextState, node, action, cost)
+            childNode = Node(nextState, node, action, cost)
             if nextState not in reached and nextState not in frontierStates:
                 frontier.push(childNode)
                 frontierStates.add(nextState)
@@ -157,8 +157,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
-class SearchAlgorithm:
-    class Node:
+class Node:
         def __init__(self, state, previous=None, action=None, cost=None):
             self.state = state
             self.previous = previous
@@ -186,68 +185,34 @@ class SearchAlgorithm:
                 if ancestor.action is not None
             ]))
 
-    """
-    SearchAlgorithm is the algorithm that perform the searches.
-
-    Every search algorithm, be it DFS, BFS, A* and so on, differ only by the strategy
-    at which it chooses the next nodes to explore - This is managed according to the fringe's
-    datastructure which is given as a dependency. 
-
-    Practically this is a "hosting" algorithm that should be
-    injected with different strategies for execution - a.k.a strategy pattern.
-
-    Parameters
-      frontierConstructor: A function to create the frontier to be used by the algorihm.
-                Usually it is one of the datastructures in util.py.
-                Every frontier should support the following interface:
-                - push(element: Any)
-                - pop() -> Any
-                - isEmpty() -> Boolean
-
-    Example
-      algorithm = SearchAlgorithm(util.Stack)
-      solution = algorithm.solve(problem)
-    """
-    def __init__(self, frontierConstructor):
-        self.createFrontier = frontierConstructor
+class Node:
+    def __init__(self, state, previous=None, action=None, cost=None):
+        self.state = state
+        self.previous = previous
+        self.action = action
+        self.cost = cost
     
-    def solve(self, problem: SearchProblem):
-        node = SearchAlgorithm.Node(problem.getStartState())
+    def __iter__(self):
+        return self.previousState, self.currentState, self.action, self.cost
 
-        # initialize a new frontier, containing the initial state
-        # as well as the reached state containing the same state.
-        frontier = self.createFrontier()
-        frontier.push(node)
-        frontierStates = set([node.state])
-        reached = set()
+    def __str__(self):
+        """ Mainly for debugging purposes """
+        return "{}, {}".format(self.state, self.action)
 
-        # as long as the frontier is not empty, meaning we have additionals
-        # states to investigate, investigate.
-        while not frontier.isEmpty():
-            node = frontier.pop()
-            frontierStates.remove(node.state)
-            reached.add(node.state)
+    def iterateAncestors(self):
+        yield self
+        previous = self.previous
+        while previous is not None:
+            yield previous
+            previous = previous.previous
+    
+    def traceActions(self):
+        return list(reversed([
+            ancestor.action
+            for ancestor in self.iterateAncestors()
+            if ancestor.action is not None
+        ]))
 
-            # if we have reached the goal state we should trace back the
-            # search tree and generate the actions that lead to the goal.
-            if problem.isGoalState(node.state):
-                actions = [ancestor.action
-                    for ancestor
-                    in node.iterateAncestors()
-                    if ancestor.action is not None]
-                return list(reversed(actions))
-            
-            # get the successors of the current state and add them to the
-            # frontier if they still haven't been investigated.
-            for nextState, action, cost in problem.getSuccessors(node.state):
-                childNode = SearchAlgorithm.Node(nextState, node, action, cost)
-                if nextState not in reached and nextState not in frontierStates:
-                    frontier.push(childNode)
-                    frontierStates.add(childNode.state)
-            
-        
-        # No solution was found.
-        return None
 
 # Abbreviations
 bfs = breadthFirstSearch
