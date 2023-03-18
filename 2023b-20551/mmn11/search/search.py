@@ -109,6 +109,10 @@ class SearchAlgorithm:
         def __iter__(self):
             return self.previousState, self.currentState, self.action, self.cost
 
+        def __str__(self):
+            """ Mainly for debugging purposes """
+            return "{}, {}".format(self.state, self.action)
+
         def iterateAncestors(self):
             yield self
             previous = self.previous
@@ -142,23 +146,23 @@ class SearchAlgorithm:
         self.createFrontier = frontierConstructor
     
     def solve(self, problem: SearchProblem):
-        startState = problem.getStartState()
+        node = SearchAlgorithm.Node(problem.getStartState())
 
         # initialize a new frontier, containing the initial state
         # as well as the reached state containing the same state.
         frontier = self.createFrontier()
-        frontier.push(SearchAlgorithm.Node(startState))
-        reached = set([startState])
+        frontier.push(node)
+        reached = set()
 
         # as long as the frontier is not empty, meaning we have additionals
         # states to investigate, investigate.
         while not frontier.isEmpty():
             node = frontier.pop()
-            state = node.state
+            reached.add(node.state)
 
             # if we have reached the goal state we should trace back the
             # search tree and generate the actions that lead to the goal.
-            if problem.isGoalState(state):
+            if problem.isGoalState(node.state):
                 actions = [ancestor.action
                     for ancestor
                     in node.iterateAncestors()
@@ -167,13 +171,10 @@ class SearchAlgorithm:
             
             # get the successors of the current state and add them to the
             # frontier if they still haven't been investigated.
-            for nextState, action, cost in problem.getSuccessors(state):
+            for nextState, action, cost in problem.getSuccessors(node.state):
+                childNode = SearchAlgorithm.Node(nextState, node, action, cost)
                 if nextState not in reached:
-                    successor = SearchAlgorithm.Node(nextState, node, action, cost)
-                    frontier.push(successor)
-                    
-                    # we are done investigating node. add it to reached.
-                    reached.add(nextState)
+                    frontier.push(childNode)
             
         
         # No solution was found.
