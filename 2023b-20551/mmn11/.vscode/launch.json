@@ -161,6 +161,19 @@
                 "-l", "trickySearch",
                 "-p", "AStarFoodSearchAgent",
             ]
+        },
+        {
+            "name": "pacman, bigSearch, ClosestDotSearchAgent",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+
+                "-l", "bigSearch",
+                "-p", "ClosestDotSearchAgent",
+                "-z", "0.5"
+            ]
         }
     ],
     "compounds": []
