@@ -275,7 +275,7 @@ class CornersProblem(search.SearchProblem):
 
     class State:
         def __init__(self, position, cornerVisitation):
-            """ Represents a state within the CornersProblem.
+            """Represent a state within the CornersProblem.
 
             Parameters
               position: a tuple of (column, row)
@@ -309,17 +309,18 @@ class CornersProblem(search.SearchProblem):
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
 
     def getStartState(self):
-        """
-        Returns the start state (in your state space, not the full Pacman state
-        space)
-        """
-        return CornersProblem.State(self.startingPosition, tuple(False for _ in self.corners))
+        """Returns the start state"""
+        return CornersProblem.State(
+            self.startingPosition,
+            tuple(False for _ in self.corners))
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
+
+        A Goal is any state which pacman already visited all four corners.
         """
-        return state.cornerVisitation == (True, True, True, True)
+        return all(state.cornerVisitation)
 
     def getSuccessors(self, state):
         """
@@ -330,6 +331,13 @@ class CornersProblem(search.SearchProblem):
             action, stepCost), where 'successor' is a successor to the current
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
+        
+        The successors of a state are all reachable (position wise) states with the addition
+        of corner visitation. If the successor is a corner it means we have visited this corner
+        (be it in the past or the current transition).
+
+        Conceptually, we have 2^4 layers of positions stacked vertically and each corner visitation
+        moves us to a further layer.
         """
 
         successors = []
@@ -369,19 +377,6 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
     
-    @staticmethod
-    def iterateCornerVistitationPermutations(corners):
-        masks = [0b0001, 0b0010, 0b0100, 0b1000]
-        # For each one of the visitation possibilities (i.e permutation of [x,x,x,x] where x is True or False)
-        # create a state with position and the permutation.
-        # For every one of the 4 corners we have 2 options - So the total number of possibilities is 16 = 2^4.
-        for visitationPossibilitiesBits in range(16):
-            permutation = [False] * len(corners)
-            for index, corner in enumerate(corners):
-                mask = masks[index]
-                permutation[index] = (visitationPossibilitiesBits & mask) == mask
-            yield permutation
-
 def cornersHeuristic(state, problem):
     """
     A heuristic for the CornersProblem.
@@ -406,17 +401,15 @@ def cornersHeuristic(state, problem):
 
     """
     corners = problem.corners # These are the corner coordinates
-    walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     unvisitedCorners = []
     for index, visited in enumerate(state.cornerVisitation):
         if not visited:
             unvisitedCorners.append(corners[index])
 
-    if not unvisitedCorners:
-        return 0
-
-    return max(util.manhattanDistance(state.position, corner) for corner in unvisitedCorners)
+    return max(
+        (util.manhattanDistance(state.position, corner) for corner in unvisitedCorners),
+        default=0)
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -511,9 +504,8 @@ def foodHeuristic(state, problem):
     position, foodGrid = state
 
     # The heuristic calculates the real distance from the farthest food.
-
-    return max((
-        mazeDistance(position, foodPosition, problem.startingGameState) for foodPosition in foodGrid.asList()),
+    return max(
+        (mazeDistance(position, foodPosition, problem.startingGameState) for foodPosition in foodGrid.asList()),
         default=0)
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -574,12 +566,10 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         self._visited, self._visitedlist, self._expanded = {}, [], 0 # DO NOT CHANGE
 
     def isGoalState(self, state):
+        """Checks whether the given state is a goal state.
+        
+        Any position which is a food position is a goal.
         """
-        The state is Pacman's position. Fill this in with a goal test that will
-        complete the problem definition.
-        """
-
-        # Any position which is a food position is a goal
         return state in self.food.asList()
 
 def mazeDistance(point1, point2, gameState):
