@@ -76,7 +76,35 @@ def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
     """
-    return SearchAlgorithm(util.Stack).solve(problem)
+    node = SearchAlgorithm.Node(problem.getStartState())
+
+    # initialize a new frontier, containing the initial state
+    # as well as the reached state containing the same state.
+    frontier = util.Stack()
+    frontier.push(node)
+    reached = set()
+
+    # as long as the frontier is not empty, meaning we have additionals
+    # states to investigate, investigate.
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        reached.add(node.state)
+
+        # if we have reached the goal state we should trace back the
+        # search tree and generate the actions that lead to the goal.
+        if problem.isGoalState(node.state):
+            return node.traceActions()
+        
+        # get the successors of the current state and add them to the
+        # frontier if they still haven't been investigated.
+        for nextState, action, cost in problem.getSuccessors(node.state):
+            childNode = SearchAlgorithm.Node(nextState, node, action, cost)
+            if nextState not in reached:
+                frontier.push(childNode)
+        
+    
+    # No solution was found.
+    return None
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
@@ -119,6 +147,13 @@ class SearchAlgorithm:
             while previous is not None:
                 yield previous
                 previous = previous.previous
+        
+        def traceActions(self):
+            return list(reversed([
+                ancestor.action
+                for ancestor in self.iterateAncestors()
+                if ancestor.action is not None
+            ]))
 
     """
     SearchAlgorithm is the algorithm that perform the searches.
@@ -152,12 +187,14 @@ class SearchAlgorithm:
         # as well as the reached state containing the same state.
         frontier = self.createFrontier()
         frontier.push(node)
+        frontierStates = set([node.state])
         reached = set()
 
         # as long as the frontier is not empty, meaning we have additionals
         # states to investigate, investigate.
         while not frontier.isEmpty():
             node = frontier.pop()
+            frontierStates.remove(node.state)
             reached.add(node.state)
 
             # if we have reached the goal state we should trace back the
@@ -173,8 +210,9 @@ class SearchAlgorithm:
             # frontier if they still haven't been investigated.
             for nextState, action, cost in problem.getSuccessors(node.state):
                 childNode = SearchAlgorithm.Node(nextState, node, action, cost)
-                if nextState not in reached:
+                if nextState not in reached and nextState not in frontierStates:
                     frontier.push(childNode)
+                    frontierStates.add(childNode.state)
             
         
         # No solution was found.
