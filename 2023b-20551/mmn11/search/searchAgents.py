@@ -544,8 +544,8 @@ class ClosestDotSearchAgent(SearchAgent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # To find the shortest path to the closes food we can just apply BFS search over the AnyFoodSearchProblem
+        return SearchAgent(fn="breadthFirstSearch", prob="AnyFoodSearchProblem").searchFunction(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -578,10 +578,9 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
-        x,y = state
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # Any position which is a food position is a goal
+        return state in self.food.asList()
 
 def mazeDistance(point1, point2, gameState):
     """
