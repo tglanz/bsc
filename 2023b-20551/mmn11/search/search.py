@@ -108,7 +108,38 @@ def depthFirstSearch(problem):
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    return SearchAlgorithm(util.Queue).solve(problem)
+    node = SearchAlgorithm.Node(problem.getStartState())
+
+    # initialize a new frontier, containing the initial state
+    # as well as the reached state containing the same state.
+    frontier = util.Queue()
+    frontier.push(node)
+    frontierStates = set([node.state])
+    reached = set()
+
+    # as long as the frontier is not empty, meaning we have additionals
+    # states to investigate, investigate.
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        frontierStates.remove(node.state)
+        reached.add(node.state)
+
+        # if we have reached the goal state we should trace back the
+        # search tree and generate the actions that lead to the goal.
+        if problem.isGoalState(node.state):
+            return node.traceActions()
+        
+        # get the successors of the current state and add them to the
+        # frontier if they still haven't been investigated.
+        for nextState, action, cost in problem.getSuccessors(node.state):
+            childNode = SearchAlgorithm.Node(nextState, node, action, cost)
+            if nextState not in reached and nextState not in frontierStates:
+                frontier.push(childNode)
+                frontierStates.add(nextState)
+        
+    
+    # No solution was found.
+    return None
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
