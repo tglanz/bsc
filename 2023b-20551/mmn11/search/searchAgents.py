@@ -360,7 +360,6 @@ class CornersProblem(search.SearchProblem):
                 nextState = CornersProblem.State(nextPosition, tuple(nextCornerVisitation))
                 successors.append((nextState, action, 1))
 
-
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
