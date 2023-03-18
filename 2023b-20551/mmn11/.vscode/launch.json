@@ -1,0 +1,118 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "search, tinyMaze, bfs",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-l", "tinyMaze",
+                "-p", "SearchAgent",
+                "-a", "fn=breadthFirstSearch"
+            ]
+        },
+        {
+            "name": "search, tinyMaze, dfs",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-l", "tinyMaze",
+                "-p", "SearchAgent",
+                "-a", "fn=depthFirstSearch"
+            ]
+        },
+        {
+            "name": "search, mediumMaze, dfs",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-l", "mediumMaze",
+                "-p", "SearchAgent",
+                "-a", "fn=depthFirstSearch"
+            ]
+        },
+        {
+            "name": "autgrade, q1",
+            "type": "python",
+            "request": "launch",
+            "program": "autograder.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-q", "q1",
+            ]
+        },
+        {
+            "name": "autgrade, q2",
+            "type": "python",
+            "request": "launch",
+            "program": "autograder.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-q", "q2",
+            ]
+        },
+        {
+            "name": "autgrade, q3",
+            "type": "python",
+            "request": "launch",
+            "program": "autograder.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-q", "q3",
+            ]
+        },
+        {
+            "name": "autgrade, q4",
+            "type": "python",
+            "request": "launch",
+            "program": "autograder.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-q", "q4",
+            ]
+        },
+        {
+            "name": "autgrade, custom",
+            "type": "python",
+            "request": "launch",
+            "program": "autograder.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+                "-q", "custom",
+            ]
+        },
+        {
+            "name": "pacman, tinyCorners, bfs, CornersProblem",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+
+                "-l", "tinyCorners",
+                "-p", "SearchAgent",
+                "-a", "fn=bfs,prob=CornersProblem",
+            ]
+        },
+        {
+            "name": "pacman, mediumCorners, bfs, CornersProblem",
+            "type": "python",
+            "request": "launch",
+            "program": "pacman.py",
+            "cwd": "${workspaceFolder}/search",
+            "args": [
+
+                "-l", "mediumCorners",
+                "-p", "SearchAgent",
+                "-a", "fn=bfs,prob=CornersProblem",
+            ]
+        }
+    ],
+    "compounds": []
+}
