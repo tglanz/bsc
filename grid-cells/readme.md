@@ -14,7 +14,7 @@
 
 - **Blueprint** [Going Beyond the Point Neuron: Active Dendrites and Sparse Representations for Continual Learning. 2021](https://www.biorxiv.org/content/10.1101/2021.10.25.465651v1)
 
-- [Avoiding Catastrophe: Active Dendrites Enable Multi-Task Learning in Dynamic Environments](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2201.00042&site=eds-live&scope=site)
+- [Avoiding Catastrophe: Active Dendrites Enable Multi-Task Learning in Dynamic Environments. 2021](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2201.00042&site=eds-live&scope=site)
 
 ### Object Recognition
 
