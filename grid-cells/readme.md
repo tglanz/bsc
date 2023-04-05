@@ -9,6 +9,7 @@
 - [The representation of space in the brain. 2017](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edselp&AN=S0376635716302480&site=eds-live&scope=site)
 
 - [A Framework for Intelligence and Cortical Function Based on Grid Cells in the Neocortex. 2019](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsdoj&AN=edsdoj.6bac54ab9e994fc9b5201a008ffa9917&site=eds-live)
+  - [Companion](https://www.numenta.com/resources/research-publications/papers/thousand-brains-theory-of-intelligence-companion-paper/)
 
 - [Efficient and flexible representation of higher-dimensional cognitive variables with grid cells. 2020](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=a9h&AN=142947817&site=eds-live&scope=site)
 
