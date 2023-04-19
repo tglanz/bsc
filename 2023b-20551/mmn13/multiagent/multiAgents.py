@@ -74,7 +74,23 @@ class ReflexAgent(Agent):
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
         "*** YOUR CODE HERE ***"
-        return successorGameState.getScore()
+
+        # Calculate the bias according to food.
+        # Pacman's goal is to eat as much as possible as fast as possible.
+        # It makes sense to give higher evaluation to actions that brings him closer to a food.
+        # Technically, small distances should translate to higher values - we calculate those as inverses.
+        foodBias = 0
+        foodPositions = newFood.asList()
+        if foodPositions:
+            newMinDistance = min(map(lambda foodPos: util.manhattanDistance(newPos, foodPos), foodPositions))
+            foodBias = 1 / newMinDistance
+
+        # On the contrary to food, Pacman wants to avoid ghosts.
+        ghostFactor = min(map(lambda ghostState: util.manhattanDistance(newPos, ghostState.getPosition()), newGhostStates), default=1)
+        if ghostFactor > 4:
+            ghostFactor = 4
+        
+        return successorGameState.getScore() + (ghostFactor * foodBias)
 
 def scoreEvaluationFunction(currentGameState):
     """

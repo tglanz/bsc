@@ -17,3 +17,28 @@ We can also specify the layout using the ```-l/--layout``` argument. By default,
 - _testClassic_: The most trivial layout - Used mainly for testing purposes.
 
 In order to specify the number of ghosts use the ```-k/--numghosts``` argument. This argument is 4 by default.
+
+Some examples:
+
+    python pacman.py -p ReflexAgent -l testClassic -k 0
+    python pacman.py -p ReflexAgent -l testClassic -k 1
+    python pacman.py -p ReflexAgent -l mediumClassic -k 1
+    python pacman.py -p ReflexAgent -l mediumClassic -k 2
+
+## Q1, Designing a better evaluation function
+
+Given the current game state and an action, the ```ReflexAgent::evaluationFunction``` returns a number. The higher the number, the better the given action is evaluated.
+
+The existing implementation did not take into account the food positions nor the ghost positions! This is the following implications:
+- Because the evaluation ignored the food position (up to the score of the next state), Pacman has no incentive to complete the level fast. 
+- Because the evaluation ignored the ghost positions (up to the score of the next state), Pacman could easily collide with a ghost and died.
+
+From the said above, we can assume a better evaluation function which takes the relevant information into account. 
+
+The closer Pacman gets to a food position due to the current action the higher the evaluation should be. We will track this relation using the ```foodBias``` variable. Note that this is an inverse relation - we chose to implement it as ```foodBias = 1 / minDistanceToFood```.
+
+Pacman likes safety - The farther pacman is from ghosts the better. More accurately, the closer Pacman is to a ghost, the less he cares about food. We will model this as a multiplicatve relation - ```ghostFactor * foodBias``` where ```ghostFactor``` is the minimum distance to any ghost in the level.
+
+Empiricaly, the bigger the level the higher the chance that Pacman is no where near a ghost. Also taking into account the fact that ghosts has the same speed as Pacman and can't "catch up to him", we can have Pacman forget about the ghost from a certain distance. We chose this constant distance to be 4. The reason that a lesser distance can cause Pacman to collide with a ghost is that 3 is the distance where Pacman doesn't have the time to change directions can escape the ghosts and get away with it alive.
+
+Finally, we give the evaluation function ```evaluation = nextStateScore + (ghostFactor * foodBias)```.
