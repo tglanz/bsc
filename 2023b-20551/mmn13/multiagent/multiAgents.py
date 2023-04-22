@@ -235,14 +235,14 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         agent = 0
         for candidateAction in state.getLegalActions(agent):
             candidateState = state.generateSuccessor(agent, candidateAction)
-            candidateScore, _ = self.minValue(candidateState, agent + 1, depth)
+            candidateScore, _ = self.minValue(candidateState, depth, agent + 1)
             if score is None or candidateScore > score:
                 score = candidateScore
                 action = candidateAction
         
         return score, action
     
-    def minValue(self, state, agent, depth):
+    def minValue(self, state, depth, agent):
         """
         Minimize the utility over legal actions.
 
@@ -268,7 +268,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
             if agent == state.getNumAgents() - 1:
                 candidateScore, _ = self.maxValue(candidateState, depth + 1)
             else:
-                candidateScore, _ = self.minValue(candidateState, agent + 1, depth)
+                candidateScore, _ = self.minValue(candidateState, depth, agent + 1)
 
             if score is None or candidateScore < score:
                 score = candidateScore
