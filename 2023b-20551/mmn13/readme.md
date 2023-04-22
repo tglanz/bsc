@@ -42,3 +42,17 @@ Pacman likes safety - The farther pacman is from ghosts the better. More accurat
 Empiricaly, the bigger the level the higher the chance that Pacman is no where near a ghost. Also taking into account the fact that ghosts has the same speed as Pacman and can't "catch up to him", we can have Pacman forget about the ghost from a certain distance. We chose this constant distance to be 4. The reason that a lesser distance can cause Pacman to collide with a ghost is that 3 is the distance where Pacman doesn't have the time to change directions can escape the ghosts and get away with it alive.
 
 Finally, we give the evaluation function ```evaluation = nextStateScore + (ghostFactor * foodBias)```.
+
+## Q2, Minimiax with ghosts alliance
+
+Here we have more than two agents. Specifically, given the number of agents N, pacman is the agent 0 and the ghosts are agents 1, 2, ..., N-1.
+
+The concept remains similiar to two player minimax with the following neuances: Pacman is equivalent to the MAX player - he tries to maximize the utility from all the available actions he can make. On the opposite, the ghosts are equivalent to the MIN player - all of them try to minimize the utility among all of their available actions.
+
+In our model, the game is turn based - Agents make their move one after another. 
+
+From the above, we can understand the modified search tree: Each level is composed of N sub-levels. The first sub level is the states that Pacman tries to maximize the actions from. The following N-1 sub levels are the states that the ghosts 1, 2, ..., N-1 accordingly try to minimize.
+
+Also note that we need to limit the depth. This is simple, just keep track of the current depth and remember that a depth is with respect to the sub-levels discussed above. Meaning, a search tree of level K is at depth K%N.
+
+From the above, the modifications to the algorithm that can be found in the book is that the ```Min-Value``` function should be performed on all ghosts, one by one. Only after the last ghost, a call to ```Max-Value``` (for pacman's turn) should be made.
