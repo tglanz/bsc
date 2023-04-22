@@ -206,10 +206,75 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
 
     def getAction(self, gameState):
         """
-        Returns the minimax action using self.depth and self.evaluationFunction
+        Returns the minimax action from the current gameState using self.depth
+        and self.evaluationFunction.
+
+        Parameters:
+          gameState: MultiagentTreeState
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        score, action = self.maxValue(gameState, 0)
+        return action
+
+    def isTerminal(self, state):
+        return any((state.isWin(), state.isLose()))
+
+    def maxValue(self, state, depth):
+        """
+        Maximize the utility over legal actions.
+
+        Returns the utility and the action made.
+
+        Parameters
+            state: MultiagentTreeState - the current state the search is investigating
+            depth: int indicating the current depth in the search
+        """
+        if self.isTerminal(state) or depth >= self.depth:
+            return self.evaluationFunction(state), None
+
+        score, action = None, None
+        agent = 0
+        for candidateAction in state.getLegalActions(agent):
+            candidateState = state.generateSuccessor(agent, candidateAction)
+            candidateScore, _ = self.minValue(candidateState, agent + 1, depth)
+            if score is None or candidateScore > score:
+                score = candidateScore
+                action = candidateAction
+        
+        return score, action
+    
+    def minValue(self, state, agent, depth):
+        """
+        Minimize the utility over legal actions.
+
+        Returns the utility and the action made.
+
+        Parameters
+            state: MultiagentTreeState - the current state the search is investigating
+            agent: int indicating the agent performing the search.
+                       expected to be the agent index of some ghost since pacman only maximize.
+            depth: int indicating the current depth in the search
+        """
+        if agent == 0 or agent >= state.getNumAgents():
+            raise f"Invalid agent {agent}. Expected to be a ghost"
+
+        if self.isTerminal(state):
+            return self.evaluationFunction(state), None
+
+        score, action = None, None
+        for candidateAction in state.getLegalActions(agent):
+            candidateState = state.generateSuccessor(agent, candidateAction)
+
+            # last ghost
+            if agent == state.getNumAgents() - 1:
+                candidateScore, _ = self.maxValue(candidateState, depth + 1)
+            else:
+                candidateScore, _ = self.minValue(candidateState, agent + 1, depth)
+
+            if score is None or candidateScore < score:
+                score = candidateScore
+                action = candidateAction
+        
+        return score, action
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
