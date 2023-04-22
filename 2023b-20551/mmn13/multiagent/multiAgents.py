@@ -354,7 +354,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         if self.isTerminal(state):
             return self.evaluationFunction(state)
 
-        score = 0
+        score = float(0)
         legalActions = state.getLegalActions(agent)
         for candidateAction in legalActions:
             candidateState = state.generateSuccessor(agent, candidateAction)
@@ -375,10 +375,57 @@ def betterEvaluationFunction(currentGameState):
     Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
     evaluation function (question 5).
 
-    DESCRIPTION: <write something here so we know what you did>
+    DESCRIPTION:
+
+    My intuition about Pacman is to run towards food as long as I am safe.
+    The more Pacman eats pallets the more freedom he has to navigate the level.
+
+    The implementation is made by providing weights to certain criteria modeling the above.
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    pacmanPosition = currentGameState.getPacmanPosition()
+    ghostsPositions = currentGameState.getGhostPositions()
+    
+    foodPositions = currentGameState.getFood().asList()
+    minFoodDistance = min(
+        (util.manhattanDistance(pacmanPosition, pos) for pos in foodPositions),
+        default=0)
+
+    deathPotential = 0
+    if ghostsPositions:
+        minGhostDistance = min(
+            (util.manhattanDistance(pacmanPosition, pos) for pos in ghostsPositions))
+        
+        # if minGhostDistance == 0:
+        #     deathPotential = float("inf")
+        # else:
+        #     deathPotential = (1.0 / minGhostDistance)
+
+        deathPotential = 1.0 / (minGhostDistance + 0.001)
+
+    numberOfCapsules = len(currentGameState.getCapsules())
+
+    heuristics = [
+        # Theoretically pacman can just hide from ghosts - This is unwelcomed.
+        # To avoid this, we use the state's score since it contains penalties
+        # according to time spent in the level.
+        (1, currentGameState.getScore()),
+
+        # Pacman likes food. The closer pacman is to a food, the higher the score,
+        # this way, pacman will move towards food.
+        (-1, minFoodDistance),
+
+        # Pacman doesn't want to die. 
+        (-1, deathPotential),
+
+        # Pacman wants to eat capsules so he won't be afraid of ghosts.
+        (-1000, numberOfCapsules),
+
+        # Pacman should eat the ghost if he has the chance!
+        (-1, len(currentGameState.getGhostStates()))
+    ]
+
+    return sum((factor * element for factor, element in heuristics))
 
 # Abbreviation
 better = betterEvaluationFunction
