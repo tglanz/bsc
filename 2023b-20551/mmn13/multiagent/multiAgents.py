@@ -158,14 +158,14 @@ class MinimaxAgent(MultiAgentSearchAgent):
         agent = 0
         for candidateAction in state.getLegalActions(agent):
             candidateState = state.generateSuccessor(agent, candidateAction)
-            candidateScore, _ = self.minValue(candidateState, agent + 1, depth)
+            candidateScore, _ = self.minValue(candidateState, depth, agent + 1)
             if score is None or candidateScore > score:
                 score = candidateScore
                 action = candidateAction
         
         return score, action
     
-    def minValue(self, state, agent, depth):
+    def minValue(self, state, depth, agent):
         """
         Minimize the utility over legal actions.
 
@@ -173,9 +173,9 @@ class MinimaxAgent(MultiAgentSearchAgent):
 
         Parameters
             state: MultiagentTreeState - the current state the search is investigating
+            depth: int indicating the current depth in the search
             agent: int indicating the agent performing the search.
                        expected to be the agent index of some ghost since pacman only maximize.
-            depth: int indicating the current depth in the search
         """
         if agent == 0 or agent >= state.getNumAgents():
             raise f"Invalid agent {agent}. Expected to be a ghost"
@@ -191,7 +191,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
             if agent == state.getNumAgents() - 1:
                 candidateScore, _ = self.maxValue(candidateState, depth + 1)
             else:
-                candidateScore, _ = self.minValue(candidateState, agent + 1, depth)
+                candidateScore, _ = self.minValue(candidateState, depth, agent + 1)
 
             if score is None or candidateScore < score:
                 score = candidateScore
@@ -250,9 +250,9 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
 
         Parameters
             state: MultiagentTreeState - the current state the search is investigating
+            depth: int indicating the current depth in the search
             agent: int indicating the agent performing the search.
                        expected to be the agent index of some ghost since pacman only maximize.
-            depth: int indicating the current depth in the search
         """
         if agent == 0 or agent >= state.getNumAgents():
             raise f"Invalid agent {agent}. Expected to be a ghost"
