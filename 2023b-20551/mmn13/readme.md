@@ -2,6 +2,8 @@
 
 Author: Tal Glanzman
 
+In MMN11 I got a remark that the readme is lacking - I hope this is better.
+
 ## Common Commands
 
 Start a game of pacman
@@ -68,3 +70,27 @@ All I really did was copy paste the ```minValue``` and ```maxValue``` I implemen
 Pacman logic remains the same - he still wants to make the best action possible (maximize utility).
 
 The ghosts return the average utility instead of their minimum. This manifests the fact that they move randomly.
+
+## Q5, Designing a better evaluation function
+
+The process of designing the better evaluation function was part intuition and part trial-and-error.
+
+If we examine the game of pacman at a broad level pacman's main interests are:
+
+- Not dying
+- Eating food
+- Avoid stalling
+
+We designed the evaluation function as a dot product of a priority vector and an elements vector measuring different criteria in the game. Such approach we can fine tune different aspects of the function - which is where the trial-and-error came in.
+
+The components of the evaluation are described below:
+
+Not Dying / Safety: In order for pacman to try and avoid death, we measured the (manhanttan) distance from him to the nearest ghost. The closer he is, the more dangerous it is. Meaning, the higher the distance, the better the evaluation should be since it indicates safety.
+
+Eating food: All things aside, Pacman should walk towards food at any given time since his win condition is by clearing the level. The negative of the closest food to him is a function that increases as he get closer to food.
+
+Avoid stalling: The state score encodes penalty for time spent. Hence, we use the score of the state as part of the evaluation - Less time spent, the higher the evaluation.
+
+Another component which has an impact is the "Freedom of movement". If the ghosts are in the scared state, Pacman can move as freely as he likes. Therefore, it is wise to eat the capsules.
+
+Also, in the game of Pacman, eating ghosts increase the score. Therefore, we added to the evaluation the negative of the number of the ghosts on the board. Practically, and perhaps unintuively, it didn't seem to have much of an effect. Perhaps it's because that unlike a normal game of pacman the ghosts spawn immediately - taking away some of the benefits? Perhaps maybe also because the ghosts spawn afterwards, the number of ghosts increases again causing some rebound effect on the evaluation?
