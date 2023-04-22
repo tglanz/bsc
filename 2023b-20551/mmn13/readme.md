@@ -62,3 +62,9 @@ From the above, the modifications to the algorithm that can be found in the book
 In reality, the fact that there are multiple MIN players (the ghosts) doesn't have much affect on the implementation. Like the standard algorith, update the alpha and beta parameters while traversing down the search, update the value going up.
 
 All I really did was copy paste the ```minValue``` and ```maxValue``` I implemented in ```MinimaxAgent``` and added alpha-beta parameters as instructed in the Mamans notebook.
+
+## Q4, Expectimax
+
+Pacman logic remains the same - he still wants to make the best action possible (maximize utility).
+
+The ghosts return the average utility instead of their minimum. This manifests the fact that they move randomly.
