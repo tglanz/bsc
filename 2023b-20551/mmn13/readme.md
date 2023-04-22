@@ -56,3 +56,9 @@ From the above, we can understand the modified search tree: Each level is compos
 Also note that we need to limit the depth. This is simple, just keep track of the current depth and remember that a depth is with respect to the sub-levels discussed above. Meaning, a search tree of level K is at depth K%N.
 
 From the above, the modifications to the algorithm that can be found in the book is that the ```Min-Value``` function should be performed on all ghosts, one by one. Only after the last ghost, a call to ```Max-Value``` (for pacman's turn) should be made.
+
+## Q3, Multi-Agent Alpha-Beta pruning
+
+In reality, the fact that there are multiple MIN players (the ghosts) doesn't have much affect on the implementation. Like the standard algorith, update the alpha and beta parameters while traversing down the search, update the value going up.
+
+All I really did was copy paste the ```minValue``` and ```maxValue``` I implemented in ```MinimaxAgent``` and added alpha-beta parameters as instructed in the Mamans notebook.

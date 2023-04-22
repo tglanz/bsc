@@ -212,13 +212,16 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Parameters:
           gameState: MultiagentTreeState
         """
-        score, action = self.maxValue(gameState, 0)
+        alpha = float("-inf")
+        beta = float("inf")
+
+        score, action = self.maxValue(gameState, 0, alpha, beta)
         return action
 
     def isTerminal(self, state):
         return any((state.isWin(), state.isLose()))
 
-    def maxValue(self, state, depth):
+    def maxValue(self, state, depth, alpha, beta):
         """
         Maximize the utility over legal actions.
 
@@ -227,6 +230,8 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Parameters
             state: MultiagentTreeState - the current state the search is investigating
             depth: int indicating the current depth in the search
+            alpha: int - the alpha parameter of alpha-beta algorithm
+            beta: int - the beta parameter of alpha-beta algorithm
         """
         if self.isTerminal(state) or depth >= self.depth:
             return self.evaluationFunction(state), None
@@ -235,14 +240,19 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         agent = 0
         for candidateAction in state.getLegalActions(agent):
             candidateState = state.generateSuccessor(agent, candidateAction)
-            candidateScore, _ = self.minValue(candidateState, depth, agent + 1)
+            candidateScore, _ = self.minValue(candidateState, depth, agent + 1, alpha, beta)
             if score is None or candidateScore > score:
                 score = candidateScore
                 action = candidateAction
+            
+            if score > beta:
+                break
+
+            alpha = max((alpha, score))
         
         return score, action
     
-    def minValue(self, state, depth, agent):
+    def minValue(self, state, depth, agent, alpha, beta):
         """
         Minimize the utility over legal actions.
 
@@ -253,6 +263,8 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
             depth: int indicating the current depth in the search
             agent: int indicating the agent performing the search.
                        expected to be the agent index of some ghost since pacman only maximize.
+            alpha: int - the alpha parameter of alpha-beta algorithm
+            beta: int - the beta parameter of alpha-beta algorithm
         """
         if agent == 0 or agent >= state.getNumAgents():
             raise f"Invalid agent {agent}. Expected to be a ghost"
@@ -266,13 +278,18 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
 
             # last ghost
             if agent == state.getNumAgents() - 1:
-                candidateScore, _ = self.maxValue(candidateState, depth + 1)
+                candidateScore, _ = self.maxValue(candidateState, depth + 1, alpha, beta)
             else:
-                candidateScore, _ = self.minValue(candidateState, depth, agent + 1)
+                candidateScore, _ = self.minValue(candidateState, depth, agent + 1, alpha, beta)
 
             if score is None or candidateScore < score:
                 score = candidateScore
                 action = candidateAction
+
+            if score < alpha:
+                break
+            
+            beta = min((beta, score))
         
         return score, action
 
