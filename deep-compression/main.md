@@ -1,6 +1,6 @@
 ## Introduction
 
-In this chapter we will shallowly review the deep compression landscape. Our focus in this work it the Lottery Ticket Hypothesis and the lottery tickets themselves - The hypothesis uses pruning which is a technique in the deep compression field. Therefore, we don't need to delve too much to other deep compression techniques, only review them to give a full picture.
+In this chapter, we will shallowly review the deep compression landscape. Our focus in this work is the Lottery Ticket Hypothesis and the lottery tickets themselves - The hypothesis uses pruning, which is a technique in the deep compression field. Therefore, we don't need to delve too much to other deep compression techniques, only review them to give a full picture.
 
 ![Deep Compression Landscape - Our focus is the Lottery Ticket Hypothesis](./deep-compression-venn.png){ width=50% }
 
@@ -13,14 +13,14 @@ In this chapter we will shallowly review the deep compression landscape. Our foc
 - Modern/Novel compression techniques
   - Error Bounded Lossy Compression 
 
-Note: If, during writing the work we find that there is not enoughtsubstance (focusing on pruning and the lottery ticket hypothesis alone), we can dive deeper into the other techniques as well.
+Note: If, during writing the work, we find that there is not enough substance (focusing on pruning and the lottery ticket hypothesis alone), we can dive deeper into the other techniques as well.
 
 ## Pruning
 
-The Lottery Ticket Hypothesis and the following tickets research, compare between different pruning approaches. Therefore we need to fully grasp pruning before discussing the hypothesis.
+The Lottery Ticket Hypothesis and the following tickets research, compare between different pruning approaches. Therefore, we need to fully grasp pruning before discussing the hypothesis.
 
 - What is pruning?
-  - Impact on Inference vs impact on Tranining
+  - Impact on Inference vs impact on Training
   - Sparsity in hardware
 - Definitions
 - Techniques
@@ -51,8 +51,7 @@ This chapter is the core of our work - Discuss the hypothesis and showcase furth
 
 - [**The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks. 2018**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1803.03635&site=eds-live&scope=site)
 
-- [DeepSZ: A Novel Framework to Compress Deep Neural Networks by Using Error-Bounded Lossy Compression
-. 2019](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1901.09124&site=eds-live&scope=site)
+- [DeepSZ: A Novel Framework to Compress Deep Neural Networks by Using Error-Bounded Lossy Compression. 2019](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1901.09124&site=eds-live&scope=site)
 
 - [**Deconstructing Lottery Tickets: Zeros, Signs, and the Supermask. 2019**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1905.01067&site=eds-live&scope=site)
 
@@ -65,4 +64,4 @@ and how lottery tickets win. 2020**](http://elib.openu.ac.il/login?url=https://s
 
 - [SONIC: A Sparse Neural Network Inference Accelerator with Silicon Photonics for Energy-Efficient Deep Learning. 2021](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2109.04459&site=eds-live&scope=site)
 
-- [**Unmasking the Lottery Ticket Hypothesis: What's Encoded in a Winning Ticket's Mask?. 2022**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2210.03044&site=eds-live&scope=site)
+- [**Unmasking the Lottery Ticket Hypothesis: What's encoded in a Winning Ticket's Mask?. 2022**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2210.03044&site=eds-live&scope=site)
