@@ -6,13 +6,13 @@ author:
 - Tal Glanzman
 abstract: |
   AI, and deep learning specifically has been evolved drastically in the past decade. 
-  In order to achieve higher accuracy and wider domains, models have been increasing in size to the point where it costs hundreds of thousands,
-  if not millions of dollars to train and store. For example, GPT-4 has a parameter count of approximately 170 trilion!
+  To achieve higher accuracy and wider domains, models have been increasing in size to the point where it costs hundreds of thousands,
+  if not millions of dollars to train and store. For example, GPT-4 has a parameter count of approximately 170 trillion!
 
   It is known that such networks are overparameterized and contain redundant information within them.
   Deep compression is the field of reducing the size of the models while keeping the accuracy high.
 
-  In 2018, Jonathan Frankle proposed that trained networks contain subnetworks which are sparse, about a factor less in size,
+  In 2018, Jonathan Frankle proposed that trained networks contain subnetworks that are sparse, about a factor less in size,
   and can be trained independently to achieve the same accuracy as the original network.
   The hypothesis is known as the Lottery Ticket Hypothesis and has both a major theoretical and practical impact on how we perceive and utilize neural networks today.
 
@@ -20,5 +20,5 @@ abstract: |
   
   What information do the subnetworks hold?
   
-  In this paper we aim to review the hypothesis and past results.
+  In this paper, we aim to review the hypothesis and past results.
 ...

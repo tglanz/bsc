@@ -5,7 +5,7 @@ This chapter is the core of our work - Discuss the hypothesis and showcase furth
 - Initial hypothesis
 - Adjustments for bigger networks
   - Linear mode connectivity
-- Impact of the hypothesis
+- Impact of the Hypothesis
   - Practical
   - Theoretical: 
 - Characteristics of a lottery ticket?
