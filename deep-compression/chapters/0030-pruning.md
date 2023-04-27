@@ -28,17 +28,17 @@ Smaller models can be fit in resource limited devices such as Mobile devices, Ch
 
 **Smaller power consumption**
 
-Smaller models require less memory access reducing the power consumption required to process the model (either in inference or training phases). More efficient power consumption can drastically reduce costs (especially for huge models running in data centers) and increase life duration of smaller devices.
+Smaller models require less memory access, reducing the power consumption required to process the model (either in inference or training phases). More efficient power consumption can drastically reduce costs (especially for huge models running in data centers) and increase life duration of smaller devices.
 
 ---
 
-Pruning however, does not come without it's merits. Firstly, software and hardware must adapt their logic in order to achieve full utilization - the pruned parameters/neurons should be tracked and skipped during computations efficiently. Secondly, and perhaps the most important, pruning a network is the same as deleting part of it's information and can potentially lead to accuracy loss. 
+Pruning, however, does not come without its merits. Firstly, software and hardware must adapt their logic in order to achieve full utilization - the pruned parameters/neurons should be tracked and skipped during computations efficiently. Secondly, and perhaps the most important, pruning a network is the same as deleting part of its information and can potentially lead to accuracy loss. 
 
 The rest of this section will be dedicated to evaluating different pruning methods.
 
 ## Overview
 
-In order to evaluate different pruning methods we need to have a formal framework containing the relevant definitions. We use the formalization in [[7; 2.1 ,2.2]](#ref-7).
+In order to evaluate different pruning methods, we need to have a formal framework containing the relevant definitions. We use the formalization in [[7; 2.1, 2.2]](#ref-7).
 
 A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and it's weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
 
@@ -48,7 +48,7 @@ Most of the pruning methods are variants of the general algorithm outline descri
 
 1. Learn the model parameters via training as normally.
 2. Prune the parameters having a lower value than some predefined threshold.
-3. Retrain the network learn the final parameters.
+3. Retrain the network, to learn the final parameters.
 
 ![Pruning algorithm outline](assets/pruning-algorithm-outline.png){width=90%}
 
