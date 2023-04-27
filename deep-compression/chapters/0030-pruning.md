@@ -1,4 +1,6 @@
-## Pruning
+# Pruning
+
+## Motivation
 
 **Pruning** is a compression technique to reduce the size of a model by forcefully removing part of its parameters and/or neurons.
 
@@ -12,19 +14,19 @@ Pruning networks has shown to increase their robustness by reducing the tendency
 
 More importantly, pruning reduces the size of the model. Smaller models have multiple benefits
 
-#### Fewer computations
+**Fewer computations**
 
 Fewer computations can lead to faster inferences.
 
-#### Smaller memory footprint
+**Smaller memory footprint**
 
 Smaller memory footprint allows a for larger parts of the network to bit fit in memory, reducing storage/device/network I/O and increasing GPU utilization.
 
-#### Less storage footprint
+**Less storage footprint**
 
 Smaller models can be fit in resource limited devices such as Mobile devices, Chips, FPGAs etc.
 
-#### Smaller power consumption
+**Smaller power consumption**
 
 Smaller models require less memory access reducing the power consumption required to process the model (either in inference or training phases). More efficient power consumption can drastically reduce costs (especially for huge models running in data centers) and increase life duration of smaller devices.
 
@@ -34,7 +36,7 @@ Pruning however, does not come without it's merits. Firstly, software and hardwa
 
 The rest of this section will be dedicated to evaluating different pruning methods.
 
-### Overview
+## Overview
 
 In order to evaluate different pruning methods we need to have a formal framework containing the relevant definitions. We use the formalization in [[7; 2.1 ,2.2]](#ref-7).
 
@@ -48,11 +50,11 @@ Most of the pruning methods are variants of the general algorithm outline descri
 2. Prune the parameters having a lower value than some predefined threshold.
 3. Retrain the network learn the final parameters.
 
-![Pruning algorithm outline](assets/pruning-algorithm-outline.png){width=50%}
+![Pruning algorithm outline](assets/pruning-algorithm-outline.png){width=90%}
 
-### Pruning Methods
+## Pruning Methods
 
-### Leftover from outline (will be removed)
+## Leftover from outline (will be removed)
 
 The Lottery Ticket Hypothesis and the following tickets research, compare between different pruning approaches. Therefore, we need to fully grasp pruning before discussing the hypothesis.
 

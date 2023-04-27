@@ -1,4 +1,4 @@
-## The lottery ticket hypothesis
+# The lottery ticket hypothesis
 
 This chapter is the core of our work - Discuss the hypothesis and showcase further results.
 

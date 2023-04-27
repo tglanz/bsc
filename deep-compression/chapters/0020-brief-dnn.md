@@ -1,40 +1,4 @@
-## A brief on deep neural networks
-
-In this section we briefly review the basics of neural networks and define common terms used throughout this paper.
-
-### Matrices
-
-The **sparsity** of a matrix $A = (a_{ij}) \in \mathbb{R}^{n \times m}$ is the ratio between the zero elements and the size of the matrix. Formally
-
-$$
-  sparsity(A) = \frac{|\{a_{ij} : a_{ij} = 0, 0 \leq i \leq n, 0 \leq j \leq m \}|}{n \cdot m}
-$$
-
-Throughout the work, we will use the term **sparse matrix** somewhat freely to indicate that the matrix has a notable sparsity.
-
-The **elementwise product** of two equally sized matrices $(a_{ij})$ and $(b_{ij})$ is denoted and defined by
-
-$$
-    (a_{ij}) \odot (b_{ij}) := ((a_{ij} \cdot b_{ij})_{ij})
-$$
-
-### Fully Connected Layer
-
-A **fully connected** layer is a layer which connects each of the input neurons $x = (x_i)_{1}^{n}$ to each of the output neurons $y = (y_j)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{n \times m}$ such that $w_{ij}$ connects input $x_i$ with output $y_j$. A bias $b \in \mathbb{R}^{m}$ is added to the output $y$. In matrix form, we write
-
-$$
-    y = xW + b   
-$$
-
-The connections $W$ are known as the _weights_ or the _parameters_.
-
-A **sparsely connected** layer is a fully connected layer with a sparse weights matrix.
-
-![Fully connected layer](assets/diagrams-fully-connected.drawio.png){width=50%}
-
-![Sparesly connected layer](assets/diagrams-sparsely-connected.drawio.png){width=50%}
-
-### Neural Networks
+# A brief on deep neural networks
 
 In this section we will discuss the basics of neural networks to provide sufficient understanding and definitions which will be used throughout this work.
 
@@ -48,7 +12,7 @@ The book "Artificial intelligence, A modern approach" gives a general perspectiv
 
 We use the formalization in [[7; 2.1 ,2.2]](#ref-7) to denote differentiate neural network architecture from models - A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and it's weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
 
-### Learning
+## Learning
 
 Let $f(x, W)$ be a neural network model.
 
@@ -85,3 +49,35 @@ A general learning algorithm might look similiar to the following:
 }
 \caption{Backpropogation}
 \end{algorithm} 
+
+## Matrices
+
+The **sparsity** of a matrix $A = (a_{ij}) \in \mathbb{R}^{n \times m}$ is the ratio between the zero elements and the size of the matrix. Formally
+
+$$
+  sparsity(A) = \frac{|\{a_{ij} : a_{ij} = 0, 0 \leq i \leq n, 0 \leq j \leq m \}|}{n \cdot m}
+$$
+
+Throughout the work, we will use the term **sparse matrix** somewhat freely to indicate that the matrix has a notable sparsity.
+
+The **elementwise product** of two equally sized matrices $(a_{ij})$ and $(b_{ij})$ is denoted and defined by
+
+$$
+    (a_{ij}) \odot (b_{ij}) := ((a_{ij} \cdot b_{ij})_{ij})
+$$
+
+## Fully Connected Layer
+
+A **fully connected** layer is a layer which connects each of the input neurons $x = (x_i)_{1}^{n}$ to each of the output neurons $y = (y_j)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{n \times m}$ such that $w_{ij}$ connects input $x_i$ with output $y_j$. A bias $b \in \mathbb{R}^{m}$ is added to the output $y$. In matrix form, we write
+
+$$
+    y = xW + b   
+$$
+
+The connections $W$ are known as the _weights_ or the _parameters_.
+
+A **sparsely connected** layer is a fully connected layer with a sparse weights matrix.
+
+![Fully connected layer](assets/diagrams-fully-connected.drawio.png){width=50%}
+
+![Sparesly connected layer](assets/diagrams-sparsely-connected.drawio.png){width=50%}
