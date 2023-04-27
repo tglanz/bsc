@@ -40,7 +40,7 @@ In order to evaluate different pruning methods we need to have a formal framewor
 
 A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and it's weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
 
-Pruning will be defined as a function, mapping a model $f(x, W)$ to a pruned model $f(x, M \odot W')$ where $W'$ is some set of parameters (different from $W$), $M \in \{0, 1\}^{|W'|}$ is a binary mask.
+**Pruning** is defined as a function, mapping a model $f(x, W)$ to a pruned model $f(x, M \odot W')$ where $W'$ is some set of parameters (different from $W$), $M \in \{0, 1\}^{|W'|}$ is a binary mask.
 
 Most of the pruning methods are variants of the general algorithm outline described in [[1; 3]](#ref-1).
 

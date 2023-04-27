@@ -1,4 +1,6 @@
 ---
+header-includes:
+  - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 title: The Lottery Ticket Hypothesis
 author:
 - Tal Glanzman
