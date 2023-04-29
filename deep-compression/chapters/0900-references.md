@@ -19,6 +19,8 @@
 #### 8. [**Gradient flow in sparse neural networks
 and how lottery tickets win. 2020**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2010.03533&site=eds-live&scope=site) {#ref-8}
 
-#### 9. [SONIC: A Sparse Neural Network Inference Accelerator with Silicon Photonics for Energy-Efficient Deep Learning. 2021](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2109.04459&site=eds-live&scope=site) {#ref-9}
+#### 9. [Comparing Rewinding and Fine-tuning in Neural Network Pruning. 2020](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2003.02389&site=eds-live&scope=site) {#ref-9}
 
-#### 10. [**Unmasking the Lottery Ticket Hypothesis: What's encoded in a Winning Ticket's Mask?. 2022**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2210.03044&site=eds-live&scope=site) {#ref-10}
+#### 10. [SONIC: A Sparse Neural Network Inference Accelerator with Silicon Photonics for Energy-Efficient Deep Learning. 2021](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2109.04459&site=eds-live&scope=site) {#ref-10}
+
+#### 11. [**Unmasking the Lottery Ticket Hypothesis: What's encoded in a Winning Ticket's Mask?. 2022**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2210.03044&site=eds-live&scope=site) {#ref-11}

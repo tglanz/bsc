@@ -16,7 +16,7 @@ More importantly, pruning reduces the size of the model. Smaller models have mul
 
 **Fewer computations**
 
-Fewer computations can lead to faster inferences.
+The fewer connections the fewer the theoretical amount of computations required - Fewer computations lead to faster inferences.
 
 **Smaller memory footprint**
 
@@ -34,19 +34,15 @@ Smaller models require less memory access, reducing the power consumption requir
 
 Pruning, however, does not come without its merits. Firstly, software and hardware must adapt their logic to achieve full utilization - the pruned parameters/neurons should be tracked and skipped during computations efficiently. Secondly, and perhaps most important, pruning a network is the same as deleting part of its information and can potentially lead to accuracy loss. 
 
-The rest of this section will be dedicated to evaluating different pruning methods.
+Now that we have an idea of **why** pruning might be beneficial, in the next sections we will discuss **what** is pruning and **how** it's being performed.
 
-## Overview
+## What is pruning?
 
-To evaluate different pruning methods, we need to have a formal framework containing the relevant definitions. We use the formalization in [[7; 2.1, 2.2]](#ref-7).
-
-A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and its weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
-
-**Pruning** is defined as a function, mapping a model $f(x, W)$ to a pruned model $f(x, M \odot W')$ where $W'$ is some set of parameters (different from $W$), $M \in \{0, 1\}^{|W'|}$ is a binary mask.
+We define **pruning** to be a function, mapping a model $f(x, W)$ to a _pruned_ model $f(x, M \odot W')$ where $W'$ is some set of parameters (different from $W$), $M \in \{0, 1\}^{|W'|}$ is a binary mask.
 
 Most of the pruning methods are variants of the general algorithm outline described in [[1; 3]](#ref-1).
 
-1. Learn the model parameters via training as normal.
+1. Learn the model parameters via _training_ as normal.
 2. Prune the parameters having a lower value than some predefined threshold.
 3. Retrain the network, to learn the final parameters.
 
