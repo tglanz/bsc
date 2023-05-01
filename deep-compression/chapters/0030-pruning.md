@@ -56,19 +56,19 @@ Different pruning methods differ in the following criteria
 
 **Un-Structured Pruning** is the method of pruning weights with no constraint regarding their relation to each other.
 
-Usually, hardware perform computations in groups. For example, a unit of computation in a matrix multiplication can be an entire row, in convolution operation a group can be the filters' channels - It depends on the specific algorithm and the hardware. Therefore, without specific design and programming, the hardware cannot achieve proper utilization of the network since they are optimized for dense networks[[10]](#ref-10).
+Usually, the hardware performs computations in groups. For example, a unit of computation in a matrix multiplication can be an entire row, in convolution operation a group can be the filters' channels - It depends on the specific algorithm and the hardware. Therefore, without specific design and programming, the hardware cannot achieve proper utilization of the network since they are optimized for dense networks[[10]](#ref-10).
 
-**Structured Pruning** is the method of pruning groups of neurons or weights - Group of weights could be rows or columns of a matrix, convolutional filters, channels, etc... 
+**Structured Pruning** is the method of pruning structural groups of parameters. An example of such groups could be entire rows or columns of a matrix, convolutional filters, channels, etc...
 
-Structurely pruned networks are relatively straight-forward to accelerate by hardware - Simply ignore the groups that was pruned.
+Structurally pruned networks are relatively straightforward to accelerate by hardware - Simply ignore the groups that were pruned.
 
 ### Scoring (a.k.a Mask Criteria)
 
 Each parameter is assigned a score which is used to prioritize which parameter to prune.
 
-**Local Scoring** is when we compare scores of parameters only withing their substructure (e.g; Layer, Filter, etc...).
+**Local Scoring** is when we compare scores of parameters only within their substructure (e.g. Layer, Filter, etc...).
 
-**Global Scoring** is when we compare scores of paramaters accross the entire network.
+**Global Scoring** is when we compare scores of parameters across the entire network.
 
 There are many ways to assign scores to parameters
 
@@ -85,35 +85,74 @@ Scheduling determines whether we prune to a target sparsity at once or we break 
 
 **One-Shot Pruning** is the method of pruning to a target sparsity at once.
 
-**Iterative Pruning** is the method of pruning to a target sparsity in iterations, each iteration prune a smaller amount of parameters.
+**Iterative Pruning** is the method of pruning to a target sparsity in iterations, each iteration prunes a smaller amount of parameters gradually increasing the sparsity.
 
 ### Retraining Methods
 
-Tuning refers to how we prepare the network before we retrain it, after we have pruned it. 
+According to the pruning algorithm, we retrain the network again after we have pruned the parameters. Retraining methods refer to what adjustments should we make to the network state before we retrain it.
 
-**Fine Tuning** is the method of keeping the parameters as is (after pruning) and retraining the network.
+**Fine Tuning** is the method of keeping the parameters as they are.
 
-This is the most widely used method and is shown to achieve high accuracies.
+This is the most widely used method and is shown to achieve high accuracy and is somewhat intuitive - After we remove some parameters we delete part of the network information effectively reducing the accuracy. To increase the accuracy all we need is to keep training.
 
 **Learning Rate Rewinding** is the method of re-initializing the learning rate, keeping the parameters as is and then retraining the network.
 
 The idea behind this method is to allow for bigger _error margins_ during the stochastic gradient descent process (TODO: describe SDG in the brief to NNs).
 
-**Weight Rewinding** is the method of re-initializing the weights to their values at initialization prior to training and pruning - Only then retrain the network.
+**Weight Rewinding** is the method of re-initializing the weights to their values at initialization before training and pruning - Only then retrain the network.
 
-This method was suggested by *Jonathan Frankle* in his paper *The Lottery Ticket Hypothesis* which is a topic we will discussed later. In his paper he shows he can achieve high accuracies using this method which suggests that the sparse, sub-networks could have been initialized from the start to achieve the same accuracies as the original networks - This hypothesis was revolutionary at the time and initiated large amounts of further research.
+This method was suggested by *Jonathan Frankle* in his paper *The Lottery Ticket Hypothesis* which is a topic that we will discuss later. In his paper he shows he can achieve high accuracies using this method which suggests that the sparse, sub-networks could have been initialized from the start to achieve the same accuracies as the original networks - This hypothesis was revolutionary at the time and initiated large amounts of further research.
 
-## Leftover from the outline (will be removed)
+From a practical standpoint, it is not a storage-efficient technique because we need to keep the initial state of
+all of the parameters. But again, the theoretical implications are great.
 
-The Lottery Ticket Hypothesis and the following tickets research, compare different pruning approaches. Therefore, we need to fully grasp pruning before discussing the hypothesis.
+## Evaluation
 
-- What is pruning?
-  - Impact on Inference vs. Impact on Training
-  - Sparsity in hardware
-- Definitions
-- Techniques
-  - Weights, Neurons, Layers
-  - Structured vs Unstructured
-  - One Shot vs Iterative
-  - Rewind
+We prune networks to be more efficient in the following metrics:
 
+- Accuracy
+- Storage
+- Memory
+- Power
+- Computations
+
+As discussed in the previous sections there are many ways in which we can prune a given network. Different methods affect different metrics. Therefore, there is no "one technique is better than the other" scenario - we need to prioritize the metrics according to our scenario and choose the techniques that will optimize this choice.
+
+The main statement by Jonathan Frankle in [[7]](#ref-7) is that the literature is currently fragmented - Pruning research papers compare slightly different metrics, slightly different architectures and different datasets. This leads to difficulties in asserting different techniques.
+
+However, some results are consistent - Pruning keeps accuracy relatively high up to a certain point in which the accuracy falls off drastically. In the paper, Frankle used ShrinkWeb - an OSS he implemented to consistently evaluate network pruning techniques. He performed pruning experiments over different architectures using different scoring methods.
+
+Below are his results. 
+
+The diagrams are split into architecture+dataset and a metric to correlate with the measured accuracy.
+
+The metrics are compression ratio and theoretical speedup
+
+- **Compression Ratio** is the ratio between the size of the original network and the pruned network.
+
+- **Theoretical Speedup** is the ratio between the number of MACs (Multiply And aCcumulate) in the original network and the pruned network.
+  - Interestingly it is named _theoretical speedup_, not _speedup_ due to the reasoning we discussed regarding proper hardware/software utilization.
+
+Furthermore, the diagrams show the trends of evaluations using the following different scoring methods
+
+- **Global weight.** Parameters are scored based on their magnitude and compared globally.
+- **Layer weight.** Parameters are scored based on their magnitude and compared locally.
+- **Global gradient.** Parameters are scored based on their gradient's magnitude and compared globally.
+- **Local gradient.** Parameters are scored based on their gradient's magnitude and compared locally.
+- **Random.** Parameters are scored according to a random distribution.
+
+We can gather the following conclusions from the results:
+
+1. Random scoring doesn't work well - The accuracy falls off immediately in all architectures and datasets.
+
+2. Weight magnitudes (Globally and Locally) mostly outperform gradient magnitudes (Globally and Locally).
+
+![Resnet18, Imagenet](assets/pruning-results-resnet18-imagenet.png)
+
+![Resnet20, Cifar](assets/pruning-results-resnet20-cifar.png)
+
+![Resnet56, Cifar](assets/pruning-results-resnet56-cifar.png)
+
+![Resnet110, Cifar](assets/pruning-results-resnet110-cifar.png)
+
+![VGG, Cifar](assets/pruning-results-vgg-cifar.png)

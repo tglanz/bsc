@@ -16,8 +16,7 @@
 
 #### 7. [**What is the State of Neural Network Pruning?. 2020**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2003.03033&site=eds-live&scope=site) {#ref-7}
 
-#### 8. [**Gradient flow in sparse neural networks
-and how lottery tickets win. 2020**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2010.03533&site=eds-live&scope=site) {#ref-8}
+#### 8. [Gradient flow in sparse neural networks and how lottery tickets win. 2020](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2010.03533&site=eds-live&scope=site) {#ref-8}
 
 #### 9. [Comparing Rewinding and Fine-tuning in Neural Network Pruning. 2020](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2003.02389&site=eds-live&scope=site) {#ref-9}
 
