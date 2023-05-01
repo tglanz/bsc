@@ -2,6 +2,8 @@
 
 In this chapter, we will shallowly review the deep compression landscape. Our focus in this work is the Lottery Ticket Hypothesis and the lottery tickets themselves - The hypothesis uses pruning, which is a technique in the deep compression field. Therefore, we don't need to delve too much into other deep compression techniques, only review them to give a full picture.
 
+## TODO - below are only leftovers from the outline
+
 ![Deep Compression Landscape - Our focus is the Lottery Ticket Hypothesis](assets/deep-compression-venn.png){width=50%}
 
 - What is deep compression?
