@@ -46,7 +46,7 @@ Most of the pruning methods are variants of the general algorithm outline descri
 2. Prune the parameters having a lower value than some predefined threshold.
 3. Retrain the network, to learn the final parameters.
 
-![Pruning algorithm outline](assets/pruning-algorithm-outline.png){width=90%}
+![Pruning algorithm outline. Source: "Learning both Weights and Connections for Efficient Neural Networks"](assets/pruning-algorithm-outline.png){width=90%}
 
 ## Pruning Methods
 
@@ -147,12 +147,12 @@ We can gather the following conclusions from the results:
 
 2. Weight magnitudes (Globally and Locally) mostly outperform gradient magnitudes (Globally and Locally).
 
-![Resnet18, Imagenet](assets/pruning-results-resnet18-imagenet.png)
+![Frankle's results for the Resnet18 architecture, using the Imagenet dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet18-imagenet.png)
 
-![Resnet20, Cifar](assets/pruning-results-resnet20-cifar.png)
+![Frankle's results for the Resnet20 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet20-cifar.png)
 
-![Resnet56, Cifar](assets/pruning-results-resnet56-cifar.png)
+![Frankle's results for the Resnet56 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet56-cifar.png)
 
-![Resnet110, Cifar](assets/pruning-results-resnet110-cifar.png)
+![Frankle's results for the Resnet110 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet110-cifar.png)
 
-![VGG, Cifar](assets/pruning-results-vgg-cifar.png)
+![Frankle's results for the VGG architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-vgg-cifar.png)

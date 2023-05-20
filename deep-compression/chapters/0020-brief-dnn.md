@@ -8,7 +8,7 @@ The book "Artificial Intelligence, A modern approach" gives a general view of ne
 - Weight nodes, which contain the weights of the networks and are tuned during **learning**.
 - Operation nodes, perform some computation on the data from its incoming edges and produce the result to its outgoing edges.
 
-![Neural network computation graph from "Artificial intelligence, A modern approach"](assets/ann-computation-graph.png){width=50%}
+![Neural network computation graph. Source: "Artificial intelligence, A modern approach"](assets/ann-computation-graph.png){width=50%}
 
 We use the formalization in [[7; 2.1, 2.2]](#ref-7) to denote and differentiate neural network architecture from models - A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and its weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
 
@@ -48,7 +48,9 @@ A general learning algorithm might look similar to the following:
     }
 }
 \caption{Backpropogation}
-\end{algorithm} 
+\end{algorithm}
+
+The algorithm above is straight forward - As long as we want to keep learning we iterate over each parameter and adjust it according to the gradient. Concretely, different implementations use different conditions for "keep learning" such as the number of iterations or achieved accuracy.
 
 ## Matrices
 
@@ -68,7 +70,9 @@ $$
 
 ## Fully Connected Layer
 
-A **fully connected** layer is a layer that connects each of the input neurons $x = (x_i)_{1}^{n}$ to each of the output neurons $y = (y_j)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{n \times m}$ such that $w_{ij}$ connects input $x_i$ with output $y_j$. A bias $b \in \mathbb{R}^{m}$ is added to the output $y$. In matrix form, we write
+A **fully connected** layer is a layer that connects each of the input neurons $x = (x_i)_{1}^{n}$ to each of the output neurons $y = (y_j)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{n \times m}$ such that $w_{ij}$ connects input $x_i$ with output $y_j$. We also assign a **bias** $b \in mathbb{R}^{m}$ to the output.
+
+The value assigned to an output $y_j$ is the sum of the products $x_i \cdot w_{ij}$ and the bias $b_j$. In matrix form, we write
 
 $$
     y = xW + b   
