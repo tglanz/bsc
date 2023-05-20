@@ -2,7 +2,7 @@
 
 In this section, we will discuss the basics of neural networks to provide sufficient understanding and definitions which will be used throughout this work.
 
-The book "Artificial Intelligence, A modern approach" gives a general view of neural networks: A neural network is a **computation graph** with directed edges that indicated data flow and 3 different node types:
+The book "Artificial Intelligence, A modern approach" gives a general view of neural networks: A neural network is a **computation graph** with directed edges that indicate data flow and 3 different node types:
 
 - Input nodes, which contain the input of the network.
 - Weight nodes, which contain the weights of the networks and are tuned during **learning**.
@@ -10,7 +10,7 @@ The book "Artificial Intelligence, A modern approach" gives a general view of ne
 
 ![Neural network computation graph from "Artificial intelligence, A modern approach"](assets/ann-computation-graph.png){width=50%}
 
-We use the formalization in [[7; 2.1, 2.2]](#ref-7) to denote differentiate neural network architecture from models - A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and its weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
+We use the formalization in [[7; 2.1, 2.2]](#ref-7) to denote and differentiate neural network architecture from models - A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and its weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
 
 ## Learning
 
