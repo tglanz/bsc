@@ -1,20 +1,11 @@
 # Introduction
 
-In this chapter, we will shallowly review the deep compression landscape. Our focus in this work is the Lottery Ticket Hypothesis and the lottery tickets themselves - The hypothesis uses pruning, which is a technique in the deep compression field. Therefore, we don't need to delve too much into other deep compression techniques, only review them to give a full picture.
+Neural networks (NNs) have passed great milestones over the last two decades and are now used to solve problems in a wide variety of fields. Over this period, the neural networks have greatly increased in size to support more complex problems and increasing amounts of data. That increase in size led to an increased amount of computation, storage requirements and power consumption.
 
-## TODO - below are only leftovers from the outline
+In IoT and the edge, resources are limited making it harder and harder to incorporate state-of-the-art models into.
 
-![Deep Compression Landscape - Our focus is the Lottery Ticket Hypothesis](assets/deep-compression-venn.png){width=50%}
+Outside the IoT and the edge, those state-of-the-art models utilize a tremendous amount of computation and power resources making them costly and pollutive. The increased amount of memory and computation resources require us to distribute the workloads and use hardware solutions such as GPUs, FPGAs and smart NICs - making the maintenance overhead high.
 
-- What is deep compression?
-- Motivation for deep compression
-- The standard deep compression pipeline
-  - Pruning
-  - Quantization
-  - Huffman Coding
-- Modern/Novel compression techniques
-  - Error Bounded Lossy Compression 
+Neural network compression is the domain of reducing the size of a neural network while maintaining it's accuracy up to a point. **Deep Compression** is a standard, three-phase framework to achieve this goal. Firstly, we prune the network by forcefully removing sub-structures within it - This process is called **Pruning**. Secondly, we share different parameters across different connections and reduce the granularity of the parameters' representations - This process is called **Quantization and Weight Sharing**. Lastly, we use **Huffman Coding** to compress the parameters. Other research has been made and different frameworks were proposed to compress neural networks.
 
-Note: If, during writing the work, we find that there is not enough substance (focusing on pruning and the lottery ticket hypothesis alone), we can dive deeper into the other techniques as well.
-
-
+In this work, we will mainly focus on Pruning and a related hypothesis known as the "Lottery Ticket Hypothesis" made by *Jonathan Frankle*. As it was believed, pruning can only be performed on trained networks and that training smaller networks from scratch cannot yield high accuracies. The assumption was that learning requires more information than inferencing. In his hypothesis, Frankle claimed otherwise - he claimed that neural networks contain sub-networks within them that can be trained independently and still achieve similar accuracy as the original network. He calls those sub-networks "Lottery Tickets" since finding them, is like winning the lottery.
