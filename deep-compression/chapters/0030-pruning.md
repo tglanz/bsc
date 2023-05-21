@@ -46,7 +46,9 @@ Most of the pruning methods are variants of the general algorithm outline descri
 2. Prune the parameters having a lower value than some predefined threshold.
 3. Retrain the network, to learn the final parameters.
 
-![Pruning algorithm outline. Source: "Learning both Weights and Connections for Efficient Neural Networks"](assets/pruning-algorithm-outline.png){width=90%}
+See Figure \ref{pruning-outline} for illustration.
+
+![Pruning algorithm outline. Source: "Learning both Weights and Connections for Efficient Neural Networks"\label{pruning-outline}](assets/pruning-algorithm-outline.png){width=90%}
 
 ## Pruning Methods
 
@@ -124,7 +126,7 @@ However, some results are consistent - Pruning keeps accuracy relatively high up
 
 Below are his results. 
 
-The diagrams are split into architecture+dataset and a metric to correlate with the measured accuracy.
+The Figures \ref{pruning-results-1}, \ref{pruning-results-2}, \ref{pruning-results-3}, \ref{pruning-results-4} and \ref{pruning-results-5} are split into architecture+dataset and a metric to correlate with the measured accuracy.
 
 The metrics are compression ratio and theoretical speedup
 
@@ -147,12 +149,12 @@ We can gather the following conclusions from the results:
 
 2. Weight magnitudes (Globally and Locally) mostly outperform gradient magnitudes (Globally and Locally).
 
-![Frankle's results for the Resnet18 architecture, using the Imagenet dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet18-imagenet.png)
+![Frankle's results for the Resnet18 architecture, using the Imagenet dataset. Source: What is the State of Neural Network Pruning?\label{pruning-results-1}](assets/pruning-results-resnet18-imagenet.png)
 
-![Frankle's results for the Resnet20 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet20-cifar.png)
+![Frankle's results for the Resnet20 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?\label{pruning-results-2}](assets/pruning-results-resnet20-cifar.png)
 
-![Frankle's results for the Resnet56 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet56-cifar.png)
+![Frankle's results for the Resnet56 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?\label{pruning-results-3}](assets/pruning-results-resnet56-cifar.png)
 
-![Frankle's results for the Resnet110 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-resnet110-cifar.png)
+![Frankle's results for the Resnet110 architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?\label{pruning-results-4}](assets/pruning-results-resnet110-cifar.png)
 
-![Frankle's results for the VGG architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?](assets/pruning-results-vgg-cifar.png)
+![Frankle's results for the VGG architecture, using the Cifar dataset. Source: What is the State of Neural Network Pruning?\label{pruning-results-5}](assets/pruning-results-vgg-cifar.png)

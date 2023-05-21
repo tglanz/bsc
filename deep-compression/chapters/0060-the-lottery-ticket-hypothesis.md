@@ -1,4 +1,4 @@
-# The lottery ticket hypothesis
+# The Lottery Ticket Hypothesis
 
 ## TODO - Below are only leftovers from the outline
 
