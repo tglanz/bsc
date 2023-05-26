@@ -4,22 +4,56 @@ According to _Oxford_, the meaning of the term quantization is:
 
 > A method of producing a set of discrete or quantized values that represents a continuous quantity
 
-In the domain of neural networks, **Quantization** is the field of reducing the representation size of parameters from $n$ bits to $m$ bits such that $m < n$.
+In the domain of neural networks, **Quantization** is the field of reducing the representation size of parameters from $n$ bits to $m$ bits such that $m < n$. To do so, the Quantization process embeds the space of real numbers into the space of integers.
 
-To understand how we can decrease the representation bits we first need to understand the common representations in use.
+Most neural networks today, before Quantization, use real numbers for computation. In contrast to integers, real numbers representations are far more complex and they are very costly compute-wise (see the [next section](#real-numbers-representations)).
+
+Assuming the Quantization process can be performed without impacting the model's accuracy, it is highly valuable both from size/memory and computational resources perspectives.
+
+## Real numbers representations
+
+To understand the benefits of quantization we need to better understand how machines represent real numbers.
 
 In machines, *real numbers* are usually represented using one of the formats:
 
-- Floating Point
 - Fixed Point
+- Floating Point
+
+### Fixed Point
+
+According to the fixed point format, given $n$ bits, A real number $x$ is represented by (from MSB to LSB):
+
+- A bit, notated by $s$ which is known as the **Sign**
+- Bits $I$ that are known as the **Integer Part** of the number
+- The rest of the bits, $m$ are known as the **Mantissa** or the **Fractional Part** of the number
+
+Each system also has an implicit Exponent notated by $E$.
+
+Simply, we interpret a value $x$ by:
+
+$$
+    x = uint(I) + (uint(m) \cdot E)
+$$
+
+Where we notate $uint(X)$ to be the unsigned number represented by $X$.
+
+In practice, $uint(I)$ is the integer to the left of the radix point and $uint(m)$ is the integer such that $uint(m) \cdot E$ is the integer to the right of the radix point.
+
+See figure \ref{32-bits-fixed-point} for illustration.
+
+For example, given we implicitly use $E = 0.001$, we can encode the value $- 12.064$ with:
+
+- $S = 1$
+- $I = 1100_2 = 12_{10}$
+- $uint(m) = \frac{0.064}{0.001} \Rightarrow m=1000000_2 = 64_{10}$
 
 ### Floating Point
 
-According to floating point IEEE 754 specification, given $n$ bits, A real number $x$ is represented by:
+According to floating point IEEE 754 specification, given $n$ bits, A real number $x$ is represented by (From MSB to LSB):
 
-- A 1 bit, notated by $s$ is known as the **Sign**
-- $|E|$ bits, notated by $E$ are known as the **Exponent**
-- The rest of the bits, $m$ are known as the **Mantissa**, or the **Significand**
+- A bit, notated by $s$ that is known as the **Sign**
+- Bits, notated by $E$ are known as the **Exponent**
+- The rest of the bits, notated by $m$ are known as the **Mantissa**, or the **Significand**
 x
 
 See figure \ref{32-bits-single-precision} for illustration.
@@ -43,6 +77,8 @@ For example, given $n = 32$ and $|E| = 8$ we encode the value $x = 6$ with the r
 - **Mantissa** is $10000000000000000000000_2 = 2^{-1} = 0.5_{10}$
 - **Exponent** is $10000001_2 = 129_{10}$
 - **Bias** is $2^7 - 1 = 127$
+
+![The layout of a fixed point number. Source: "Neural Network Quantization for Efficient Inference".\label{32-bits-fixed-point}](assets/32-bits-fixed-point.png){width=90%}
 
 And we get the formula:
 
