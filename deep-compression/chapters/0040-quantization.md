@@ -23,11 +23,11 @@ In machines, *real numbers* are usually represented using one of the formats:
 
 According to the fixed point format, given $n$ bits, A real number $x$ is represented by (from MSB to LSB):
 
-- A bit, notated by $s$ which is known as the **Sign**
-- Bits $I$ that are known as the **Integer Part** of the number
-- The rest of the bits, $m$ are known as the **Mantissa** or the **Fractional Part** of the number
+- The **Sign** bit $s$.
+- The **Integer Part** is the set of bits that are notated by $I$
+- The rest of the bits, $m$ are known as the **Fractional Part** or the **Mantissa**.
 
-Each system also has an implicit Exponent notated by $E$.
+Each system also has an **Implicit Exponent** notated by $E$.
 
 Simply, we interpret a value $x$ by:
 
@@ -73,10 +73,10 @@ Where
 
 For example, given $n = 32$ and $|E| = 8$ we encode the value $x = 6$ with the representation $01000000110000000000000000000000_2$ since:
 
-- **Sign** is $0$
-- **Mantissa** is $10000000000000000000000_2 = 2^{-1} = 0.5_{10}$
-- **Exponent** is $10000001_2 = 129_{10}$
-- **Bias** is $2^7 - 1 = 127$
+- The **Sign** is $0$
+- The **Mantissa** is $10000000000000000000000_2 = 2^{-1} = 0.5_{10}$
+- The **Exponent** is $10000001_2 = 129_{10}$
+- The **Bias** is $2^7 - 1 = 127$
 
 ![The layout of a fixed point number. Source: "Neural Network Quantization for Efficient Inference".\label{32-bits-fixed-point}](assets/32-bits-fixed-point.png){width=90%}
 
@@ -104,3 +104,29 @@ If the Exponent bits are all 1's, we interpret $x$ as one of the multiple specia
 In neural networks, it is very common to use 32-bit numbers with an exponent of 8 bits - a.k.a single-precision numbers.
 
 ![The layout of a single precision number. Source: "Neural Network Quantization for Efficient Inference".\label{32-bits-single-precision}](assets/32-bits-single-precision.png){width=90%}
+
+## The Quantization Mapping
+
+As mentioned, quantization is a mapping $Q \vcentcolon \mathbb{R} \rightarrow \mathbb{N}$.
+
+There are many ways to define $Q$. A sensible way to define it, which is the most common, is to define it as a uniform, linear mapping.
+
+> By uniform, we mean that different subsets of the domain of the same size will be mapped to subsets of the range of the same size.
+
+We call such a quantization scheme **Uniform affine quantization**, a.k.a **Asymmetric quantization** and it is defined by:
+
+$$
+    x_{int} = Q(x) = int(\frac{x}{s}) - z
+$$
+
+Where $s \in \mathbb{R}$ is known as the **scale factor** and $z \in \mathbb{N}$ is the **zero-Point**.
+
+To get the initial real-number $x$ back from the integer $x_{int}$ we use the inverse process, known as **de-quantization**:
+
+$$
+    x = Q^{-1}(x_{int}) = s\cdot x_{int} + z
+$$
+
+Note that $Q$ is not a one-to-one mapping! Therefore, $Q^{-1}$ is an approximation. We lose information when performing quantization.
+
+When we set $z=0$ we call the quantization **Symmetric** - it is a specific case of asymmetric quantizations. Without the need to offset by the zero point we reduce the computations required by de-quantization. However, asymmetric quantization has the potential to retain higher accuracy than symmetric quantization since we can offset imbalances in the range of the weights using the zero point. Such imbalances appear due to many reasons such as zero padding (to match tensor sizes), outputs of ReLU activations etc.

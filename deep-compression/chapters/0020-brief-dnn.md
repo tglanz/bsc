@@ -68,9 +68,15 @@ $$
     (a_{ij}) \odot (b_{ij}) := ((a_{ij} \cdot b_{ij})_{ij})
 $$
 
-## Fully Connected Layer
+## Common Operations
 
-A **fully connected** layer is a layer that connects each of the input neurons $x = (x_i)_{1}^{n}$ to each of the output neurons $y = (y_j)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{n \times m}$ such that $w_{ij}$ connects input $x_i$ with output $y_j$. We also assign a **bias** $b \in mathbb{R}^{m}$ to the output.
+Deep neural networks are composed of many operations, also known as layers.
+
+There are many operations and many variants of them - We will not list them here as this is out of the scope of this work but we will list the operations used throughout this work.
+
+### Fully Connected Layer
+
+A **fully connected** layer is a layer that connects each of the input neurons $x = (x_i)_{1}^{n}$ to each of the output neurons $y = (y_j)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{n \times m}$ such that $w_{ij}$ connects input $x_i$ with output $y_j$. We also assign a **bias** $b \in \mathbb{R}^{m}$ to the output.
 
 The value assigned to an output $y_j$ is the sum of the products $x_i \cdot w_{ij}$ and the bias $b_j$. In matrix form, we write
 
@@ -85,3 +91,11 @@ A **sparsely connected** layer is a fully connected layer with a sparse weights 
 ![Fully connected layer](assets/diagrams-fully-connected.drawio.png){width=50%}
 
 ![Sparsely connected layer](assets/diagrams-sparsely-connected.drawio.png){width=50%}
+
+### ReLU
+
+The ReLU is an activation function (i.e. non-linear operation) and is defined by:
+
+$$
+    ReLU(x) \vcentcolon = max(0, x)
+$$
