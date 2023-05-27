@@ -107,7 +107,7 @@ In neural networks, it is very common to use 32-bit numbers with an exponent of 
 
 ## The Quantization Mapping
 
-As mentioned, quantization is a mapping $Q \vcentcolon \mathbb{R} \rightarrow \mathbb{N}$.
+As mentioned, quantization is a mapping $Q: \mathbb{R} \rightarrow \mathbb{N}$.
 
 There are many ways to define $Q$. A sensible way to define it, which is the most common, is to define it as a uniform, linear mapping.
 
@@ -119,9 +119,9 @@ $$
     x_{int} = Q(x) = int(\frac{x}{s}) - z
 $$
 
-Where $s \in \mathbb{R}$ is known as the **scale factor** and $z \in \mathbb{N}$ is the **zero-Point**.
+Where $s \in \mathbb{R}$ is known as the **scale factor** and $z \in \mathbb{N}$ is the **zero point**.
 
-To get the initial real-number $x$ back from the integer $x_{int}$ we use the inverse process, known as **de-quantization**:
+To get the initial, real-number $x$ back from the integer $x_{int}$ we use the inverse process, known as **de-quantization**:
 
 $$
     x = Q^{-1}(x_{int}) = s\cdot x_{int} + z
@@ -130,3 +130,20 @@ $$
 Note that $Q$ is not a one-to-one mapping! Therefore, $Q^{-1}$ is an approximation. We lose information when performing quantization.
 
 When we set $z=0$ we call the quantization **Symmetric** - it is a specific case of asymmetric quantizations. Without the need to offset by the zero point we reduce the computations required by de-quantization. However, asymmetric quantization has the potential to retain higher accuracy than symmetric quantization since we can offset imbalances in the range of the weights using the zero point. Such imbalances appear due to many reasons such as zero padding (to match tensor sizes), outputs of ReLU activations etc.
+
+## Training
+
+Previous research work suggests that although possible, training a quantized model from scratch leads to lower accuracy than quantizing and retraining an already trained model.
+
+We will explore the 2 main approaches for training a quantized model:
+
+- **Quantization-Aware Training (QAT)**
+- **Post-Training Quantization (PTQ)**
+
+Refer to \ref{quantization-procedures} from the outline.
+
+![QAT vs. PTQ. Source: "Neural Network Quantization for Efficient Inference".\label{quantization-procedures}](assets/quantization-procedures.png){width=90%}
+
+### Quantization-Aware Training
+
+### Post-Training Quantization

@@ -50,7 +50,7 @@ A general learning algorithm might look similar to the following:
 \caption{Backpropogation}
 \end{algorithm}
 
-The algorithm above is straight forward - As long as we want to keep learning we iterate over each parameter and adjust it according to the gradient. Concretely, different implementations use different conditions for "keep learning" such as the number of iterations or achieved accuracy.
+The algorithm above is straightforward - As long as we want to keep learning we iterate over each parameter and adjust it according to the gradient. Concretely, different implementations use different conditions for "keep learning" such as the number of iterations or achieved accuracy.
 
 ## Matrices
 
@@ -97,5 +97,5 @@ A **sparsely connected** layer is a fully connected layer with a sparse weights 
 The ReLU is an activation function (i.e. non-linear operation) and is defined by:
 
 $$
-    ReLU(x) \vcentcolon = max(0, x)
+    ReLU(x) := \max(0, x)
 $$
