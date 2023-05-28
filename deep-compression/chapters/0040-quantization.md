@@ -109,17 +109,19 @@ In neural networks, it is very common to use 32-bit numbers with an exponent of 
 
 As mentioned, quantization is a mapping $Q: \mathbb{R} \rightarrow \mathbb{N}$.
 
-There are many ways to define $Q$. A sensible way to define it, which is the most common, is to define it as a uniform, linear mapping.
+There are many ways to define $Q$. A sensible way to define it, which is the most common, is to define it as a uniform, linear mapping. There are ways to define non-uniform mappings - we won't touch those here.
 
 > By uniform, we mean that different subsets of the domain of the same size will be mapped to subsets of the range of the same size.
 
-We call such a quantization scheme **Uniform affine quantization**, a.k.a **Asymmetric quantization** and it is defined by:
+We call such a quantization scheme **Uniform affine quantization**:
 
 $$
     x_{int} = Q(x) = int(\frac{x}{s}) - z
 $$
 
-Where $s \in \mathbb{R}$ is known as the **scale factor** and $z \in \mathbb{N}$ is the **zero point**.
+$z \in \mathbb{N}$ is the **zero point** and it is used to shift the domain according to needs. Specifically, we can map a range with negative values to a domain of non-negatives allowing us to represent it using unsigned integers.
+
+$s \in \mathbb{R}$ is the **scale factor**. It is the measure by which we shrink the range into the domain. Effectively, it can be thought of as the bucket size containing real numbers that are quantized to a single integer.
 
 To get the initial, real-number $x$ back from the integer $x_{int}$ we use the inverse process, known as **de-quantization**:
 
@@ -129,7 +131,26 @@ $$
 
 Note that $Q$ is not a one-to-one mapping! Therefore, $Q^{-1}$ is an approximation. We lose information when performing quantization.
 
-When we set $z=0$ we call the quantization **Symmetric** - it is a specific case of asymmetric quantizations. Without the need to offset by the zero point we reduce the computations required by de-quantization. However, asymmetric quantization has the potential to retain higher accuracy than symmetric quantization since we can offset imbalances in the range of the weights using the zero point. Such imbalances appear due to many reasons such as zero padding (to match tensor sizes), outputs of ReLU activations etc.
+For such quantization, we also define a **clipping range** $[\alpha, \beta] \subseteq \mathbb{R}$. The clipping range is a subset of the domain which we clip the input with.
+
+We set the scale factor using the clipping range using:
+
+$$
+    S = \frac{\beta - \alpha}{2^b-1}
+$$
+
+Where $b \in \mathbb{R}$ is known as the **bit range** and it determines the size of the domain.
+
+The process of determining the clipping range is a big part of quantization and it is known as **calibration**. 
+
+When we calibrate the clipping range to be symmetric around 0, i.e. $\alpha = -\beta$, we say that the quantization is **symmetric** - non symmetric quantizations are known as **asymmetric**. Symmetric quantizations allow us to choose $z = 0$, sparing computations at the cost of the clipping range being much wider than the input domain. Therefore, asymmetric quantizations, which have a potentially tight clipping range on the input domain, are mostly used on imbalanced operations such as ReLU (which is non-negative by definition).
+
+Given an input domain $[x_{min}, x_{max}]$ we can calibrate the clipping range in multiple ways.
+
+Most commonly, we set $\alpha = x_{min}$ and $\beta = x_{max}$ which is a symmetric quantization. A popular calibration for asymmetric quantization is done by setting $\beta = \max \{|x_{min}|, |x_{max}|\} = -\alpha$.
+
+Neither of the calibrations above takes into account the distribution of the values within the input domain. To take into account this distribution, we can calibrate the clipping range according to specified percentiles (e.g. set $\alpha=percentile(1\%)$ and $\beta=percentile(99\%)$).
+
 
 ## Training
 
@@ -140,10 +161,10 @@ We will explore the 2 main approaches for training a quantized model:
 - **Quantization-Aware Training (QAT)**
 - **Post-Training Quantization (PTQ)**
 
-Refer to \ref{quantization-procedures} from the outline.
+Refer to \ref{quantization-procedures} for the outline.
 
 ![QAT vs. PTQ. Source: "Neural Network Quantization for Efficient Inference".\label{quantization-procedures}](assets/quantization-procedures.png){width=90%}
 
-### Quantization-Aware Training
-
 ### Post-Training Quantization
+
+### Quantization-Aware Training
