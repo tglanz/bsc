@@ -10,7 +10,7 @@ The book "Artificial Intelligence, A modern approach" gives a general view of ne
 
 ![Neural network computation graph. Source: "Artificial intelligence, A modern approach"](assets/ann-computation-graph.png){width=50%}
 
-We use the formalization in [[7; 2.1, 2.2]](#ref-7) to denote and differentiate neural network architecture from models - A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and its weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
+We use the formalization in [[7; 2.1, 2.2]](#ref-p2) to denote and differentiate neural network architecture from models - A neural network *architecture* $f(x, \cdot)$ is the fixed set of operations to be performed on the input $x$ and its weights. A neural network *model* $f(x, W)$ is a parameterization of $f(x, \cdot)$ with specific parameters $W$. 
 
 ## Learning
 
@@ -76,19 +76,27 @@ There are many operations and many variants of them - We will not list them here
 
 ### Fully Connected Layer
 
-A **fully connected** layer is a layer that connects each of the input neurons $x = (x_i)_{1}^{n}$ to each of the output neurons $y = (y_j)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{n \times m}$ such that $w_{ij}$ connects input $x_i$ with output $y_j$. We also assign a **bias** $b \in \mathbb{R}^{m}$ to the output.
+A **fully connected** layer is a layer that connects each of the input neurons $x = (x_j)_{1}^{n}$ to each of the output neurons $y = (y_i)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{m \times n}$ such that $w_{ij}$ connects input $x_j$ with output $y_i$. We also assign a **bias** $b \in \mathbb{R}^{m}$ to the output. For illustration, refer to Figure \ref{fully-connected-layer}.
 
-The value assigned to an output $y_j$ is the sum of the products $x_i \cdot w_{ij}$ and the bias $b_j$. In matrix form, we write
+The value assigned to an output $y_i$ is the sum of the products $x_j \cdot w_{ij}$ and the bias $b_i$.
+
+In vector form, given $W_i$ is the notation of the $i-th$ row in $W$, we write:
 
 $$
-    y = xW + b   
+    y_i = W_ix + b_i
+$$
+
+In matrix form, we write
+
+$$
+    y = Wx + b   
 $$
 
 The connections $W$ are known as the _weights_ or the _parameters_.
 
 A **sparsely connected** layer is a fully connected layer with a sparse weights matrix.
 
-![Fully connected layer](assets/diagrams-fully-connected.drawio.png){width=50%}
+![Fully connected layer\label{fully-connected-layer}](assets/diagrams-fully-connected.drawio.png){width=50%}
 
 ![Sparsely connected layer](assets/diagrams-sparsely-connected.drawio.png){width=50%}
 

@@ -141,9 +141,11 @@ $$
 
 Where $b \in \mathbb{R}$ is known as the **bit range** and it determines the size of the domain.
 
+## Calibration
+
 The process of determining the clipping range is a big part of quantization and it is known as **calibration**. 
 
-When we calibrate the clipping range to be symmetric around 0, i.e. $\alpha = -\beta$, we say that the quantization is **symmetric** - non symmetric quantizations are known as **asymmetric**. Symmetric quantizations allow us to choose $z = 0$, sparing computations at the cost of the clipping range being much wider than the input domain. Therefore, asymmetric quantizations, which have a potentially tight clipping range on the input domain, are mostly used on imbalanced operations such as ReLU (which is non-negative by definition).
+When we calibrate the clipping range to be symmetric around 0, i.e. $\alpha = -\beta$, we say that the quantization is **symmetric** - non-symmetric quantizations are known as **asymmetric**. Symmetric quantizations allow us to choose $z = 0$, sparing computations at the cost of the clipping range being much wider than the input domain. Therefore, asymmetric quantizations, which have a potentially tight clipping range on the input domain, are mostly used on imbalanced operations such as ReLU (which is non-negative by definition).
 
 Given an input domain $[x_{min}, x_{max}]$ we can calibrate the clipping range in multiple ways.
 
@@ -151,6 +153,31 @@ Most commonly, we set $\alpha = x_{min}$ and $\beta = x_{max}$ which is a symmet
 
 Neither of the calibrations above takes into account the distribution of the values within the input domain. To take into account this distribution, we can calibrate the clipping range according to specified percentiles (e.g. set $\alpha=percentile(1\%)$ and $\beta=percentile(99\%)$).
 
+## Granularity
+
+Given a specific architecture, it doesn't make real sense to quantize all of its tensors using the same quantization parameters. It is safe to assume that different tensors, at different layers of the architecture have different value ranges.
+
+To give an example, refer to the fictive architecture in Figure \ref{diagrams-simple-cnn-architecture}. In this architecture, the input is a 3-channel tensor of values ranging from 0 to 255, potentially modeling an RGB image. Tensor $X_1$ is the output of a 2D convolution with real values (could be negative). Tensor $X_2$ is the output of a TanH operation, having values in the $(-1, 1)$ range. Similarly, $X_5$ is the output of a Softmax operation having values in the $(0, 1)$ range. There is no sensible calibration to properly quantize all tensors.
+
+Take the calibration $[0, 255]$ for example. This clipping range is too loose for $X_4$, resulting in very low accuracy. In addition, assuming a uniform distribution of values, such calibration will clip half of the values of $X_2$.
+
+The calibration $[-1, 1]$ is also problematic since it clips too many values of the tensors $X_0, X_1, X_3$ and $X_4$.
+
+Another possible calibration is $[-255, 255]$ which is also too loose for the activation maps.
+
+We are convinced that global calibration is problematic for this simplistic architecture let alone modern, complex architecture. The alternative is to calibrate and assign different clipping ranges for different substructures in the model.
+
+There are multiple approaches for **granular calibration**:
+
+- **Layerwise**. Calibration is performed at the granularity of a layer.
+- **Groupwise**. Calibration is performed at the granularity of channel subsets.
+- **Channelwise**. The specific case of Groupwise calibration with subsets of size 1.
+
+Uncommonly, we can also calibrate at the sub-channel granularity. Regarding fully connected layers, we could calibrate specific neuron subsets.
+
+Calibrations at finer granularities lead to better results for both accuracy and size reduction because we can set tight clipping ranges without clipping too many relevant values. However, the finer the granularity leads to high overheads - more parameters and computations.
+
+![Simple CNN architecture.\label{diagrams-simple-cnn-architecture}](assets/diagrams-simple-cnn-architecture.drawio.png){width=90%}
 
 ## Training
 

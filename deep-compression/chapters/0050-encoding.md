@@ -4,7 +4,7 @@ Pruning and Quantization are both techniques that reduce neural network size by 
 
 There are two main classifications for encoding algorithms: **Lossless encoding** is the class of encoding/compression algorithms that preserves the data to its fullness - No bit is lost (hence, Lossless). In contrast, **Lossy encoding** is the class of encoding/compression algorithms that lose some information.
 
-The **Deep Compression** framework suggested using Huffman Coding for parameter compression after the Pruning and Quantization phases [[2; 4]](#ref-2).
+The **Deep Compression** framework suggested using Huffman Coding for parameter compression after the Pruning and Quantization phases [[2; 4]](#ref-1).
 
 Although most of the research was made regarding Pruning and Quantization, some of the research was made regarding weight compression. 
 
