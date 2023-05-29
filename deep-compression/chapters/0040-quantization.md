@@ -192,6 +192,9 @@ Refer to \ref{quantization-procedures} for the outline.
 
 ![QAT vs. PTQ. Source: "Neural Network Quantization for Efficient Inference".\label{quantization-procedures}](assets/quantization-procedures.png){width=90%}
 
-### Post-Training Quantization
-
 ### Quantization-Aware Training
+
+![QAT learning using STE. Source: "A Survey of Quantization Methods for Efficient
+Neural Network Inference".\label{qat-ste}](assets/qat-ste.png){width=90%}
+
+### Post-Training Quantization
