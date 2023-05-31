@@ -194,7 +194,15 @@ Refer to \ref{quantization-procedures} for the outline.
 
 ### Quantization-Aware Training
 
-![QAT learning using STE. Source: "A Survey of Quantization Methods for Efficient
+Quantization of a trained model introduces errors. Quantization-Aware Training is the process of retraining such quantized models to increase the model's accuracy.
+
+In QAT, the retraining is performed by using floating point numbers for the forward and backward passes to accurately compute the gradients respective to each of the parameters. After adjusting the parameters using floating point numbers, we quantize them.
+
+Calculating the gradients should involve the calculation of the derivatives of the quantization mappins. The quantization mappings, as defined above are zero almost everywhere because they are piecewise constant functions. To overcome this, we use a different function as an approximation to the quantization mapping. A common function used for this purpose is the **Straight Through Estimator (STE)** which is practically an identity function. For a given quantization $Q(x) = int(x/s) - z$, its STE is the function $STE(x) = x/s - z$ with the derivative $\frac{d}{dx}STE = \frac{1}{s}$.
+
+Refer to Figure \ref{qat-ste} for visualization of the QAT process.
+
+![QAT learning using STE as an approximation. Source: "A Survey of Quantization Methods for Efficient
 Neural Network Inference".\label{qat-ste}](assets/qat-ste.png){width=90%}
 
 ### Post-Training Quantization
