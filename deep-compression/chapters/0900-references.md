@@ -26,6 +26,8 @@
 
 #### Q3. [Neural Network Quantization for Efficient Inference: A Survey. 2023](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2112.06126&site=eds-live&scope=site) {#ref-q3}
 
+#### Q4. [Post-training 4-bit quantization of convolution networks for rapid deployment. 2018](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1810.05723&site=eds-live&scope=site) {#ref-q4}
+
 <!-- #### Q4. [A White Paper on Neural Network Quantization. 2021](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2106.08295&site=eds-live&scope=site){#ref-q4} -->
 
 ## Compression

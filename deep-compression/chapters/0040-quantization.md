@@ -206,3 +206,34 @@ Refer to Figure \ref{qat-ste} for visualization of the QAT process.
 Neural Network Inference".\label{qat-ste}](assets/qat-ste.png){width=90%}
 
 ### Post-Training Quantization
+
+There are 2, main downsides of QAT:
+
+1. It is time and computationally expensive
+2. It requires access to the whole training set
+
+Post-Training Quantization is an alternative approach. In PTQ we don't retrain the model after quantization at all.
+
+We can however perform additional calibrations and small weight adjustments by using different methods.
+
+One such method is **Analytical Clipping for Integer Quantization (ACIQ)** which is proposed in [Q4; 2](#ref-q4). **ACIQ** is a technique to analytically compute an optimal clipping range.
+
+Let $X$ be a random variable of a real-valued tensor with a laplacian distribution $Laplace(0, b)$. Assume we want to quantize $X$ uniformly to an integer grid with bit-width $M$ (we discussed this notion previously).
+
+The author provides an equation for $\alpha$, such that the clipping range $[-\alpha, \alpha]$ minimizes the expected mean-squared-error $\mathbb{E}[(X - Q(X))^2]$, which effectively provides a clipping range that minimizes the squared distance of a tensor to its quantized tensor.
+
+Initially, it is shown that (Eq. 5 in the paper):
+
+$$
+    \mathbb{E}[(X - Q(X))^2] \approx 2b^2e^{-\frac{\alpha}{b}} + \frac{\alpha^2}{3 \cdot 2^{2M}}
+$$
+
+Finally, to find the optimal value of $\alpha$ we solve the DE:
+
+$$
+    \frac{d}{d\alpha}[(X - Q(X))^2] = \frac{2\alpha}{3 \cdot 2^{2M}} - 2be^{-\frac{a}{b}} = 0
+$$
+
+The author claims that in practice, $b = \mathbb{E}[|X - \mathbb{E}[X]|]$ is a good estimation.
+
+There are similar analyses for non-laplacian distributions, specifically gaussian.
