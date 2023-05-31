@@ -198,7 +198,7 @@ Quantization of a trained model introduces errors. Quantization-Aware Training i
 
 In QAT, the retraining is performed by using floating point numbers for the forward and backward passes to accurately compute the gradients respective to each of the parameters. After adjusting the parameters using floating point numbers, we quantize them.
 
-Calculating the gradients should involve the calculation of the derivatives of the quantization mappins. The quantization mappings, as defined above are zero almost everywhere because they are piecewise constant functions. To overcome this, we use a different function as an approximation to the quantization mapping. A common function used for this purpose is the **Straight Through Estimator (STE)** which is practically an identity function. For a given quantization $Q(x) = int(x/s) - z$, its STE is the function $STE(x) = x/s - z$ with the derivative $\frac{d}{dx}STE = \frac{1}{s}$.
+Calculating the gradients should involve the calculation of the derivatives of the quantization mappings. The quantization mappings, as defined above are zero almost everywhere because they are piecewise constant functions. To overcome this, we use a different function as an approximation to the quantization mapping. A common function used for this purpose is the **Straight Through Estimator (STE)** which is practically an identity function. For a given quantization $Q(x) = int(x/s) - z$, its STE is the function $STE(x) = x/s - z$ with the derivative $\frac{d}{dx}STE = \frac{1}{s}$.
 
 Refer to Figure \ref{qat-ste} for visualization of the QAT process.
 
@@ -236,4 +236,4 @@ $$
 
 The author claims that in practice, $b = \mathbb{E}[|X - \mathbb{E}[X]|]$ is a good estimation.
 
-There are similar analyses for non-laplacian distributions, specifically gaussian.
+There are similar analyses for non-laplacian distributions, specifically Gaussian.
