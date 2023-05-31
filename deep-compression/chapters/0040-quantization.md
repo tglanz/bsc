@@ -234,6 +234,6 @@ $$
     \frac{d}{d\alpha}[(X - Q(X))^2] = \frac{2\alpha}{3 \cdot 2^{2M}} - 2be^{-\frac{a}{b}} = 0
 $$
 
-The author claims that in practice, $b = \mathbb{E}[|X - \mathbb{E}[X]|]$ is a good estimation.
+The author claims that in practice, $b = \mathbb{E}[|X - \mathbb{E}[X]|]$ is a good estimation (which is computable).
 
 There are similar analyses for non-laplacian distributions, specifically Gaussian.

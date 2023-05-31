@@ -2,7 +2,7 @@
 
 Neural networks (NNs) have passed great milestones over the last two decades and are now used to solve problems in a wide variety of fields. Over this period, the neural networks have greatly increased in size to support more complex problems and increasing amounts of data. That increase in size led to an increased amount of computation, storage requirements and power consumption.
 
-In IoT and the edge, resources are limited making it harder and harder to incorporate state-of-the-art models into.
+In IoT and the edge, resources are limited. It is getting harder and harder to incorporate state-of-the-art models into such environments.
 
 Outside the IoT and the edge, those state-of-the-art models utilize a tremendous amount of computation and power resources making them costly and pollutive. The increased amount of memory and computation resources require us to distribute the workloads and use hardware solutions such as GPUs, FPGAs and smart NICs - making the maintenance overhead high.
 
