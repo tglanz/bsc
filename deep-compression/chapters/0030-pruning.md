@@ -58,7 +58,7 @@ Different pruning methods differ in the following criteria
 
 **Un-Structured Pruning** is the method of pruning weights with no constraint regarding their relation to each other.
 
-Usually, the hardware performs computations in groups. For example, a unit of computation in a matrix multiplication can be an entire row, in convolution operation a group can be the filters' channels - It depends on the specific algorithm and the hardware. Therefore, without specific design and programming, the hardware cannot achieve proper utilization of the network since they are optimized for dense networks[[10]](#ref-3).
+Usually, the hardware performs computations in groups. For example, a unit of computation in a matrix multiplication can be an entire row, in convolution operation a group can be the filters' channels - It depends on the specific algorithm and the hardware. Therefore, without specific design and programming, the hardware cannot achieve proper utilization of the network since they are optimized for dense networks[[3]](#ref-3).
 
 **Structured Pruning** is the method of pruning structural groups of parameters. An example of such groups could be entire rows or columns of a matrix, convolutional filters, channels, etc...
 
@@ -120,7 +120,7 @@ We prune networks to be more efficient in the following metrics:
 
 As discussed in the previous sections there are many ways in which we can prune a given network. Different methods affect different metrics. Therefore, there is no "one technique is better than the other" scenario - we need to prioritize the metrics according to our scenario and choose the techniques that will optimize this choice.
 
-The main statement by Jonathan Frankle in [[7]](#ref-p2) is that the literature is currently fragmented - Pruning research papers compare slightly different metrics, slightly different architectures and different datasets. This leads to difficulties in asserting different techniques.
+The main statement by Jonathan Frankle in [[P2]](#ref-p2) is that the literature is currently fragmented - Pruning research papers compare slightly different metrics, slightly different architectures and different datasets. This leads to difficulties in asserting different techniques.
 
 However, some results are consistent - Pruning keeps accuracy relatively high up to a certain point in which the accuracy falls off drastically. In the paper, Frankle used ShrinkWeb - an OSS he implemented to consistently evaluate network pruning techniques. He performed pruning experiments over different architectures using different scoring methods.
 
