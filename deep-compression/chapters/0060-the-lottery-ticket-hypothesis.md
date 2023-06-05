@@ -25,13 +25,34 @@ We refer to such subnetworks as **winning tickets**, they learn faster and gener
 
 In this section, we will review some of the results in [[L1]](#ref-l1) that back the hypothesis.
 
-| _Network_          | **Lenex**    | **Conv-2** | **Conv-4**              | **Conv-6**                           | **Resnet-18**                    | **VGG-19**                                           |
-|--------------------|--------------|------------|-------------------------|--------------------------------------|----------------------------------|------------------------------------------------------|
-| Convolutions       |              | 64,64,pool | 64,64,pool 128,128,pool | 64,64,pool 128,128,pool 256,256,pool | 16,3x[16,16] 3x[32,32] 3x[64,64] | 2x64 pool 2x128 pool, 4x256, pool 4x512, pool, 4x512 |
-| Fully Connecteds   | 300, 100, 10 | 256,256,10 | 256,256,10              | 256,256,10                           | avg-pool,10                      | avg-pool,10                                          |
-| _All/Conv Weights_ | 266K         | 4.3M / 38K | 2.4M / 260K             | 1.7M / 1.1M                          | 274K / 270K                      | 20.0M                                                |
+The tables below show the architectures used throughout the following experiments. It is important to note that those architectures are not "state of the art" anymore. There is ongoing research regarding the discussed topics on modern architecture.
 
-The convolution filters in the table have an implicit size of 3x3.
++----------------------+------------+------------+--------------+--------------+
+| **Network**          | Lenet      | Conv-2     | Conv-4       | Conv-6       |
++======================+============+:==========:+:============:+:============:+
+| **Convolutions**     |            | 64,64,pool | 64,64,pool   | 64,64,pool   |
+|                      |            | 64,64,pool | 128,128,pool | 128,128,pool |
+|                      |            |            |              | 256,256,pool |
++----------------------+------------+------------+--------------+--------------+
+| **Fully Connecteds** | 300,100,10 | 256,256,10 | 256,256,10   | 256,256,10   |
++----------------------+------------+------------+--------------+--------------+
+| **All/Conv weights** | 266K       | 4.3M / 38K | 2.4M / 260K  | 1.7M / 1.1M  |
++----------------------+------------+------------+--------------+--------------+
+
+
++----------------------+--------------+--------------------+
+| **Network**          | Resnet-18    | VGG-19             |
++======================+:============:+:==================:+
+| **Convolutions**     | 16,3x[16,16] | 2x64 pool 2x128    |
+|                      | 3x[32,32]    | pool, 4x256, pool  |
+|                      | 3x[64,64]    | 4x512, pool, 4x512 |
++----------------------+--------------+--------------------+
+| **Fully Connecteds** | avg-pool,10  | avg-pool,10        |
++----------------------+--------------+--------------------+
+| **All/Conv weights** | 274K / 270K  | 20.0M              |
++----------------------+--------------+--------------------+
+
+The convolution filters in the tables have an implicit size of 3x3.
 
 ### Importance of architecture
 
@@ -46,7 +67,7 @@ We can conclude, that, at least for these architectures, winning tickets of spar
 If this indeed holds for modern networks, the difference in size is huge. Assume a network of size 100GB - Such a network can be replaced by a 3GB sized network, that can effectively be held in most commodity RAMs (Remember that we can further reduce the sizes through quantization and encoding).
 
 ![Remaining weights vs. the number of iterations. Source: "The lottery ticket hypothesis:
-Finding sparse, trainable neural networks"\label{lotter-weights-vs-iterations}](assets/lottery-weights-remaining-vs-iterations.png){width=90%}
+Finding sparse, trainable neural networks"\label{lotter-weights-vs-iterations}](assets/lottery-weights-remaining-vs-iterations.png){width=100%}
 
 ### Importance of initialization
 
@@ -59,7 +80,7 @@ Firstly, we can tell that the better method to find winning tickets is using ite
 Secondly, when we compare Iterative Winning Ticket and Iterative Random Reinint (blue vs. orange) in the 3 top figures, we see that although Random Reinit has the same architecture as the Winning Ticket, its performance drop immediately respective to its sparsity. However, the Iterative Winning Ticket keeps its performance and even improves on it, up to about 95% sparsity.
 
 ![Comparison of winning tickets that were initialized randomly (red and orange) and winning tickets that were rewound (green and blue). Source: "The lottery ticket hypothesis:
-Finding sparse, trainable neural networks"\label{lottery-random-vs-winning-initialization}](assets/lottery-random-vs-winning-initialization.png){width=90%}
+Finding sparse, trainable neural networks"\label{lottery-random-vs-winning-initialization}](assets/lottery-random-vs-winning-initialization.png){width=100%}
 
 ## TODO - Below are only leftovers from the outline
 

@@ -78,7 +78,7 @@ For example, given $n = 32$ and $|E| = 8$ we encode the value $x = 6$ with the r
 - The **Exponent** is $10000001_2 = 129_{10}$
 - The **Bias** is $2^7 - 1 = 127$
 
-![The layout of a fixed point number. Source: "Neural Network Quantization for Efficient Inference".\label{32-bits-fixed-point}](assets/32-bits-fixed-point.png){width=90%}
+![The layout of a fixed point number. Source: "Neural Network Quantization for Efficient Inference".\label{32-bits-fixed-point}](assets/32-bits-fixed-point.png)
 
 And we get the formula:
 
@@ -103,7 +103,7 @@ If the Exponent bits are all 1's, we interpret $x$ as one of the multiple specia
 
 In neural networks, it is very common to use 32-bit numbers with an exponent of 8 bits - a.k.a single-precision numbers.
 
-![The layout of a single precision number. Source: "Neural Network Quantization for Efficient Inference".\label{32-bits-single-precision}](assets/32-bits-single-precision.png){width=90%}
+![The layout of a single precision number. Source: "Neural Network Quantization for Efficient Inference".\label{32-bits-single-precision}](assets/32-bits-single-precision.png)
 
 ## The Quantization Mapping
 
@@ -177,7 +177,7 @@ Uncommonly, we can also calibrate at the sub-channel granularity. Regarding full
 
 Calibrations at finer granularities lead to better results for both accuracy and size reduction because we can set tight clipping ranges without clipping too many relevant values. However, the finer the granularity leads to high overheads - more parameters and computations.
 
-![Simple CNN architecture.\label{diagrams-simple-cnn-architecture}](assets/diagrams-simple-cnn-architecture.drawio.png){width=90%}
+![Simple CNN architecture.\label{diagrams-simple-cnn-architecture}](assets/diagrams-simple-cnn-architecture.drawio.png)
 
 ## Training
 
@@ -190,7 +190,7 @@ We will explore the 2 main approaches for training a quantized model:
 
 Refer to \ref{quantization-procedures} for the outline.
 
-![QAT vs. PTQ. Source: "Neural Network Quantization for Efficient Inference".\label{quantization-procedures}](assets/quantization-procedures.png){width=90%}
+![QAT vs. PTQ. Source: "Neural Network Quantization for Efficient Inference".\label{quantization-procedures}](assets/quantization-procedures.png)
 
 ### Quantization-Aware Training
 
@@ -203,7 +203,7 @@ Calculating the gradients should involve the calculation of the derivatives of t
 Refer to Figure \ref{qat-ste} for visualization of the QAT process.
 
 ![QAT learning using STE as an approximation. Source: "A Survey of Quantization Methods for Efficient
-Neural Network Inference".\label{qat-ste}](assets/qat-ste.png){width=90%}
+Neural Network Inference".\label{qat-ste}](assets/qat-ste.png)
 
 ### Post-Training Quantization
 

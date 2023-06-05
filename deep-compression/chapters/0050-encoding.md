@@ -32,10 +32,10 @@ For every $v \notin S$ we get that $H_M(v) \bigoplus_{i=0}^{k-2}{X_{H_i(v)}}$ is
 
 In Figure \ref{bloomier-weights}, we see an illustration of the processes of querying correctly and a false positive.
 
-![Encoding weights using Bloomier Filter. Source: "Weightless: Lossy weight encoding for deep neural network compression"\label{bloomier-weights}](assets/bloomier-weights.png){width=90%}
+![Encoding weights using Bloomier Filter. Source: "Weightless: Lossy weight encoding for deep neural network compression"\label{bloomier-weights}](assets/bloomier-weights.png)
 
 In Bloomier Filter, the more we increase $t$ the more information each table cell can encode, lowering the error probability. The lower the error probability, the more accurately $W'$ models $W$, leading to higher accuracy of the model.
 
 Figure \ref{bloomier-relations} shows this inverse relationship between the number of false positives (red) and the model's accuracy (blue) which are both exponentially related to $t$.
 
-![Inverse relation of the false positives and the model's accuracy. Source: "Weightless: Lossy weight encoding for deep neural network compression"\label{bloomier-relations}](assets/bloomier-false-positives-vs-accuracy.png){width=90%}
+![Inverse relation of the false positives and the model's accuracy. Source: "Weightless: Lossy weight encoding for deep neural network compression"\label{bloomier-relations}](assets/bloomier-false-positives-vs-accuracy.png)

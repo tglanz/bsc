@@ -15,6 +15,7 @@ function renderAll() {
      -f markdown+footnotes+implicit_figures \
      -V mainfont:"Times New Roman" \
      --pdf-engine=xelatex \
+     --columns=100 \
      --toc -s -i -o output/all.pdf
 }
 

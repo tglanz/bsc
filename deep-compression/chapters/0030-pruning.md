@@ -48,7 +48,7 @@ Most of the pruning methods are variants of the general algorithm outline descri
 
 See Figure \ref{pruning-outline} for illustration.
 
-![Pruning algorithm outline. Source: "Learning both Weights and Connections for Efficient Neural Networks"\label{pruning-outline}](assets/pruning-algorithm-outline.png){width=90%}
+![Pruning algorithm outline. Source: "Learning both Weights and Connections for Efficient Neural Networks"\label{pruning-outline}](assets/pruning-algorithm-outline.png)
 
 ## Pruning Methods
 
