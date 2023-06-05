@@ -21,11 +21,11 @@ To summarize: Either one-shot or iterative pruning yields subnetworks, which, wh
 
 We refer to such subnetworks as **winning tickets**, they learn faster and generalize better than their original networks.
 
-## Results
+## First results
 
 In this section, we will review some of the results in [[L1]](#ref-l1) that back the hypothesis.
 
-The tables below show the architectures used throughout the following experiments. It is important to note that those architectures are not "state of the art" anymore. There is ongoing research regarding the discussed topics on modern architecture.
+The table below shows the architectures used throughout the following experiments:
 
 +----------------------+------------+------------+--------------+--------------+
 | **Network**          | Lenet      | Conv-2     | Conv-4       | Conv-6       |
@@ -34,23 +34,10 @@ The tables below show the architectures used throughout the following experiment
 |                      |            | 64,64,pool | 128,128,pool | 128,128,pool |
 |                      |            |            |              | 256,256,pool |
 +----------------------+------------+------------+--------------+--------------+
-| **Fully Connecteds** | 300,100,10 | 256,256,10 | 256,256,10   | 256,256,10   |
+| **Fully Connected**  | 300,100,10 | 256,256,10 | 256,256,10   | 256,256,10   |
 +----------------------+------------+------------+--------------+--------------+
 | **All/Conv weights** | 266K       | 4.3M / 38K | 2.4M / 260K  | 1.7M / 1.1M  |
 +----------------------+------------+------------+--------------+--------------+
-
-
-+----------------------+--------------+--------------------+
-| **Network**          | Resnet-18    | VGG-19             |
-+======================+:============:+:==================:+
-| **Convolutions**     | 16,3x[16,16] | 2x64 pool 2x128    |
-|                      | 3x[32,32]    | pool, 4x256, pool  |
-|                      | 3x[64,64]    | 4x512, pool, 4x512 |
-+----------------------+--------------+--------------------+
-| **Fully Connecteds** | avg-pool,10  | avg-pool,10        |
-+----------------------+--------------+--------------------+
-| **All/Conv weights** | 274K / 270K  | 20.0M              |
-+----------------------+--------------+--------------------+
 
 The convolution filters in the tables have an implicit size of 3x3.
 
@@ -82,15 +69,60 @@ Secondly, when we compare Iterative Winning Ticket and Iterative Random Reinint 
 ![Comparison of winning tickets that were initialized randomly (red and orange) and winning tickets that were rewound (green and blue). Source: "The lottery ticket hypothesis:
 Finding sparse, trainable neural networks"\label{lottery-random-vs-winning-initialization}](assets/lottery-random-vs-winning-initialization.png){width=100%}
 
-## TODO - Below are only leftovers from the outline
+## Instability analysis
 
-This chapter is the core of our work - Discuss the hypothesis and showcase further results.
+### Additional Results
 
-- Initial hypothesis
-- Adjustments for bigger networks
-  - Linear mode connectivity
-- Impact of the Hypothesis
-  - Practical
-  - Theoretical: 
-- Characteristics of a lottery ticket?
+The architectures examined above are relatively small. Additional experiments were performed on a bit more complex networks as described below:
 
++----------------------+--------------+--------------------+
+| **Network**          | Resnet-18    | VGG-19             |
++======================+:============:+:==================:+
+| **Convolutions**     | 16,3x[16,16] | 2x64 pool 2x128    |
+|                      | 3x[32,32]    | pool, 4x256, pool  |
+|                      | 3x[64,64]    | 4x512, pool, 4x512 |
++----------------------+--------------+--------------------+
+| **Fully Connected**  | avg-pool,10  | avg-pool,10        |
++----------------------+--------------+--------------------+
+| **All/Conv weights** | 274K / 270K  | 20.0M              |
++----------------------+--------------+--------------------+
+
+> Note that even those architectures are only CNNs and are nowhere near modern, state-of-the art architectures.
+
+Similar experiments from the previous section, on the above networks have shown that winning ticket identification behaves differently on the slightly more complex networks.
+
+Figure \ref{lottery-vggs-winning-tickets} shows the results. In this figure:
+
+- Solid and dashed lines refer to Winning Tickets and Random Reinit respectively
+- Blue and orange lines refer to learning rates of 0.1 and 0.01 respectively, while the green color refers to a learning rate of 0.01 using warm-up (increasing the learning rate gradually).
+- Each chart in the figure contains the result of the same experiment, using different amounts of iterations (30K, 60K and 112K).
+
+Our focus on the results should not be about the accuracy values but rather the difference between the performance of Winning Ticket and Random Reinit of the same learning rates.
+
+Let's look at this difference at a learning rate of 0.1 and focus on the solid and dashed blue lines. The performance difference is unnoticeable. A Winning Ticket behaves like a Random Reinit! This is not what we saw in the previous section.
+
+Now, let's look at the difference at a learning rate of 0.01 (orange lines). The performance difference, especially of 30K iterations is highly noticeable, the Winning Ticket again outperforms the Random Reinit!
+
+What happened then? It seems like the learning rate plays a big role in Winning Ticket identification.
+
+Amazingly, if we use the same learning rate of 0.1 (green lines), but now use warm-up (i.e. increasing the learning rate gradually), the Winning Ticket again outperforms the Random Reinit.
+
+The last result hints at the fact that the "instability" occurs at some of the first iterations - probably before the parameters "roughly find their place".
+
+This point remained open in his initial paper about lottery tickets - why Winning Tickets behave in such a way? Later, Frankle assumed that there are networks that are "stable" enough. He formalized what he called the Instability Analysis of neural networks.
+
+### Theory
+
+Instability Analysis is a theory to determine whether a neural network is stable to SGD noise.
+
+In simpler terms, it is a theory to determine whether a neural network, if retrained using SGD, will achieve similar results as different training sessions.
+
+Because the SGD process is random, the answer to this question is not trivial at all.
+
+We first take a neural network $N$ that was initialized randomly to values $W_0$. Then, we create two copies of it $N_1, N_2$ and train them independently ( - To be correct, we need to make sure the SGD samples different mini-batches). We will set $W_T^1$ and $W_T^2$ to be the trained parameters of $N_1$ and $N_2$ respectively.
+
+If we use a good comparison method to compare and conclude that $W_T^1$ and $W_T^2$ are similar, we can safely assume that $N$ is stable SGD since different, random processes, yielded similar results.
+
+Now, there are multiple ways to compare between $W_T^1$ and $W_T^2$ such as $L_2$ distance, Cosine distance etc. We will use a different approach - we will analyze the landscape of the loss function (i.e. the error) along the line connecting $W_T^1$ and $W_T^2$. We will call the highest **increase** along this line the **linear interpolation instability** of $N$ to SGD (See figure \ref{instability}). When the instability is near zero it indicates that $W_T^1$ and $W_T^2$ have found a (approximately) linearly connected local minimum.
+
+![Instability illustration. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability}](assets/instability.png){width=100%}

@@ -99,7 +99,7 @@ This is the most widely used method and is shown to achieve high accuracy and is
 
 **Learning Rate Rewinding** is the method of re-initializing the learning rate, keeping the parameters as is and then retraining the network.
 
-The idea behind this method is to allow for bigger _error margins_ during the stochastic gradient descent process (TODO: describe SDG in the brief to NNs).
+The idea behind this method is to allow for bigger _error margins_ during the stochastic gradient descent process (TODO: describe SGD in the brief to NNs).
 
 **Weight Rewinding** is the method of re-initializing the weights to their values at initialization before training and pruning - Only then retrain the network.
 
