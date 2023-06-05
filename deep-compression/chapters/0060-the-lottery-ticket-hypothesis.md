@@ -97,6 +97,9 @@ Figure \ref{lottery-vggs-winning-tickets} shows the results. In this figure:
 - Blue and orange lines refer to learning rates of 0.1 and 0.01 respectively, while the green color refers to a learning rate of 0.01 using warm-up (increasing the learning rate gradually).
 - Each chart in the figure contains the result of the same experiment, using different amounts of iterations (30K, 60K and 112K).
 
+![VGG/Resnet Winning Tickets. Source: "The lottery ticket hypothesis:
+Finding sparse, trainable neural networks"\label{lottery-vggs-winning-tickets}](assets/lottery-vggs-winning-tickets.png){width=100%}
+
 Our focus on the results should not be about the accuracy values but rather the difference between the performance of Winning Ticket and Random Reinit of the same learning rates.
 
 Let's look at this difference at a learning rate of 0.1 and focus on the solid and dashed blue lines. The performance difference is unnoticeable. A Winning Ticket behaves like a Random Reinit! This is not what we saw in the previous section.
