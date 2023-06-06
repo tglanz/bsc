@@ -42,11 +42,11 @@
 
 #### L2. [Linear Mode Connectivity and the Lottery Ticket Hypothesis. 2019](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1912.05671&site=eds-live&scope=site) {#ref-l2}
 
-#### L3. [**Deconstructing Lottery Tickets: Zeros, Signs, and the Supermask. 2019**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1905.01067&site=eds-live&scope=site) {#ref-l3}
+#### L3. UNREFERENCED [**Deconstructing Lottery Tickets: Zeros, Signs, and the Supermask. 2019**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1905.01067&site=eds-live&scope=site) {#ref-l3}
 
-#### L4. [Gradient flow in sparse neural networks and how lottery tickets win. 2020](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2010.03533&site=eds-live&scope=site) {#ref-l4}
+#### L4. UNREFERENCED [Gradient flow in sparse neural networks and how lottery tickets win. 2020](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2010.03533&site=eds-live&scope=site) {#ref-l4}
 
-#### L5. [**Unmasking the Lottery Ticket Hypothesis: What's Encoded in a Winning Ticket's Mask? 2022**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2210.03044&site=eds-live&scope=site) {#ref-l5}
+#### L5. UNREFERENCED [**Unmasking the Lottery Ticket Hypothesis: What's Encoded in a Winning Ticket's Mask? 2022**](http://elib.openu.ac.il/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.2210.03044&site=eds-live&scope=site) {#ref-l5}
 
 ## Appendix
 

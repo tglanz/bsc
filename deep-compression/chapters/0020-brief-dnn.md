@@ -37,6 +37,6 @@ To save computation power, the **Batch Gradient Descent** variant has been propo
 
 Another proposed variant is the **Mini-Batch Gradient Descent**. We predefine partitions of the training sets which we call mini-batches. Then, we apply the process of the forward and backward passes for each mini-batch independently.
 
-The **Stochastic Gradient Descent (SGD)** is the most common variant of Gradient Descent. SGD works by randomly selecting samples at each epoch and performing the forward and backward passes on them. The selected samples are also known as mini-batches.
+The **Stochastic Gradient Descent (SGD)** is the most common variant of Gradient Descent. SGD works by randomly selecting samples at each epoch, shuffling them and performing the forward and backward passes on them. The selected samples are also known as mini-batches.
 
 SGD aims to increase generalization by introducing randomness to the process at the cost of learning time.

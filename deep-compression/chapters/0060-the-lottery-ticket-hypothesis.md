@@ -128,4 +128,80 @@ If we use a good comparison method to compare and conclude that $W_T^1$ and $W_T
 
 Now, there are multiple ways to compare between $W_T^1$ and $W_T^2$ such as $L_2$ distance, Cosine distance etc. We will use a different approach - we will analyze the landscape of the loss function (i.e. the error) along the line connecting $W_T^1$ and $W_T^2$. We will call the highest **increase** along this line the **linear interpolation instability** of $N$ to SGD (See figure \ref{instability}). When the instability is near zero it indicates that $W_T^1$ and $W_T^2$ have found a (approximately) linearly connected local minimum.
 
+The **Linear Interpolation** of the weights $W_1$ and $W_2$ is a function defined by:
+
+$$
+  \Gamma(\gamma, W_1, W_2) = (1 - \gamma) W_1 + \gamma W_2
+$$
+
+For parameters $W$, we will mark the error of a network at $W$ by $\varepsilon(W)$.
+
+Now, we will define the maximum error and the mean error by:
+
+**Maximum Error**
+
+$$
+  \varepsilon_{sup}(W_1, W_2) = sup_{\gamma} \varepsilon(\Gamma(\gamma, W_1, W_2))
+$$
+
+**Mean Error**
+
+$$
+  \varepsilon_{mean}(W_1, W_2) = mean_{\gamma} \frac{1}{2}(\varepsilon(W_1) + \varepsilon(W_2))
+$$
+
+Finally, we achieve the **Error Barrier Height** by:
+
+$$
+  \varepsilon_{sup}(W_1, W_2) - \varepsilon_{mean}(W_1, W_2)
+$$
+
+This quantity is also known as the **Linear Interpolation Instability** and this is the main focus in this theory.
+
+Two networks with parameters $W_1$ and $W_2$ are said to be **Mode Connected** if there exists a path (not necessarily linear) with an Error Barrier Height that is roughly 0. If there exists such a linear path, i.e. the Instability is roughly 0, they are said to be **Linear Mode Connected**.
+
+A network is said to be **Stable to SGD** if the networks that result from Instability Analysis are Linear Mode Connected.
+
 ![Instability illustration. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability}](assets/instability.png){width=100%}
+
+### Experiments and Results
+
+Instability Analysis was performed over multiple networks which are described in Figure \ref{instability-networks}.
+
+There were two experiments. The first experiment was to perform Instability Analysis at initialization. The second experiment was to perform Instability Analysis after $k$ iterations. In the following experiments, networks with Instability below $2%$ are considered stable.
+
+Figure \ref{instability-intialization} shows the results of the first experiment. The $x$-axis is the interpolation variable (notated by $\gamma$ in the theory section) and the $y$-axis is the error at that interpolation point. Putting in use the definition of Instability here, Instability is the difference between the highest point in the plot between the midpoint of the values at 0.0 and 1.0. The lines represent the mean and standard deviation from multiple samples.
+
+From the results, we observe that only the simple network Lenet is stable at initialization! This is a hint for us, remember that previously it was shown that Lenet Winning Ticket identification can be done at initialization.
+
+Figure \ref{instability-post-initialization} shows the results of the second experiment. In this experiment, we perform Instability Analysis after $k$ training iterations. The $x$-axis is $k$ and the $y$-axis is the measured Instability.
+
+We can deduce from the results that after some iterations, the networks that were experimented on got stable! Remember the previous experiments about Winning Tickets - Identification could be made using learning rate warm-up, i.e. after some iterations.
+
+![Networks that were Instability Analyzed. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability-networks}](assets/lottery-instability-networks.png){width=100%}
+
+![Instability Analysis at initialization. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability-initialization}](assets/lottery-instability-analysis-initialization.png){width=100%}
+
+![Instability Analysis at iteration $k$. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability-post-initialization}](assets/lottery-instability-analysis-post-initialization.png){width=100%}
+
+### Instability and Winning Tickets
+
+Previously we said the Winning Tickets are identified by performing Iterative Magnitude Pruning (IMP) to achieve a sparse subnetwork and then rewinding the parameters to the state at iteration $k=0$. At iteration $k=0$ the initialization was random whereas in some iteration $k > 0$ the network learned some and the parameters are not considered random.
+
+We call subnetworks that were identified using IMP and rewound to some $k > 0$ that behave like a Winning Ticket (in the sense that was formulated in the previous sections) as **Matching**.
+
+We previously saw that the Lenet subnetworks that rewound to iteration $k=0$ are Matching. We also saw that subnetworks of VGG-19 and Resnet-18 that were identified either by a very low learning rate or using warm-up, are also Matching (See section "First Results").
+
+The central findings in [[L2; 4]](#ref-l2), that somewhat explain the phenomena of finding Matching subnetworks is that subnetworks are Matching if, and only if, they are stable.
+
+The paper provides multiple results that correlate between the instability of the subnetworks and whether it's matching or not. We already saw the networks are stabilizing with learning. How about the subnetworks?
+
+Figure \ref{lottery-instability-subnetworks-iteration} show the Instability of subnetworks that were created from the network at learning iteration $k$ - The percentages are the amount of the remaining weights. We see that **IMP**, weight rewinding to iteration $k$ are stabilizing with $k$.
+
+Figure \ref{lottery-error-subnetworks-iteration} show the Error of subnetworks that were created from the network at learning iteration $k$ - The percentages are the amount of the remaining weights. The gray line is the full network. We see that **IMP**, weight rewinding to iteration $k$, is Matching with $k$ (touches the full network's error).
+
+The key point to look at is that at the same iterations where the subnetworks are getting stable, they are also Matching.
+
+![Instability Analysis of subnetworks at iteration $k$. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{lottery-instability-subnetworks-iteration}](assets/lottery-instability-subnetworks-iteration.png){width=100%}
+
+![Error of subnetworks at iteration $k$. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{lottery-error-subnetworks-iteration}](assets/lottery-error-subnetworks-iteration.png){width=100%}
