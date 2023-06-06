@@ -116,9 +116,9 @@ This point remained open in his initial paper about lottery tickets - why Winnin
 
 ### Theory
 
-Instability Analysis is a theory to determine whether a neural network is stable to SGD noise.
+Instability Analysis is a theoretical framework to determine whether a neural network is stable to SGD noise.
 
-In simpler terms, it is a theory to determine whether a neural network, if retrained using SGD, will achieve similar results as different training sessions.
+In other terms, it is a process to determine whether a neural network, if retrained using SGD, will achieve similar results as different training sessions.
 
 Because the SGD process is random, the answer to this question is not trivial at all.
 
@@ -178,7 +178,7 @@ Figure \ref{instability-post-initialization} shows the results of the second exp
 
 We can deduce from the results that after some iterations, the networks that were experimented on got stable! Remember the previous experiments about Winning Tickets - Identification could be made using learning rate warm-up, i.e. after some iterations.
 
-![Networks that were Instability Analyzed. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability-networks}](assets/lottery-instability-networks.png){width=100%}
+![Networks that were Instability Analyzed. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability-networks}](assets/lottery-instability-networks.png){height=200%}
 
 ![Instability Analysis at initialization. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{instability-initialization}](assets/lottery-instability-analysis-initialization.png){width=100%}
 
@@ -186,9 +186,9 @@ We can deduce from the results that after some iterations, the networks that wer
 
 ### Instability and Winning Tickets
 
-Previously we said the Winning Tickets are identified by performing Iterative Magnitude Pruning (IMP) to achieve a sparse subnetwork and then rewinding the parameters to the state at iteration $k=0$. At iteration $k=0$ the initialization was random whereas in some iteration $k > 0$ the network learned some and the parameters are not considered random.
+Previously we stated that Winning Tickets are identified by performing Iterative Magnitude Pruning (IMP) to achieve a sparse subnetwork and then rewinding the parameters to the original network's state at iteration $k=0$. At iteration $k=0$ the initialization was random whereas in some iteration $k > 0$ the network learned some and the parameters are not considered random.
 
-We call subnetworks that were identified using IMP and rewound to some $k > 0$ that behave like a Winning Ticket (in the sense that was formulated in the previous sections) as **Matching**.
+We call subnetworks that were identified using IMP and rewound to some $k > 0$ that behave like a Winning Ticket (in the sense of accuracy as discussed in the previous sections) as **Matching**.
 
 We previously saw that the Lenet subnetworks that rewound to iteration $k=0$ are Matching. We also saw that subnetworks of VGG-19 and Resnet-18 that were identified either by a very low learning rate or using warm-up, are also Matching (See section "First Results").
 
