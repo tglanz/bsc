@@ -124,7 +124,7 @@ Because the SGD process is random, the answer to this question is not trivial at
 
 We first take a neural network $N$ that was initialized randomly to values $W_0$. Then, we create two copies of it $N_1, N_2$ and train them independently ( - To be correct, we need to make sure the SGD samples different mini-batches). We will set $W_T^1$ and $W_T^2$ to be the trained parameters of $N_1$ and $N_2$ respectively.
 
-If we use a good comparison method to compare and conclude that $W_T^1$ and $W_T^2$ are similar, we can safely assume that $N$ is stable SGD since different, random processes, yielded similar results.
+If we use a good comparison method to compare and conclude that $W_T^1$ and $W_T^2$ are similar, we can safely assume that $N$ is stable to SGD since different, random processes, yielded similar results.
 
 Now, there are multiple ways to compare between $W_T^1$ and $W_T^2$ such as $L_2$ distance, Cosine distance etc. We will use a different approach - we will analyze the landscape of the loss function (i.e. the error) along the line connecting $W_T^1$ and $W_T^2$. We will call the highest **increase** along this line the **linear interpolation instability** of $N$ to SGD (See figure \ref{instability}). When the instability is near zero it indicates that $W_T^1$ and $W_T^2$ have found a (approximately) linearly connected local minimum.
 

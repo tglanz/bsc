@@ -14,96 +14,29 @@ We use the formalization in [[P2; 2.1, 2.2]](#ref-p2) to denote and differentiat
 
 ## Learning
 
-Let $f(x, W)$ be a neural network model.
+The process of learning includes the following:
 
-Given the **training set** of input-output pairs $(x, y)$ we can define a **loss function** that measures the distance from $f$'s prediction for a given input to the real output:
+A randomly initialized model $f(x, W)$.
 
-$$
-    Loss(y, f(x, W))
-$$
+A **Training Set** consisting of $n$ tuples $(x_i, y_i)$ of the input $x_i$ and its corresponding **Label**.
 
-For example, we can use the **squared distance** $L_2(a, b) = (a - b)^2$ as a metric and have the loss function
+A **Loss Function** $L(y, y')$ is a function that provides a distance between a Label $y$ to an inferred output $y' = f(x, W)$.
 
-$$
-    Loss(y, f(x, W)) = L_2(y, f(x, W)) = (y - f(x, W))^2
-$$
+The purpose of the learning process is to minimize $L$ on average over the whole training set.
 
-**Training** a neural network is the process of minimizing the loss function by tuning the weights, which there are many algorithms for.
+Analytically, if $L$ is differentiable, we can compute its derivatives for each of $w \in W$. In multivariable calculus, the vector of those derivatives is known as the **Gradient**, which is an operator that is notated using $\nabla$. Again, from multivariable calculus, it is known that the Gradient at some point $W$ points to the direction of the steepest ascent. Therefore, if we would like to make small adjustments to the parameters $W$ such that they will minimize $L$, we can adjust them in a small step to the negative direction of $\nabla L$. The size of the small step is determined by the **Learning Rate** parameter which we will notate using $\mu$.
 
-**Backpropagation** is the prevalent algorithm to tune the weights of a neural network to minimize a loss function. The algorithm works by iteratively feeding $f$ with a sample from the training set and then computing the gradient of the loss function for each of the weights. For each of the weights, tune the weight by performing a single step in the direction of the respective gradient.
+This approach leads us to the basic learning algorithm, in its most basic variant, known as the **Gradient Descent**:
 
-The step size is linearly dependent on a learning parameter called the **learning rate**. The learning rate isn't always constant during the entire learning phase and can be changed according to the specific algorithm in use. For example, an algorithm can choose to have set a learning rate $\alpha(k) = \frac{1}{k}$ where $k$ is the current learning iteration.
+- As long as the average loss is higher than some desired accuracy or we exceeded the maximum number of iterations (a.k.a **Epochs**):
+  - For each training set sample $(x, y)$
+    - **Forward Pass**: Compute the output $y' = f(x, W)$ 
+    - **Backward Pass**: Compute the gradient $\nabla L(y, y')$ and adjust the weights by setting $W \leftarrow W - \mu \nabla L(y, y')$
 
-A general learning algorithm might look similar to the following:
+To save computation power, the **Batch Gradient Descent** variant has been proposed. In this variant, the loss function is modified to apply to a set of samples. Then, instead of applying it sample by sample, we apply it to the entire training set at once.
 
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\SetAlgoLined
-\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
-\Input{Neural Network $f$, weights $W$ and a training sample (x, y)}
-\BlankLine
-\While{keepLearning}{
-    \ForEach{w $\in$ W}{
-        w \gets w - $\alpha \frac{\partial}{\partial w}Loss(y, f(x, W))$
-    }
-}
-\caption{Backpropogation}
-\end{algorithm}
+Another proposed variant is the **Mini-Batch Gradient Descent**. We predefine partitions of the training sets which we call mini-batches. Then, we apply the process of the forward and backward passes for each mini-batch independently.
 
-The algorithm above is straightforward - As long as we want to keep learning we iterate over each parameter and adjust it according to the gradient. Concretely, different implementations use different conditions for "keep learning" such as the number of iterations or achieved accuracy.
+The **Stochastic Gradient Descent (SGD)** is the most common variant of Gradient Descent. SGD works by randomly selecting samples at each epoch and performing the forward and backward passes on them. The selected samples are also known as mini-batches.
 
-## Matrices
-
-The **sparsity** of a matrix $A = (a_{ij}) \in \mathbb{R}^{n \times m}$ is the ratio between the zero elements and the size of the matrix. Formally
-
-$$
-  sparsity(A) = \frac{|\{a_{ij} : a_{ij} = 0, 0 \leq i \leq n, 0 \leq j \leq m \}|}{n \cdot m}
-$$
-
-Throughout the work, we will use the term **sparse matrix** somewhat freely to indicate that the matrix has a notable sparsity.
-
-The **elementwise product** of two equally sized matrices $(a_{ij})$ and $(b_{ij})$ is denoted and defined by
-
-$$
-    (a_{ij}) \odot (b_{ij}) := ((a_{ij} \cdot b_{ij})_{ij})
-$$
-
-## Common Operations
-
-Deep neural networks are composed of many operations, also known as layers.
-
-There are many operations and many variants of them - We will not list them here as this is out of the scope of this work but we will list the operations used throughout this work.
-
-### Fully Connected Layer
-
-A **fully connected** layer is a layer that connects each of the input neurons $x = (x_j)_{1}^{n}$ to each of the output neurons $y = (y_i)_{1}^{m}$ with connections $W = (w_{ij}) \in \mathbb{R}^{m \times n}$ such that $w_{ij}$ connects input $x_j$ with output $y_i$. We also assign a **bias** $b \in \mathbb{R}^{m}$ to the output. For illustration, refer to Figure \ref{fully-connected-layer}.
-
-The value assigned to an output $y_i$ is the sum of the products $x_j \cdot w_{ij}$ and the bias $b_i$.
-
-In vector form, given $W_i$ is the notation of the $i-th$ row in $W$, we write:
-
-$$
-    y_i = W_ix + b_i
-$$
-
-In matrix form, we write
-
-$$
-    y = Wx + b   
-$$
-
-The connections $W$ are known as the _weights_ or the _parameters_.
-
-A **sparsely connected** layer is a fully connected layer with a sparse weights matrix.
-
-![Fully connected layer\label{fully-connected-layer}](assets/diagrams-fully-connected.drawio.png){width=50%}
-
-![Sparsely connected layer](assets/diagrams-sparsely-connected.drawio.png){width=50%}
-
-### ReLU
-
-The ReLU is an activation function (i.e. non-linear operation) and is defined by:
-
-$$
-    ReLU(x) := \max(0, x)
-$$
+SGD aims to increase generalization by introducing randomness to the process at the cost of learning time.
