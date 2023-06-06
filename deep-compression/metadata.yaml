@@ -1,7 +1,7 @@
 ---
 header-includes:
   - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-title: The Lottery Ticket Hypothesis
+title: Model Compression and The Lottery Ticket Hypothesis
 author:
 - Tal Glanzman
 
@@ -21,10 +21,6 @@ abstract: |
   In 2018, Jonathan Frankle proposed that trained networks contain sub-networks that are sparse, about a factor less in size,
   and can be trained independently to achieve the same accuracy as the original network.
   The hypothesis is known as the Lottery Ticket Hypothesis and has both a major theoretical and practical impact on how we perceive and utilize neural networks today.
-
-  How can we find such subnetworks?
   
-  What information do the subnetworks hold?
-  
-  In this paper, we aim to review the hypothesis and past results.
+  In this paper, we aim to review model compression approaches and the lottery ticket hypothesis.
 ...
