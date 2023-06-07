@@ -10,6 +10,7 @@ function error() {
 }
 
 function renderAll() {
+  echo "Rendering..."
   mkdir -p output
   pandoc metadata.yaml chapters/*.md \
      -f markdown+footnotes+implicit_figures \
@@ -17,10 +18,11 @@ function renderAll() {
      --pdf-engine=xelatex \
      --columns=100 \
      --toc -s -i -o output/all.pdf
+    echo "Finished rendering."
 }
 
 case $target in
   all) renderAll;;
-  *) error "unknown target: $target"
+  *) renderAll;;
 esac
 # outputPDF

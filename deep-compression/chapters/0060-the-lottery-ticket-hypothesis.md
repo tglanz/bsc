@@ -2,9 +2,9 @@
 
 Let's get back to pruning.
 
-As previously discussed, magnitude pruning and fine-tuning, produce a subnetwork that achieves similar accuracy as the original network.
+As discussed in the Pruning chapter, Iterative Magnitude Pruning, can produce a subnetwork that achieves similar accuracy as the original network.
 
-It begs the question then - Couldn't we just train a simpler architectured network right from the start? Experience and research answer this question negatively. It was assumed that learning a model inherently required more space than inferencing it. Effectively, as exemplified by the process of pruning, besides learning the weights, a model optimizes its connectivity.
+It begs the question then - Couldn't we just train a simpler architectured network right from the start? Experience and research have previously answered this question negatively. It was assumed that learning a model inherently required more space than inferencing it. Effectively, as exemplified by the process of pruning, besides learning the weights, a model optimizes its connectivity.
 
 In theory, then, we could have used the subnetwork from the start since it has optimal connections. In his paper ["The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks"](#ref-l1), Jonathan Frankle states that in practice, this is indeed the case - he shows that the initialization for the weights plays a major role.
 
@@ -15,11 +15,11 @@ The hypothesis provides two very strong claims about such subnetworks:
 1. They are trainable within at most the same number of iterations as the original network
 2. They have about the same accuracy as the original network
 
-A way to find such subnetworks is in the way our initial intuition dictated - through pruning! Although simple retrospectively, the key insight Frankle made is the importance of weight initialization. The main reason that previous experience showed that those subnetworks are not trainable is due to the choice of weight initialization method. In contrast to fine-tuning (which is the common practice), Frankle showed that one-shot pruned networks are trainable if using weight-rewinding to initialize the weights (we discussed those methods in the chapter about pruning).
+A way to find such subnetworks is as our initial intuition dictated - through pruning! Although simple retrospectively, the key insight Frankle made is the importance of weight initialization. The main reason that previous experience showed that those subnetworks are not trainable is due to the choice of weight initialization method. In contrast to fine-tuning (which is the common practice), Frankle showed that one-shot pruned networks are trainable if using weight-rewinding to initialize the weights (we discussed those methods in the chapter about pruning). Later, he showed that fine-tuning yields even better results.
 
 To summarize: Either one-shot or iterative pruning yields subnetworks, which, when having their weights rewound, are trainable. The subnetworks can reach similar accuracy as the original network with fewer training iterations.
 
-We refer to such subnetworks as **winning tickets**, they learn faster and generalize better than their original networks.
+We refer to such subnetworks as **Winning Tickets**, they learn faster and generalize better than the original networks.
 
 ## First results
 
@@ -45,7 +45,7 @@ The convolution filters in the tables have an implicit size of 3x3.
 
 Figure \ref{lotter-weights-vs-iterations} compares winning tickets (solid lines) and randomly sampled sparse subnetworks (dashed lines) for different architectures (color).
 
-The two left figures correlate sparsity (x-axis) with the number of training iterations (y-axis). For the Lenet architecture, It is empirically shown, that down to 7% weights remaining, winning tickets require fewer training iterations than the original network (100% weights remaining). For the Conv networks, the number of weights is down even to 3%.
+The two left figures correlate sparsity (x-axis) with the number of training iterations (y-axis). For the Lenet architecture, it is empirically shown, that all the down to 7% weights remaining, winning tickets require fewer training iterations than the original network (100% weights remaining). For the Conv networks, the number of weights is down even to 3%.
 
 The two right figures correlate sparsity (x-axis) to accuracy (y-axis). For both the Lenet architecture and the Conv architectures we see the same breakpoints of 7% and 3% respectively. Up to those breakpoints, the winning tickets yield higher accuracy than the original network!
 
@@ -205,3 +205,9 @@ The key point to look at is that at the same iterations where the subnetworks ar
 ![Instability Analysis of subnetworks at iteration $k$. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{lottery-instability-subnetworks-iteration}](assets/lottery-instability-subnetworks-iteration.png){width=100%}
 
 ![Error of subnetworks at iteration $k$. Source: "Linear Mode Connectivity and the Lottery Ticket Hypothesis"\label{lottery-error-subnetworks-iteration}](assets/lottery-error-subnetworks-iteration.png){width=100%}
+
+### Final Notes
+
+You might have noticed that all of the networks that were experimented on are convolutional networks. It is currently researched how the hypothesis holds on other, more complex and modern architectures like those found in NLP domains (RNNs, Transformers etc.). Existing results have shown that the hypothesis somewhat holds.
+
+Another question regarding Winning Tickets is about what they encode and how can we learn from the to better architect new models. There are some results and insights regarding this topic that we haven't covered in this work.

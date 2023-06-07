@@ -1,7 +1,7 @@
 ---
 header-includes:
   - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-title: Model Compression and The Lottery Ticket Hypothesis
+title: Neural Networks Model Compression and the Lottery Ticket Hypothesis
 author:
 - Tal Glanzman
 

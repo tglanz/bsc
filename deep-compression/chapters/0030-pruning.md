@@ -1,8 +1,10 @@
 # Pruning
 
-## Motivation
+> "The art of being wise is the art of knowing what to overlook." - William James
 
-**Pruning** is a compression technique to reduce the size of a model by forcefully removing part of its parameters and/or neurons.
+## Overview
+
+**Pruning** is a NN model compression technique to reduce the size of a model by forcefully removing part of its parameters and/or neurons.
 
 Oxford's definitions for pruning are both very fitting
 

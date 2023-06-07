@@ -1,5 +1,9 @@
 # Quantization
 
+> "Less is more." - Ludwig Mies van der Rohe
+
+## Overview
+
 According to _Oxford_, the meaning of the term quantization is:
 
 > A method of producing a set of discrete or quantized values that represents a continuous quantity
@@ -8,7 +12,7 @@ In the domain of neural networks, **Quantization** is the field of reducing the 
 
 Most neural networks today, before Quantization, use real numbers for computation. In contrast to integers, real numbers representations are far more complex and they are very costly compute-wise (see the [next section](#real-numbers-representations)).
 
-Assuming the Quantization process can be performed without impacting the model's accuracy, it is highly valuable both from size/memory and computational resources perspectives.
+Assuming the Quantization process can be performed without impacting the model's accuracy, it is highly valuable both from size/memory and computational resources perspectives. Fewer bits allow for a smaller storage and memory footprint; and if the hardware is properly optimized, for fewer compute cycles as well.
 
 ## Real numbers representations
 
