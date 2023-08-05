@@ -310,8 +310,88 @@ Compact encoding of the weights (Compression)
 
 # Lottery Ticket Hypothesis
 
-## Initial Formulation
+## LTH, Background
 
-## Lottery Tickets in bigger architectures
+Recall: Iterative, Magnitude Pruning yields a subnetwork with similar accuracies
 
-## Linear mode connectivity
+- Could we initially train such subnetwork?
+
+Past research took the subnetworks, reinitialized the weights, retrained the subnetwork and the accuracy was... Very Low.
+
+- It seemed the answer was no.
+
+**Jonathan Frankle** proposed a very minor change - "just" use **Weight Rewining**, and the result: The subnetwork has trained efficiently
+
+## LTH, Formulation
+
+> A randomly initialized, dense neural network contains a subnetwork that is initialized such that - when trained in isolation - it can match the test accuracy of the original network after training for at most the same number of iterations
+
+The initialization of the parameters plays a huge role in how well networks are trained.
+
+The Winning Tickets are "better" networks - they learn faster and generalize better than the original networks.
+
+
+## LTH, Initial Results
+
+![Winning Tickets perform better than random initialization](./assets//lth-first-result.png)
+
+## LTH, VGG Results
+
+![In bigger architectures, slower LR or warmup is required](./assets/lth-vgg-results.png)
+
+## LTH, Stability Analysis 1
+
+**Instability Analysis** is a theoretical framework to determine whether a neural network is stable to SGD noise.
+
+Duplicate a neural network $N$ to two copies $N_1, N_2$ that are initialized with parameters $W_0$.
+
+Train both networks in isolation. Notate the trained parameters $W_{T}^1, W_{T}^2$.
+
+$$
+  Similiar(W_T^1, W_T^2) \Rightarrow Stable(N)
+$$
+
+How do we define $Similar$? $L_2$ perhaps? No!
+
+## LTH, Stability Analysis 2
+
+We will analyze the landscape of the loss function (error) along a linear path connecting $W_T^1, W_T^2$.
+
+We will call largest **increase** along this path the **linear Interpolation Instability** of $N$ to $SGD$ (or just the **instability**).
+
+When the instability is approaching zero it indicates that $W_T^1$ and $W_T^2$ have found minimas which are (roughly) linearly connected.
+
+## LTH, Stability Analysis 3
+**Linear Interpolation** of the weights $W_1$ and $W_2$:
+$$
+  \Gamma(\gamma, W_1, W_2) = (1 - \gamma)W_1 + \gamma W_2
+$$
+The **Error at $W$**: $\varepsilon W$.
+The **Maximum Error**:
+$$
+  \varepsilon_{sup}(W_1, W_2) = sup_{\gamma} \varepsilon(\Gamma(\gamma, W_1, W_2))
+$$
+The **Mean Error**:
+$$
+  \varepsilon_{mean}(W_1, W_2) = \frac{1}{2}(\varepsilon(W_1) + \varepsilon(W_2))
+$$
+Finally, the **Error Barrier Height**:
+$$
+  \varepsilon_{sup}(W_1, W_2) - \varepsilon_{mean}(W_1, W_2)
+$$
+
+## LTH, Stability Analysis 4
+
+The Error Barrier Height is what we looked for - It's the instability. Two networks are said to be **Linear Mode Connected** if their Instability is roughly 0.
+
+A network is said to be **Stable To SGD** if the networks created be how we described are Linear Mode Connected.
+
+## LTH, Stability Analysis 5
+
+![Instability is greatly reduced after some iterations](./assets/instability-after-iterations.png)
+
+## Winning Tickets and Stable Networks
+
+Winning Tickets can be found if and only if the network is stable to SGD noise $^*$
+
+# Thank you
