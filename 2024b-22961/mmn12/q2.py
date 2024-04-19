@@ -234,9 +234,14 @@ def main():
             ("cos", 1, lambda a: a.cos()),
             ("sin", 1, lambda a: a.sin()),
 
-            ("complex graph, graph such that a is used in more than one branch",
+            ("complex graph, such that a is used in more than one branch",
              4,
              lambda a, b, c, d: ((a.log() / b.sin()) + (a.cos() * c) - (a + d.exp())).pow(2)
+             ),
+
+            ("chain operations",
+             1,
+             lambda a: a.pow(2).cos().sin().sin().exp().pow(3).log() / a + a * a
              )
         ]
 
