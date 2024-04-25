@@ -2,15 +2,20 @@ from typing import List, Optional, Sequence, Set
 import pandas as pd
 import torch
 import torch.nn as nn
-import torch.utils.data as torch_data
+from torch.utils.data import Dataset, DataLoader
 from matplotlib import pyplot as plt
 
-df = pd.read_csv("assets/diabetes.csv", sep="\t")
-df['Class'] = pd.qcut(df.Y, 10, labels=False)
+epochs = 50
+plot = True
+lr = 0.01
+batch_size = 10
+
+diabetes_df = pd.read_csv("assets/diabetes.csv", sep="\t")
+diabetes_df['Class'] = pd.qcut(diabetes_df.Y, 10, labels=False)
 
 def visualize_deciles():
     fig = plt.figure()
-    plt.scatter(df.Class, df.Y)
+    plt.scatter(diabetes_df.Class, diabetes_df.Y)
     ax = fig.axes[0]
     ax.set_xlabel("Class")
     ax.set_ylabel("Y")
@@ -19,7 +24,7 @@ def visualize_deciles():
 
 # Our custom Dataset. Useful reference:
 # https://pytorch.org/tutorials/beginner/basics/data_tutorial.html
-class DiabetesDataset(torch_data.Dataset):
+class DiabetesDataset(Dataset):
     df: pd.DataFrame
 
     x_include: Set[str]
@@ -39,44 +44,28 @@ class DiabetesDataset(torch_data.Dataset):
         return len(self.df)
 
     def __getitem__(self, index) -> torch.Tensor:
-        x = self.df.loc[index, (col in self.x_include for col in df.columns)].values
-        y = self.df.loc[index, df.columns == self.y_column].values
+        x = self.df.loc[index, (col in self.x_include for col in self.df.columns)].values
+        y = self.df.loc[index, self.df.columns == self.y_column].values
         return (
             torch.tensor(x).float(),
             torch.tensor(y).squeeze().long())
 
-dataset_with_y = DiabetesDataset(
-    df,
-    x_include=[col for col in df.columns if col not in ("Class")],
-    y_column="Class")
-
-dataloader_with_y = torch_data.DataLoader(dataset_with_y, 10)
-
-dataset_without_y = DiabetesDataset(
-    df,
-    x_include=[col for col in df.columns if col not in ("Class", "Y")],
-    y_column="Class")
-
-dataloader_without_y = torch_data.DataLoader(dataset_without_y, 10)
-
-# print the first batch
-print(next(iter(dataloader_with_y)))
-
 class ClassPredictor:
-    dataloader: torch_data.DataLoader
 
     def __init__(self,
-                 dataloader: torch_data.DataLoader,
                  in_features: int,
                  out_features: int = 10,
                  learning_rate: float = 0.1,
     ):
-        self.dataloader = dataloader
+        num_stages = 4
+        layers = []
+        for i in range(1, num_stages):
+            layers.append(nn.Linear(in_features * i, in_features * (i + 1)))
+            layers.append(nn.ReLU())
 
         self.model = nn.Sequential(
-            nn.Linear(in_features, in_features * 2),
-            nn.ReLU(),
-            nn.Linear(in_features * 2, out_features),
+            *layers,
+            nn.Linear(in_features * num_stages, out_features),
             nn.LogSoftmax(dim=1)
         )
 
@@ -86,11 +75,12 @@ class ClassPredictor:
             self.model.parameters(),
             lr=learning_rate)
 
-    def forward_batch(self, batch):
+    def forward_batch(self, batch, optimize: bool = True):
         xs, ys = batch
 
-        # new batch, zero all gradients
-        self.optimizer.zero_grad()
+        if optimize:
+            # new batch, zero all gradients
+            self.optimizer.zero_grad()
 
         # feed forwad
         output = self.model(xs)
@@ -99,8 +89,9 @@ class ClassPredictor:
         loss = self.loss(output, ys)
         loss.backward()
 
-        # update model parameters
-        self.optimizer.step()
+        if optimize:
+            # update model parameters
+            self.optimizer.step()
 
         # calculate the accuracy.
         # `inferred_classes` gets, from each entry in the batch the highest probability class.
@@ -111,43 +102,122 @@ class ClassPredictor:
 
         return loss.detach(), accuracy.detach()
 
-    def forward(self):
-        total_batches = len(self.dataloader)
-        loss_overtime = torch.empty(total_batches)
-        accuracy_overtime = torch.empty(total_batches)
+    def forward(self, dataloader: DataLoader, optimize: bool = True):
+        total_batches = len(dataloader)
 
-        for idx, batch in enumerate(self.dataloader):
-            loss, accuracy = self.forward_batch(batch)
-            loss_overtime[idx] = loss
-            accuracy_overtime[idx] = accuracy
+        loss_sum = 0
+        accuracy_sum = 0
 
-        return loss_overtime.mean(), accuracy_overtime.mean()
+        for batch in dataloader:
+            loss, accuracy = self.forward_batch(batch, optimize=optimize)
+            loss_sum += loss
+            accuracy_sum += accuracy
 
-predictor = ClassPredictor(
-    dataloader=dataloader_with_y,
-    in_features=len(df.columns) - 1,
-    learning_rate=0.01)
+        return float(loss_sum) / total_batches, float(accuracy_sum) / total_batches
 
-epochs = 50
-losses = torch.empty(epochs)
-accuracies = torch.empty(epochs)
+    def train(self,
+              epochs: int,
+              dataloader: DataLoader,
+              plot: bool = False,
+              plot_suptitle: Optional[str] = None,
+        ):
+    
+        losses = torch.empty(epochs)
+        accuracies = torch.empty(epochs)
 
-for epoch in range(epochs):
-    print(f"Training, epoch={epoch}")
-    loss, accuracy = predictor.forward()
-    losses[epoch] = loss
-    accuracies[epoch] = accuracy
+        print("Training ", end="")
+        for epoch in range(epochs):
+            print(".", end="", flush=True)
+            loss, accuracy = self.forward(dataloader)
+            losses[epoch] = loss
+            accuracies[epoch] = accuracy
+        print()
 
-fig = plt.figure()
-plt.subplot(1, 2, 1)
-plt.title("Loss")
-plt.plot(range(epochs), losses)
-plt.xlabel("Epoch")
+        if plot:
+            fig = plt.figure()
+            if plot_suptitle:
+                fig.suptitle(plot_suptitle)
+            plt.subplot(1, 2, 1)
+            plt.title("Loss")
+            plt.plot(range(epochs), losses)
+            plt.xlabel("Epoch")
 
-plt.subplot(1, 2, 2)
-plt.plot(range(epochs), accuracies)
-plt.title("Accuracy")
-plt.xlabel("Epoch")
+            plt.subplot(1, 2, 2)
+            plt.plot(range(epochs), accuracies)
+            plt.title("Accuracy")
+            plt.xlabel("Epoch")
 
-fig.show()
+            fig.show()
+
+        return losses[-1], accuracies[-1]
+
+    def evaluate_model(self, dataloader: DataLoader) -> float:
+        loss, accuracy = self.forward(dataloader, optimize=False)
+        return accuracy
+
+def partition_dataframe(df: pd.DataFrame, frac: float) -> pd.DataFrame:
+    a = df.copy()
+    b = a.sample(frac=frac)
+    
+    a.drop(b.index)
+    a = a.reset_index()
+    b = b.reset_index()
+
+    return a, b
+
+# The training and test set contains 80% and 20% from the dataset respectively.
+training_df, test_df = partition_dataframe(diabetes_df, frac=0.2)
+
+training_dataset_with_y = DiabetesDataset(
+    training_df,
+    x_include=[col for col in diabetes_df.columns if col not in ("Class")],
+    y_column="Class")
+
+test_dataset_with_y = DiabetesDataset(
+    test_df,
+    x_include=[col for col in diabetes_df.columns if col not in ("Class")],
+    y_column="Class")
+
+training_dataset_without_y = DiabetesDataset(
+    training_df,
+    x_include=[col for col in diabetes_df.columns if col not in ("Class", "Y")],
+    y_column="Class")
+
+test_dataset_without_y = DiabetesDataset(
+    test_df,
+    x_include=[col for col in diabetes_df.columns if col not in ("Class", "Y")],
+    y_column="Class")
+
+def train_and_evaluate(training_dataset: Dataset, test_dataset: Dataset, experiment_name: str):
+    input_features = len(training_dataset[0][0])
+
+    predictor = ClassPredictor(
+        in_features=input_features,
+        learning_rate=lr)
+
+    _, training_accuracy = predictor.train(
+        epochs,
+        DataLoader(training_dataset, batch_size),
+        plot=True,
+        plot_suptitle=experiment_name)
+
+    test_accuracy = predictor.evaluate_model(
+        DataLoader(test_dataset))
+
+    print(f"Experiment: {experiment_name}")
+    print(f" - Final training accuracy: {training_accuracy}")
+    print(f" - Final test accuracy: {test_accuracy}")
+
+# Visualize the deciles
+visualize_deciles()
+
+# Just print, like required in the mmn
+print(next(iter(DataLoader(training_dataset_with_y, batch_size))))
+
+# Train and evaluate a predictor for Class that is trained on all fields including Y
+train_and_evaluate(training_dataset_with_y, test_dataset_with_y, "Predict Class with Y")
+
+# Train and evaluate a predictor for Class that is trained on all fields except Y
+train_and_evaluate(training_dataset_without_y, test_dataset_without_y, "Predict Class without Y")
+
 input()
