@@ -252,14 +252,22 @@ class FeatureRegression:
                  learning_rate: float = 0.1,
     ):
         self.model = nn.Sequential(
-            nn.Linear(in_features, in_features * 2),
-            nn.Tanh(),
-            nn.Linear(in_features * 2, 1),
+            nn.Linear(in_features, 512),
+            nn.LeakyReLU(),
+            nn.Linear(512, 254),
+            nn.LeakyReLU(),
+            nn.Linear(254, 128),
+            nn.LeakyReLU(),
+            nn.Linear(128, 64),
+            nn.LeakyReLU(),
+            nn.Linear(64, 32),
+            nn.LeakyReLU(),
+            nn.Linear(32, 1),
         )
 
         self.loss = nn.MSELoss()
 
-        self.optimizer = torch.optim.SGD(
+        self.optimizer = torch.optim.Adam(
             self.model.parameters(),
             lr=learning_rate)
 
@@ -341,9 +349,9 @@ class FeatureRegression:
         return err 
 
 
-epochs = 50
+epochs = 100
 plot = True
-lr = 0.001
+lr = 0.01
 batch_size = 10
 
 training_df, test_df = partition_dataframe(diabetes_df, frac=0.2)
