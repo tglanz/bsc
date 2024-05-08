@@ -61,3 +61,28 @@ Using Chebyshev's inequality we get that
     &\leq \frac{k}{(k - \frac{k}{1+\epsilon})^2} = \frac{(1+\epsilon)^2}{k\epsilon^2} \\
     &\leq \frac{4}{80 \epsilon^{-2} \epsilon^2} = 0.05
 \end{align*}
+
+# Answer to question 2
+
+Define $p = \lg m$ partitions of $M = [m] = \{1, 2, ..., m\}$:
+
+$I_0 = \{1, 2, ..., m \}$
+
+$I_1 = \{ \{1, 2 \}, \{3, 4\}, ..., \{m-1, m\} \}$
+
+$...$
+
+$I_{p-1} = \{ \{1, 2, ..., \frac{m}{2}\}, \{\frac{m}{2} + 1, \frac{m}{2} + 2, ..., m\} \}$
+
+$I_p = \{ \{ 1, 2, ..., m \} \}$
+
+Algorithm $A$ is defined by:
+
+1. Set $\tilde{\epsilon} = \frac{\epsilon}{p}$ and $\tilde{\delta} = \frac{\delta}{p}$
+1. Initialize $p$ copies of algorithm $CountMin(\tilde{\epsilon}, \tilde{\delta})$ and denote $A_i$ to be the $i$-th copy. The domain of tokens for each copy $A_i$ is the elements of the subset $I_i$.
+    - Every token $t$ correspond to some element in $I_i$ according the mapping $t \mapsto \lceil  \frac{t}{2^i} \rceil$. For example, $t=3$ is mapped to the second element at $I_1$ which is $\{ 3, 4 \}$. When we will pass tokens to the algorith $A_i$ we will **implictly** map the token to the relevant domain $I_i$.
+1.  Initialize $n \leftarrow 0$ and $l_1 \leftarrow 0$
+1. While there is more token $(t, c)$ do
+    1. Invoke $A_i(t, c)$
+    1. $l_1 \leftarrow l_1 + c$
+    1. $n \leftarrow \max \{ n, l_1 \}$
