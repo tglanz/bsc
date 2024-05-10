@@ -29,7 +29,7 @@ $$
     Y = \sum_{t \in D}{Y_t}
 $$
 
-From the linearity of expectiation we get that 
+From the linearity of expectation we get that 
 
 $$
 \mathbb{E}(Y) = d \mathbb{E}(Y_t) = \frac{k}{1+\epsilon}
@@ -41,10 +41,12 @@ $$
     Var(Y) \leq k
 $$
 
+> Note: As we will see next, we will use Chebyshev inequality and we only need to bound the Variance. It result perhaps in a not-so-tight $k$, but it doesn't really affect the asymptotic complexity.
+
 To bound $Pr(X > (1+\epsilon)d)$ notice that
 
 $$
-    Pr(X > (1+\epsilon)d) = Pr(\frac{z_k}{k} > (1+\epsilon)d) = Pr(z_k < \frac{k}{(1+\epsilon)d})
+    Pr(X > (1+\epsilon)d) = Pr(\frac{k}{z_k} > (1+\epsilon)d) = Pr(z_k < \frac{k}{(1+\epsilon)d})
 $$
 
 $z_k < \frac{k}{(1+\epsilon)d}$ is true iff the number of hash values below the threshold $\frac{k}{(1+\epsilon)d}$ is greater than k, meaning that
@@ -61,6 +63,54 @@ Using Chebyshev's inequality we get that
     &\leq \frac{k}{(k - \frac{k}{1+\epsilon})^2} = \frac{(1+\epsilon)^2}{k\epsilon^2} \\
     &\leq \frac{4}{80 \epsilon^{-2} \epsilon^2} = 0.05
 \end{align*}
+
+We will bound $Pr(X < (1 - \epsilon)d)$ in a similar manner. Redefine $Y_t$ to indicate whether token $t$ is **above** the threshold $\frac{k}{(1-\epsilon)d}$. Also redefine $Y = \sum_{t \in D}Y_t$ to count the number of tokens above this thershold.
+
+By linearity of expectation
+
+$$
+    \mathbb{E}(Y) = d \cdot \mathbb{E}(Y_t) = d (1 - \frac{k}{(1 - \epsilon)d}) = d - \frac{k}{1-\epsilon} 
+$$
+
+Because the variables are independent, and assuming $k \leq (1-\epsilon)d$ we get that
+
+$$
+    Var(Y) = d \cdot Var(Y_t) = d (1 - \frac{k}{(1-\epsilon)d})(\frac{k}{(1 - \epsilon)d}) < \frac{k}{1 - \epsilon}
+$$
+
+Now notice that
+
+$$
+    Pr(X < (1 - \epsilon)d) = Pr(z_k > \frac{k}{(1 - \epsilon)d})
+$$
+
+Because $z_k$ is the maximal value of the bottom $k$ tokens, $z_k > \frac{k}{(1-\epsilon)d}$ happens only when more than $d-k$ tokens are greater than $\frac{k}{(1-\epsilon)d}$. We conclude that
+
+$$
+    Pr(X < (1 - \epsilon)d) = Pr(Y > d - k)
+$$
+
+Using Chebyshev inequality we get that
+
+\begin{align*}
+    Pr(Y > d - k) &= Pr(Y - \mathbb{E}(Y) > d - k - \mathbb{E}(Y)) \\
+    &= Pr(Y - \mathbb{E}(Y) > d - k - d + \frac{k}{1 - \epsilon}) \\
+    &= Pr(Y - \mathbb{E}(Y) > \frac{\epsilon k}{1 - \epsilon}) \\
+    &< \frac{k}{1 - \epsilon} \cdot \frac{(1 - \epsilon)^2}{(\epsilon k)^2} = \frac{1-\epsilon}{k \epsilon^2} = \frac{1-\epsilon}{80} \\
+    &< 0.05
+\end{align*}
+
+## Space complexity analysis
+
+- $z_1, z_2, ..., z_k$ utilize $O(k \log m)$ space.
+
+- We treated $h$ as a function $h : [m] \rightarrow [0, 1] \subset \mathbb{R}$. In reality, $h$ is a hash function $h : [m] \rightarrow I$ such that $I$ is some discretization of $[0, 1] \subset \mathbb{R}$. Therefore the space complexity is $O(\log m + \log |I|) = O(\log m)$. The last equality is due to the fact that the discretized interval $I$ has a fixed, **constant** number of elements.
+
+Overall, the space complexity of the algorithm is
+
+$$
+    O(\epsilon^{-2} \log m)
+$$
 
 # Answer to question 2
 
