@@ -24,9 +24,13 @@ The algorithm $A$:
 
 ## Space Complexity
 
-After each iteration of algorithm $A$, for every vertex $v \in V$ there is **at most** one set $C_v$ in $C$ such that $v \in C_v$. Thus, at the worst case, the number of vertices we keep track of in $C$, which is the sum of the sizes of sets in $C$, is $n$. Formally $\sum_{c \in C} |c| \leq n$.
+We require only $2 \log n$ bits for the For the edge $(u, v)$.
 
-We conclude that the Algorithm utilizes at most $n$ slots of $\log n$ bits each. i.e.
+After each iteration of algorithm $A$, for every vertex $v \in V$ there is **at most** one set $C_v$ in $C$ such that $v \in C_v$. Thus, at the worst case, the number of vertices we keep track of in $C$, which is the sum of the sizes of sets in $C$, is $n$. Formally $\sum_{c \in C} |c| \leq n$. Thus we require at most $n \log n$ bits for $C$.
+
+As analyzed in the original Algorithm 8, $C_u$ and $C_v$ are pointers to a set in $C$. There are at most $n$ sets in $C$ so $\log n$ bits are sufficient for such pointers. They both require $2 \log n$ bits.
+
+We conclude that
 
 $$
     Space(A) = O(n \cdot\log n)
