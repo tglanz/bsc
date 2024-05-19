@@ -1,7 +1,7 @@
 ---
 title: 22934, Mmn13
 author: Tal Glanzman
-date: 03-05-2024
+date: 10-05-2024
 ...
 
 # Answer to question 1
@@ -100,7 +100,7 @@ Using Chebyshev inequality we get that
     &< 0.05
 \end{align*}
 
-## Space complexity analysis
+### Space complexity analysis
 
 - $z_1, z_2, ..., z_k$ utilize $O(k \log m)$ space.
 
@@ -147,7 +147,9 @@ Algorithm $A$ is defined by:
 1. Return $i$
 
 As a general explanation for the algorithm:
+
 - Steps 1 to 4 delegates the tokens to $p$ copies of the $CountMin$ algorithm, a paradigm we already saw multiple times in previously learnt algorithms.
+
 - Step 6 navigates through the elements of subsets $I_p, I_{p-1}, ..., I_0$ (as indicated by the variable $i$) in a manner that the $\sigma$ variable will converge within the interval $[\frac{n}{2}, \frac{n}{2} + \epsilon n]$. Therefore by the time it reaches the $I_0$ subset, which contains the original stream tokens, $i$ will point to the estimated token $i$ such that $\sum_{k=1}^i {f_k} \in [\frac{n}{2}, \frac{n}{2} + \epsilon n]$ (with some probability).
 
 ### Probabilistic analysis
