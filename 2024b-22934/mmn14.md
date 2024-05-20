@@ -55,9 +55,9 @@ We define Algorithm $B(s, t, \alpha)$ as follows
 
 ## Approximation Factor
 
-Denote $G = (V_G, E_G)$.
+Denote $G = (V, E)$.
 
-On the one hand, because Algorithm $B$ adds only a subset of edges of $E_G$ that satisfy the condition in $2.2$ it holds that $H \subseteq E_G$. Thus, all paths that exist in $H$ also exist in $E_G$, therefore
+On the one hand, because Algorithm $B$ adds only a subset of edges $E$ that satisfy the condition in $2.2$, it holds that $H \subseteq E$. Thus, all paths that exist in $H$ also exist in $E$ and therefore
 
 $$
     d_G(s, t) \leq d_H(s, t) = d_{Alg}(s, t)
@@ -77,7 +77,7 @@ $$
 
 ## Space Complexity
 
-There are no cycles of length less than $2k$ in $H$. Assume by contradiction that there is such a cycle - It means that at some iteration of step $2$, there is a non-cycle path $p$ in $H$ that is of length at most $2k - 1$ and the edge $(u, v) \in E_G$ at $2.1$ satisfies that $p \cup (u, v)$ is a cycle of length less than $2k$. Notice that $u$ and $v$ along the path $p$ (it is easy to imagine them as the ends but it is not mandatory that they are), therefore $d_H(u, v) \leq 2k - 1$ which contradicts the fact that $(u, v)$ was inserted to the graph because it should have satisified condition $2.2$. Now, according to McGregor's Lemma we know that $H$ has $O(n^{1 + \frac{1}{k}})$ edges. Each edge requires at $O(\log n)$ bits and thus $Space(H) = O(\log n \cdot n^{1 + \frac{1}{k}})$.
+There are no cycles of length less than $2k$ in $H$. Assume by contradiction that there is such a cycle - It means that at some iteration of step $2$, there is a non-cycle path $p$ in $H$ that is of length at most $2k - 1$ and the edge $(u, v) \in E$ at $2.1$ satisfies that $p \cup (u, v)$ is a cycle of length less than $2k$. Notice that $u$ and $v$ along the path $p$ (it is easy to imagine them as the ends but it is not mandatory that they are), therefore $d_H(u, v) \leq 2k - 1$ which contradicts the fact that $(u, v)$ was inserted to the graph because it should have satisified condition $2.2$. Now, according to McGregor's Lemma we know that $H$ has $O(n^{1 + \frac{1}{k}})$ edges. Each edge requires at $O(\log n)$ bits and thus $Space(H) = O(\log n \cdot n^{1 + \frac{1}{k}})$.
 
 Holding the edge $(u, v)$ requires $2 \cdot \log n$ bits, i.e. $Space((u, v)) = O(\log n)$. 
 
