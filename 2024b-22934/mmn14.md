@@ -1,7 +1,7 @@
 ---
 title: 22934, Mmn14
 author: Tal Glanzman
-date: 
+date: 20/05/2024
 ...
 
 # Answer to question 1
@@ -36,6 +36,8 @@ $$
     Space(A) = O(n \cdot\log n)
 $$
 
+and algorithm $A$ is a semi-streaming algorithm
+
 # Answer to question 2
 
 By convention, given a graph $H$, if $(u, v) \notin H$ we set $d_H(u, v) = \infty$.
@@ -44,18 +46,18 @@ Denote $\alpha = 2k - 1$.
 
 We define Algorithm $B(s, t, \alpha)$ as follows
 
-1. Initiallize an empty graph $H$
+1. Let $H \leftarrow \phi$
 1. **while** there are more edges **do**
     1. Let $(u, v)$ be the next edge in the input graph $G$
     1. **if** $d_H(u, v) > \alpha$ **then**
-        1. Add $(u, v)$ to $H$
+        1. $H \leftarrow H \cup \{(u, v)\}$
 1. Return $d_H(s, t)$
 
 ## Approximation Factor
 
-Denote $H = (V_H, E_H)$ and $G = (V_G, E_G)$.
+Denote $G = (V_G, E_G)$.
 
-On the one hand, because Algorithm $B$ adds only a subset of edges of $E_G$ that satisfy the condition in $2.2$ it holds that $E_H \subseteq E_G$. Thus, all paths that exist in $E_H$ also exist in $E_G$, therefore
+On the one hand, because Algorithm $B$ adds only a subset of edges of $E_G$ that satisfy the condition in $2.2$ it holds that $H \subseteq E_G$. Thus, all paths that exist in $H$ also exist in $E_G$, therefore
 
 $$
     d_G(s, t) \leq d_H(s, t) = d_{Alg}(s, t)
@@ -75,10 +77,16 @@ $$
 
 ## Space Complexity
 
-There are no cycles of length less than $2k$ in $H$.
+There are no cycles of length less than $2k$ in $H$. Assume by contradiction that there is such a cycle - It means that at some iteration of step $2$, there is a non-cycle path $p$ in $H$ that is of length at most $2k - 1$ and the edge $(u, v) \in E_G$ at $2.1$ satisfies that $p \cup (u, v)$ is a cycle of length less than $2k$. Notice that $u$ and $v$ along the path $p$ (it is easy to imagine them as the ends but it is not mandatory that they are), therefore $d_H(u, v) \leq 2k - 1$ which contradicts the fact that $(u, v)$ was inserted to the graph because it should have satisified condition $2.2$. Now, according to McGregor's Lemma we know that $H$ has $O(n^{1 + \frac{1}{k}})$ edges. Each edge requires at $O(\log n)$ bits and thus $Space(H) = O(\log n \cdot n^{1 + \frac{1}{k}})$.
 
-Assume by contradiction that there is such a cycle - It means that at some point, there is a non-cycle path $p$ in $H$ that is of length at most $2k - 1$ and an edge $(u, v) \in E_G$ such that $p \cup (u, v)$ is a cycle of length less than $2k$. Notice that $u$ and $v$ along the path $p$ (it is easy to imagine them as the ends but it is not mandatory that they are). Therefore $d_H(u, v) \leq 2k - 1$ which contradicts the fact that $(u, v)$ was inserted to the graph because it should have satisified condition $2.2$.
+Holding the edge $(u, v)$ requires $2 \cdot \log n$ bits, i.e. $Space((u, v)) = O(\log n)$. 
 
-Now, according to McGregor's Lemma with know that $|V_H|$ has $O(n^{1 + \frac{1}{k}})$ edges. Each edge requires at $O(\log n)$ bits and thus $Space(H) = O(\log n \cdot n^{1 + \frac{1}{k}})$.
+To compute $d_H(s, t)$ in step $3$ we will use the $BFS$ algorithm which requires $O(n)$ space.
 
-# TODO: COMPLETE THIS SPACE COMPLEXITY compute distance using BFS
+All in all
+
+$$
+    Space(B) = O(\log n \cdot n^{1+\frac{1}{k}})
+$$
+
+and algorithm $B$ is a semi-streaming algorithm.
