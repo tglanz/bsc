@@ -40,19 +40,40 @@ class SplitLayer(nn.Module):
         # Same as: (in fact I saw how to manually do it there)
         # torch.nn.init.uniform_(self.hidden[0].weight, -xavier, +xavier)
 
-    def forward(self, x: torch.Tensor):
+    def forward(self, x: torch.Tensor, verbose=False):
+
+        log = print if verbose else lambda x: ()
+
+        log(f"Input: {x}")
+
         a_in, b_in = x.split(split_size=self.split_size, dim=self.split_dim)
+        log(f"Split A: {a_in}")
+        log(f"Split B: {b_in}")
+
 
         a_out = self.hidden(a_in)
-        b_out = self.hidden(b_in)
+        log(f"Ouput A: {a_in}")
 
-        return torch.concat((a_out, b_out), dim=self.split_dim)
+        b_out = self.hidden(b_in)
+        log(f"Output B: {b_in}")
+
+        y = torch.concat((a_out, b_out), dim=self.split_dim)
+        log(f"Output: {y}")
+
+        return y
+    
+    @staticmethod
+    def demonstrate():
+        x = torch.arange(12).reshape((3, 4)).float()
+
+        split_layer = SplitLayer(3, 4)
+        split_layer.train(False)
+        
+        y = split_layer.forward(x, verbose=True)
+
 
 def main():
-    x = torch.arange(12).reshape((3, 4)).float()
-    split_layer = SplitLayer(3, 4)
-    y = split_layer.forward(x)
-    print(y)
+    SplitLayer.demonstrate()
 
 if __name__ == '__main__':
     main()
