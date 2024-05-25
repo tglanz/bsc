@@ -3,7 +3,7 @@ digraph G {
     rankdir=LR;
 
     X [label=<<b>X</b><br/>shape=(N, M)>];
-    Y [label=<<b>X</b><br/>shape=(N, M)>];
+    Y [label=<<b>Y</b><br/>shape=(N, M)>];
 
     subgraph cluster_1 {
         label = "SplitLayer NxM"
@@ -12,24 +12,21 @@ digraph G {
         X1;
         X2;
 
+        Z1;
+        Z2;
+
+        Y1;
+        Y2;
+
         Linear [label=<<b>Linear</b><br/>in=M/2, out=M/2>, shape=box];
         Relu [shape=box];
         Concat [label=<<b>Concat</b><br/>dim=1>, shape=box];
-
-        Linear -> Relu [color=red]
-        Linear -> Relu [color=blue];
     }
     
     X -> Split;
 
-    Split -> X1 [color=red];
-    Split -> X2 [color=blue]; 
-
-    X1 -> Linear  [color=red];
-    X2 -> Linear [color=blue];    
-
-    Relu -> Concat [color=red];
-    Relu -> Concat [color=blue];
+    Split -> X1 -> Linear -> Z1 -> Relu -> Y1 -> Concat [color=red];
+    Split -> X2 -> Linear -> Z2 -> Relu -> Y2 -> Concat [color=blue];
 
     Concat -> Y;
 }
