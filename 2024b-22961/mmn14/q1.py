@@ -5,7 +5,6 @@ from torch.utils.data import DataLoader
 import math
 
 class SplitLayer(nn.Module):
-
     input_batches: int
     input_features: int
     split_size: int
@@ -69,7 +68,7 @@ class SplitLayer(nn.Module):
         split_layer = SplitLayer(3, 4)
         split_layer.train(False)
         
-        y = split_layer.forward(x, verbose=True)
+        split_layer.forward(x, verbose=True)
 
 
 def main():
