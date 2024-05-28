@@ -62,9 +62,9 @@ class DropNorm(nn.Module):
 
     def forward(self, x: torch.Tensor):
         mask = self.create_features_mask()
+        sub_x = x[:, mask]
 
         if self.training:
-            sub_x = x[:, mask]
             sigma2, mu = torch.var_mean(sub_x, dim=1)
 
             with torch.no_grad():
@@ -76,7 +76,14 @@ class DropNorm(nn.Module):
 
         # clone so we don't mutate input tensor and set masked features according to normalization
         x_hat = torch.zeros(x.shape, device=self.device)
+
+        # last batch might be smaller than the others
+        if x_hat.shape[0] < mu.shape[0]:
+            mu = mu[:x_hat.shape[0]]
+            sigma2 = sigma2[:x_hat.shape[0]]
+
         x_hat[:, mask] = (sub_x.flatten(1) - mu.unsqueeze(1)) / torch.sqrt(sigma2.unsqueeze(1)**2 + self.epsilon)
+
         y = self.gamma * x_hat + self.beta
 
         return y
@@ -239,14 +246,14 @@ def main():
 
     model_b = "Model B", nn.Sequential(
         nn.Linear(in_features=in_features, out_features=in_features // 2),
-        DropNorm(in_features=torch.Size([in_features])),
+        DropNorm(in_features=torch.Size([in_features // 2])),
         nn.Linear(in_features=in_features // 2, out_features=out_features),
-        DropNorm(in_features=torch.Size([in_features])),
+        DropNorm(in_features=torch.Size([out_features])),
         nn.LogSoftmax(dim=1),
     )
 
-    for name, model in (model_a, model_b):
-        train_accuracy_per_epoch = train_model(model, train_dl, 5, batch_limit=1)
+    for name, model in (model_b, ):
+        train_accuracy_per_epoch = train_model(model, train_dl, 30, batch_limit=1)
         eval_normal_distribution = eval_model(model, test_dl)
         print(f"{name} has reached mean accuracy of {eval_normal_distribution[1] * 100:.0f}%")
         plot_model_stats(name, eval_normal_distribution, train_accuracy_per_epoch)
