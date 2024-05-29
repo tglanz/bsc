@@ -46,9 +46,9 @@ class DropNorm(nn.Module):
 
         # As taught, it is beneficial to keep track of the averages of the mean and variances to use in inference time. 
         self.mu_avg_coeff = mu_avg_coeff
-        self.mu_avg = torch.tensor(0, device=device)
+        self.mu_avg = torch.zeros(in_features, device=device)
         self.sigma2_avg_coeff = sigma2_avg_coeff
-        self.sigma2_avg = torch.tensor(1, device=device)
+        self.sigma2_avg = torch.ones(in_features, device=device)
 
     def create_features_mask(self) -> torch.Tensor:
         zeros_count = self.in_features.numel() // 2
@@ -65,24 +65,19 @@ class DropNorm(nn.Module):
         sub_x = x[:, mask]
 
         if self.training:
-            sigma2, mu = torch.var_mean(sub_x, dim=1)
+            sigma2, mu = torch.var_mean(sub_x, dim=0)
 
             with torch.no_grad():
-                self.mu_avg = self.mu_avg_coeff * self.mu_avg + (1 - self.mu_avg_coeff) * mu
-                self.sigma2_avg = self.sigma2_avg_coeff * self.sigma2_avg + (1 - self.sigma2_avg_coeff) * sigma2
+                self.mu_avg[mask] = self.mu_avg_coeff * self.mu_avg[mask] + (1 - self.mu_avg_coeff) * mu
+                self.sigma2_avg[mask] = self.sigma2_avg_coeff * self.sigma2_avg[mask] + (1 - self.sigma2_avg_coeff) * sigma2
         else:
-            sigma2 = self.sigma2_avg
-            mu = self.mu_avg
+            sigma2 = self.sigma2_avg[mask]
+            mu = self.mu_avg[mask]
 
         # clone so we don't mutate input tensor and set masked features according to normalization
         x_hat = torch.zeros(x.shape, device=self.device)
 
-        # last batch might be smaller than the others
-        if x_hat.shape[0] < mu.shape[0]:
-            mu = mu[:x_hat.shape[0]]
-            sigma2 = sigma2[:x_hat.shape[0]]
-
-        x_hat[:, mask] = (sub_x.flatten(1) - mu.unsqueeze(1)) / torch.sqrt(sigma2.unsqueeze(1)**2 + self.epsilon)
+        x_hat[:, mask] = (sub_x.flatten(1) - mu.unsqueeze(0)) / torch.sqrt(sigma2.unsqueeze(0) + self.epsilon)
 
         y = self.gamma * x_hat + self.beta
 
@@ -99,39 +94,6 @@ def get_fashion_mnist_datasets():
     test_ds = torchvision.datasets.FashionMNIST("./datasets", train=False, download=True, transform=transform)
 
     return train_ds, test_ds
-
-class ModelA(nn.Module):
-    def __init__(self, in_features: int = 784, out_features: int = 10):
-        super().__init__()
-
-        self.layers = nn.Sequential(
-            nn.Linear(in_features=in_features, out_features=in_features // 2),
-            nn.BatchNorm1d(in_features // 2),
-            nn.Dropout(),
-            nn.Linear(in_features=in_features // 2, out_features=out_features),
-            nn.BatchNorm1d(out_features),
-            nn.LogSoftmax(dim=1),
-        )
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.layers(x)
-    
-    
-class ModelB(nn.Module):
-    def __init__(self, in_features: int = 784, out_features: int = 10):
-        super().__init__()
-
-        self.layers = nn.Sequential(
-            nn.Linear(in_features=in_features, out_features=in_features // 2),
-            nn.BatchNorm1d(in_features // 2),
-            nn.Dropout(),
-            nn.Linear(in_features=in_features // 2, out_features=out_features),
-            nn.BatchNorm1d(out_features),
-            nn.LogSoftmax(dim=1),
-        )
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.layers(x)
 
 def train_model(model: nn.Module, train_dl: DataLoader, epochs: int, batch_limit: Optional[int] = None) -> Sequence[float]:
     loss_fn = nn.NLLLoss()
@@ -239,8 +201,6 @@ def main():
         nn.BatchNorm1d(in_features // 2),
         nn.Dropout(),
         nn.Linear(in_features=in_features // 2, out_features=out_features),
-        nn.BatchNorm1d(out_features),
-        nn.Dropout(),
         nn.LogSoftmax(dim=1),
     )
 
@@ -248,12 +208,11 @@ def main():
         nn.Linear(in_features=in_features, out_features=in_features // 2),
         DropNorm(in_features=torch.Size([in_features // 2])),
         nn.Linear(in_features=in_features // 2, out_features=out_features),
-        DropNorm(in_features=torch.Size([out_features])),
         nn.LogSoftmax(dim=1),
     )
 
     for name, model in (model_b, ):
-        train_accuracy_per_epoch = train_model(model, train_dl, 30, batch_limit=1)
+        train_accuracy_per_epoch = train_model(model, train_dl, 5, batch_limit=None)
         eval_normal_distribution = eval_model(model, test_dl)
         print(f"{name} has reached mean accuracy of {eval_normal_distribution[1] * 100:.0f}%")
         plot_model_stats(name, eval_normal_distribution, train_accuracy_per_epoch)
