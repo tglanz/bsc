@@ -1,7 +1,7 @@
 ---
-title: 22934, Mmn14
+title: 22934, Mmn15
 author: Tal Glanzman
-date: 20/05/2024
+date: 08/06/2024
 ...
 
 # Answer to question 1
@@ -55,7 +55,7 @@ We use the List Model s.t. the list's element at index $1 \leq i \leq n$ is $f(i
 
 The following suggested algorithm works in a somewhat similar manner to the algorithm proposed in the book to test for half plane.
 
-Algorithm $B(f)$ is defined by
+Algorithm $B(f, \epsilon)$ is defined by
 
 1. **if** $f(0) = 1 \land f(n) = 0$ **then**
     1. **return** "No"
@@ -96,12 +96,12 @@ $f$ is not monotone by definition and the algorithm will accurately return "No" 
 
 We will assume without loss of generality that $f(0) = f(1) = 0$.
 
-**If $f$ is monotone** then forall $i \in \{ 2, 3, ..., n - 1 \}$ it will be true that $0 = f(0) \leq f(i) \leq f(n) = 0$ which means that $f(i) = 0 = f(0)$. Because $f(i) = f(0)$ the condition at step $2.2.2$ will never be satisfied and the algorithm will accurately return "Yes" in step $2.2.3$.
+**If $f$ is monotone** then forall $i \in \{ 2, 3, ..., n - 1 \}$ it will be true that ${0 = f(0) \leq f(i) \leq f(n) = 0}$ which means that $f(i) = 0 = f(0)$. Because $f(i) = f(0)$ the condition at step $2.2.2$ will never be satisfied and the algorithm will accurately return "Yes" in step $2.2.3$.
 
 **If $f$ is $\epsilon$-far from monotone** there are at least $\epsilon n$ elements that are 1. Algorithm $B$ will return "Yes" (step $2.2.3$) only if it uniformly sampled $h$ indices s.t. $f=1$ at those indices. Therefore
 
 $$
-    Pr(A = "Yes") \leq (1 - \frac{\epsilon \cancel n}{\cancel n})^h \leq e^{-\epsilon h} = e^{- \ln 4} = \frac{1}{4}
+    Pr(A = "Yes") \leq (1 - \frac{\epsilon n}{ n})^h \leq e^{-\epsilon h} = e^{- \ln 4} = \frac{1}{4}
 $$
 
 Finally we get that
@@ -126,7 +126,7 @@ $$
 
 Denote the set $X = \{ 1, ..., l - 1 \} \cup \{ r + 1, ..., n \}$.
 
-Because $|[l, r]| \leq \frac{\epsilon n}{2}$, it doesn't matter for how many indices in the range $[l, r]$ the function $f$ assume out of order values, there will be more than $\frac{\epsilon n}{2}$ indices in the set $X$ s.t. $f$ assume out order values for. Because we know that $f(l) = 0$ and $f(r) = 1$, out of order values of $f$ in $X$ can only mean one of two options: Either
+Because $|[l, r]| \leq \frac{\epsilon n}{2}$, it doesn't matter for how many indices in the range $[l, r]$ the function $f$ assume out of order values, there will be at least $\frac{\epsilon n}{2}$ indices in the set $X$ s.t. $f$ assume out order values for. Because we know that $f(l) = 0$ and $f(r) = 1$, out of order values of $f$ in $X$ can only mean one of two options: Either
 $i \leq l \land f(i) = 1$ or $i \geq r \land f(i) = 0$. In the loop at step $5$ we sample $h$ indices from $X$ and check whether there are out of order values according to this criteria.
 
 The probability of uniformly sampling a single in order index from $X$ is at most
@@ -147,20 +147,24 @@ $$
     Pr(B = "No") \geq 1 - Pr(B = "Yes") \geq \frac{3}{4}
 $$
 
+as needed.
+
 ## Run complexity
 
 Algorithm $B$ is comprised of 3 cases, we will analyze them seperately.
 
 ### Case 1: $f(0) = 1 \land f(n) = 0$
 
-Run in constant time $O(1)$
+Run in constant time $O(1) = \frac{1}{poly(\epsilon)}$
 
 ### Case 2: $f(0) = f(1)$
 
-Run in $O(h) = O(\frac{1}{\epsilon})$
+Run in $O(h) = O(\frac{1}{\epsilon}) = \frac{1}{poly(\epsilon)}$
 
 ### Case 3: $f(0) = 0 \land f(n)=1$
 
-Run in $O(k + h) = O(\log \frac{1}{\epsilon} + \frac{1}{\epsilon}) = O(\frac{1}{\epsilon})$
+Run in $O(k + h) = O(\log \frac{1}{\epsilon} + \frac{1}{\epsilon}) = O(\frac{1}{\epsilon}) = \frac{1}{poly(\epsilon)}$
 
-In any case, $O(B) = \frac{1}{poly(\epsilon)}$ time.
+\
+
+We see that in any case $O(B) = \frac{1}{poly(\epsilon)}$.
