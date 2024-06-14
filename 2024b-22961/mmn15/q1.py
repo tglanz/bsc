@@ -30,6 +30,11 @@ class Conv2d(torch.nn.Module):
         self.stride = stride
         self.padding = padding
 
+        # In reality, this should have been an `nn.Parameter`.
+        # The question requirement said "don't use any nn functionality", so I didn't put it as a parameter,
+        # hopefully I understood the requirements correctly.
+        # Nonetheless, for the purposes of evaluation, which is what we do here, it doesn't really matter if
+        # it's a parameter or not since we aren't optimizing.
         self.weight = self.create_kernel()
 
     def create_kernel(self) -> torch.Tensor:
@@ -81,7 +86,7 @@ class Conv2d(torch.nn.Module):
                 # By unsqueezine sub_x at dim 1 we enable the kernel and sub_x to be broadcastable together.
                 # Then, the operation wil be performed for each batch and for each out channel.
                 sub_x.unsqueeze_(1)
-                
+
                 mul = sub_x * kernel
                 scalar = mul.sum(dim=(2, 3, 4))
                 y[:, :, r, s] = scalar
