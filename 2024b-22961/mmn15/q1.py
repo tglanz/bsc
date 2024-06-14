@@ -78,8 +78,10 @@ class Conv2d(torch.nn.Module):
                 # This unsqueeze is important.
                 # sub_x has shape (batch, in_channels, kernel_h, kernel_w)
                 # kernel has shape (out_channels, in_channels, kernel_h, kernel_w)
-
+                # By unsqueezine sub_x at dim 1 we enable the kernel and sub_x to be broadcastable together.
+                # Then, the operation wil be performed for each batch and for each out channel.
                 sub_x.unsqueeze_(1)
+                
                 mul = sub_x * kernel
                 scalar = mul.sum(dim=(2, 3, 4))
                 y[:, :, r, s] = scalar
