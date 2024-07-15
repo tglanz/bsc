@@ -127,7 +127,7 @@ I took the assumption that the graph is undirected. Meaning, an edge $(u, v)$ ad
 
 For intuition, if we will think of each original token $(u, v)$ as two different tokens $(u, 1)$ and $(v, 1)$ (of the form $(vertex, frequency)$) we can treat this scenario as the a cash register model. Doing so, we can emulate the way the $CountMinSketch$ algorithm works (Algorithm 3 in chapter 7 of the book) to provide an estimation of occurences of a specific vertex, yielding its estimated degree.
 
-### Algorithm 2.a
+### Algorithm $2.a(\epsilon)$
 
 1. Let $k$ be the least power of two such that $k \geq \frac{2}{\epsilon}$, and let $C$ be an array of size $k$ whose cells are all initially zero.
 1. For $m$ sufficiently large to encode any vertex, Choose a random hash function ${h : [m] \rightarrow [k]}$ from a pairwise independent hash functions family $H$.
@@ -136,9 +136,9 @@ For intuition, if we will think of each original token $(u, v)$ as two different
     1. $C[h(u)] \leftarrow C[h(u)] + 1$
     1. $C[h(v)] \leftarrow C[h(v)] + 1$
 1. **sketch:** The sketch consists of $C$ and $h$.
-1. **query:** Given a vertex $v$, output $C[h(v)]$ as an estimate for $\tilde{d_v}$.
+1. **query:** Given a vertex $v$, output $\tilde{d_v} = C[h(v)]$ as an estimate for $d_v$.
 
-### Proof that Algorithm 2.a is a sketch
+### Algorithm $2.a$ is a sketch
 
 The proof is similar to that of the $CountMinSketch$ Algorithm.
 
@@ -212,4 +212,60 @@ $$
 To conclude, we got that with probablity of at least $\frac{1}{2}$:
 $$
 d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d
+$$
+
+# Answer to 2.b
+
+Our intuition is to run multiple copies of the algorithm using different, randomly selected hash functions. Because the error is upperly bounded, we can take and yield the minimum of the results. The number of copies to run depends on $\delta$.
+
+Algorithm $2.b(\epsilon, \delta)$
+
+1. Let $k$ be the least power of two such that $k \geq \frac{2}{\epsilon}$, and let $r = \lceil \log_2 \delta^{-1} \rceil$
+1. Let $C$ be an array of size $r \times k$ whose cells are all initially zero.
+1. For an $m$ sufficiently large to encode any vertex in the graph, independently choose $r$ random hash functions ${h_1, h_2, ..., h_r : [m] \rightarrow [k]}$ from a pairwise independent hash functions family $H$.
+1. while there are more edges do
+    1. Let $(u, v)$ be the next edge
+    1. for $i = 1$ to $r$ do
+        1. $C[i, h_i(u)] \leftarrow C[i, h_i(u)] + 1$
+        1. $C[i, h_i(v)] \leftarrow C[i, h_i(v)] + 1$
+1. **sketch:** consists of $C$ and the hash functions $h_1, h_2, ..., h_r$
+1. **query:** given a vertex $v$, output $\tilde{d_v} = \min_{1 \leq i \leq r} C[i, h_i(v)]$ as an estimate for $d_v$
+
+### Algorithm $2.b$ is a sketch
+
+We will treat each row of $C$ as a different copy of algorithm $2.a$ which we know how to combine as described previously.
+
+Consider two streams $\sigma_1$ and $\sigma_2$, and let $C^1$, $C^2$ and $C^{12}$ denote the content of the array $C$ after **Algorithm 2.b** processes $\sigma_1$, $\sigma_2$ and the concatenation $\sigma_1 \cdot \sigma_2$, respectively.
+
+For all $i = 1, 2, ..., r$ we will combine the $i$-th row of $C^1$ and $C^2$ to the $i$-th row of $C^{12}$ through elementwise addition.
+
+Because all elements of the combination are positive, the minimum of a specific column across the row dimension will yield the required estimate (the query procedure for some vertex).
+
+Because there exist some merge function $C^{12} = COMB(C^1, C^2)$, Algorithm $2.b$ is a sketch.
+
+### Space Complexity
+
+Realisticly, we have $r$ sketches as in algorithm $2.a$. Therefore the space complexity is
+$$
+O(r \epsilon^{-1} \log n) = O(\log \delta^{-1} \epsilon^{-1} \log n)
+$$
+
+### Error Estimate
+
+We want to show that for every vertex $v$, whp ($1 - \delta$) Algorithm $2.b$ returns and estimate $\tilde{d_v}$ for $d_v$ such that ${d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d}$.
+
+Algorithm $2.b$ effectively runs $r$ copies of algorithm $2.a$. Denote by $\tilde{d_v^i}$ the estimate produced by the $i$-th copy.
+
+Because $d_v \leq \tilde{d_v^i}$ for all $i = 1, ..., r$ and $\tilde{d_v} = \min_{1 \leq i \leq r}{\tilde{d_v^i}}$, we conclude that $d_v \leq \tilde{d_v}$.
+
+Algorithm $2.a$ gaurantees that $\tilde{d_v^i} \leq d_v + \epsilon \cdot d$ with probability of at least $\frac{1}{2}$. Therefore, because we run $r$ different, independent copies of that algorith, we get that with probability of at least $1 - \frac{1}{2}^r$ there is some $i$ such that $\tilde{d_v^i} \leq d_v + \epsilon \cdot d$. Because $\tilde{d_v} = \min_{1 \leq i \leq r} \tilde{d_v^i}$ we conclude that
+
+$$
+    Pr(\tilde{d_v} \leq d_v + \epsilon \cdot d) \geq 1 - 2^{-r} = 1 - 2^{- \log_2 \delta^{-1}} = 1 - \delta
+$$
+
+In conclusion
+
+$$
+Pr(d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d) \geq 1 - \delta
 $$
