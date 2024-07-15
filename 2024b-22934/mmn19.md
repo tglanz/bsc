@@ -120,3 +120,96 @@ Summing the above, we conclude that
 $$
     Space(1.b) = O(k^2 \log n)
 $$
+
+# Answer to 2.a
+
+I took the assumption that the graph is undirected. Meaning, an edge $(u, v)$ adds to the degree of both the vertices $u$ and $v$.
+
+For intuition, if we will think of each original token $(u, v)$ as two different tokens $(u, 1)$ and $(v, 1)$ (of the form $(vertex, frequency)$) we can treat this scenario as the a cash register model. Doing so, we can emulate the way the $CountMinSketch$ algorithm works (Algorithm 3 in chapter 7 of the book) to provide an estimation of occurences of a specific vertex, yielding its estimated degree.
+
+### Algorithm 2.a
+
+1. Let $k$ be the least power of two such that $k \geq \frac{2}{\epsilon}$, and let $C$ be an array of size $k$ whose cells are all initially zero.
+1. For $m$ sufficiently large to encode any vertex, Choose a random hash function ${h : [m] \rightarrow [k]}$ from a pairwise independent hash functions family $H$.
+1. while there are more edges do
+    1. Let $(u, v)$ be the next edge
+    1. $C[h(u)] \leftarrow C[h(u)] + 1$
+    1. $C[h(v)] \leftarrow C[h(v)] + 1$
+1. **sketch:** The sketch consists of $C$ and $h$.
+1. **query:** Given a vertex $v$, output $C[h(v)]$ as an estimate for $\tilde{d_v}$.
+
+### Proof that Algorithm 2.a is a sketch
+
+The proof is similar to that of the $CountMinSketch$ Algorithm.
+
+Consider two streams $\sigma_1$ and $\sigma_2$, and let $C^1$, $C^2$ and $C^{12}$ denote the content of the array $C$ after **Algorithm 2.a** processes $\sigma_1$, $\sigma_2$ and the concatenation $\sigma_1 \cdot \sigma_2$, respectively.
+
+Each cell of any such array $C$ contains the number of occurences of edges that touch a vertex that is assign through $h$ to this cell. Therefore, $C^{12}$ can be calculated based on the contents of $C^1$ and $C^2$ by adding together corresponding cells.
+
+Because there exist some merge function $C^{12} = COMB(C^1, C^2)$, Algorithm 2.a is a sketch.
+
+### Space Complexity
+
+1. The degree of each vertex is bounded by $n - 1$ (complete graph). Therefore the space required for $C$ is ${O(k \log (n-1)) = O(\frac{2}{\epsilon} \log n) = O(\epsilon^{-1} \log n)}$
+
+1. $h$ is a hash function $h : \{0,1\}^{\log m} \rightarrow \{0, 1\}^{\log k}$, according to Theorem 2 in Chapter 5, ${h = O(\log m + \log k) = O(\log m + \log n)}$ space where in the last equality we assumed that $\epsilon \geq \frac{1}{mn}$.
+
+1. Each token, that is an edge $(u, v)$, requires $O(2 \cdot \log m) = O(\log m)$ space.
+
+We get the total space complexity
+
+$$
+    Space(2.a) = O(\epsilon^{-1} \log n + \log m)
+$$
+
+If we also assume (the reasonable) assumption that $m \leq n$ then we get
+
+$$
+    Space(2.a) = O(\epsilon^{-1} \log n)
+$$
+
+### Error Estimates
+
+We will show that when queried on a token (vertex) $v$, with probability of at least $\frac{1}{2}$, Algorithm $2.a$ outputs a value $\tilde{d_v}$ s.t. $d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d$ where $d_v$ is the actual degree of $v$ and $d$ equals to the sum of all degrees in the graph.
+
+Observe that
+$$
+    \tilde{d_v} = C[h(v)] = \sum_{\substack{u \in [m] \\ h(u) = h(v)}} d_u = d_v + \sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u
+$$
+
+First, because we are in cash register model (specifically frequency is always 1), the addends of the rightmost term are all positive. Therefore we get that $d_v \leq \tilde{d_v}$.
+
+From the last equalities, to prove that $\tilde{d_v} \leq d_v + \epsilon \cdot d$ we need to show that $\sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u \leq \epsilon \cdot d$.
+
+For every $u \in [m] \setminus \{v\}$ we define an indicator $X_u$ for the event that $h(u) = h(v)$. Because $h$ is drawn from a family of uniform hash functions onto $[k]$, we know that ${Pr(X_u = 1) = \frac{1}{k}}$. We can now rewrite
+
+$$
+\sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u = \sum_{u \in [m] \setminus \{v\}} X_u \cdot d_u
+$$
+
+By linearity of expectation we get that
+
+$$
+\mathbb{E}[\sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u] = 
+\sum_{u \in [m] \setminus \{v\}} \mathbb{E}[X_u] \cdot d_u =
+\frac{1}{k} \sum_{u \in [m] \setminus \{v\}} d_u \leq \frac{d}{k} \leq \frac{\epsilon}{2} d
+$$
+
+Using Markov's inequality
+
+$$
+Pr(\sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u \geq \epsilon d) = 
+Pr(\sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u \geq 2 \mathbb{E}[\sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u]) \leq
+\frac{1}{2}
+$$
+
+Therefore
+
+$$
+Pr(\sum_{\substack{u \in [m]\setminus \{v\} \\ h(u) = h(v)}} d_u < \epsilon d) \geq \frac{1}{2}
+$$
+
+To conclude, we got that with probablity of at least $\frac{1}{2}$:
+$$
+d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d
+$$
