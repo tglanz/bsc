@@ -152,7 +152,7 @@ Because there exist some merge function $C^{12} = COMB(C^1, C^2)$, Algorithm 2.a
 
 1. The degree of each vertex is bounded by $n - 1$ (complete graph). Therefore the space required for $C$ is ${O(k \log (n-1)) = O(\frac{2}{\epsilon} \log n) = O(\epsilon^{-1} \log n)}$
 
-1. $h$ is a hash function $h : \{0,1\}^{\log m} \rightarrow \{0, 1\}^{\log k}$, according to Theorem 2 in Chapter 5, ${h = O(\log m + \log k) = O(\log m + \log n)}$ space where in the last equality we assumed that $\epsilon \geq \frac{1}{mn}$.
+1. $h$ is a hash function $h : \{0,1\}^{\log m} \rightarrow \{0, 1\}^{\log k}$, according to Theorem 2 in Chapter 5, ${h = O(\log m + \log k) = O(\log m + \log n)}$ space where in the last equality we assumed that $\epsilon \geq \frac{1}{mn}$ (Otherwise, for smaller values of $\epsilon$, storing the sketch cost more than the stream istelf).
 
 1. Each token, that is an edge $(u, v)$, requires $O(2 \cdot \log m) = O(\log m)$ space.
 
