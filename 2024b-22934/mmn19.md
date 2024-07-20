@@ -356,3 +356,37 @@ Therefore by complement, the probability for the algorithm to return $false$ is 
 In the case $X$ is $(k, b)$-diameter clusterable, Algorithm $3$ will always return $true$.
 
 In the case $X$ is $\epsilon$-far from being $(k, 2b)$-diameter clusterable, Algorithm $3$ will return $false$ whp.
+
+# Answer to 4
+
+Note: This is heavily inspired by Michal Parnas and Dana Ron's paper "Testing the Diameter of Graphs".
+
+The $C$-neighborhood of some vertex $v$ is defined to be the set of vertices that are of distance less than $C$ from $v$ and we denote it by:
+$$
+    \Gamma_C(v) = \{ u | dist(u, v) \leq C \}
+$$
+
+Algorithm $4(G, D, n, m, \epsilon)$
+
+1. Let $\epsilon_{n,m} \leftarrow \frac{m}{n} \epsilon$
+1. let $k \leftarrow \frac{2}{\epsilon_{n, m}}$
+1. Let $S$ be a set of $4 \frac{1}{\epsilon_{n, m}}$ vertices sampled uniformly and independently from $V$
+1. For each $v \in S$ do
+    1. Construct $\Gamma_D(v)$ by running BFS from $v$ with a depth limit of $D$
+    1. if $|\Gamma_D(v)| < k$ then
+        1. return $false$
+1. return $true$
+
+## Correctness
+
+**Case 1: $diam(G) \leq D$** 
+
+By definition of the diameter we get for all $v \in V$ that $\Gamma_D(v) = G$. Therefore setp $4.2.1$ will never be reached and the algorithm will return $true$ in step $5$.
+
+**Case 2: $G$ is $\epsilon$-far from having diameter $4D + 2$**
+
+_Lemma:_ If the $C$-neighborhood of at least $(1 - \frac{1}{k}) n$ of the vertices contains at least $k$ vertices, then the graph can be transformed into a graph with diameter at most $4C + 2$ by adding at most $\frac{2}{k} n$ edges.
+
+_Proof:_ 
+
+WIP: TODO
