@@ -269,3 +269,90 @@ In conclusion
 $$
 Pr(d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d) \geq 1 - \delta
 $$
+
+# Answer to 3
+
+The intuition for the following algorithm is that we will iteratively sample $h$ points and compute the distance between them and reference points that act as representative of their corresponding clusters. If any such distance is larger than $b$ for all clusters, it indicates that there is another cluster. The algorithm's answer will depend on whether or not we have detected more than $k$ clusters in that way.
+
+Algorithm $3$
+
+1. let $h \leftarrow \epsilon^{-1} \ln 3k$
+1. let $x_1 \sim U(X)$ (i.e. $x_1$ is a point sampled from a uniform distribution on $X$)
+1. let $newCluster \leftarrow true$
+1. let $i \leftarrow 1$
+1. while $i \leq k$ and $newCluster = true$ do
+    1. let $newCluster = false$
+    1. for $h$ times and while $newCluster = false$ do
+        1. let $y \sim U(X)$
+        1. for $j \leftarrow 1$ to $i$ and while $newCluster = false$ do
+            1. if $dist(x_j, y) > b$ then
+                1. set $x_{i+1} \leftarrow y$
+                1. set $i \leftarrow i + 1$
+                1. set $newCluster = true$
+1. return $i \leq k$
+
+In the algorithm, $i$ represents the number of clusters we detected and $x_i$ are their representatives respectively. Trivially, at the start of the loop at step $5$ there is one cluster which $x_1$ is its representative.
+
+The purpose of the loop at step $5$ is to find additional clusters and it iterates as long as we found additional clusters (up to a maximum of $k+1$ clusters because it is all we need to disprove $k$ clusterability).
+
+The purpose of the loop at step $5.2$ is to find a point which is not $b$ close to any of the existing $i$ clusters. It does so by drawing $h$ samples uniformly and check whether the distance of any of those is larger than $b$ from any of the $i$ currently detected clusters. If there is such distant point, it indicates for a new cluster, let this point be this cluster's representative and continue.
+
+If at the end of the algorithm (step $6$) we detected more than $k$ clusters than we return $false$. Because $i$ is the number of detected cluster, the fact that there are more than $k$ clusters detected is indicated by $i > k$.
+
+## Number of distance queries
+
+The distance queries are performed in step $5.2.2.1$ which is nested in the loops
+
+- at step $5$ which iterates at most $k$ times
+- at step $5.2$ which iterates at most $h$ times
+- at step $5.2.2$ which iterates at most $j \leq i \leq k$ times
+
+Therefore, the maximum number of queries is given by $k^2 \cdot h$, asymptotically:
+
+$$
+    O(\epsilon^{-1} k^2 \ln 3k)
+$$
+
+## Correctness
+
+**Case 1: $X$ is $(k, b)$-diameter clusterable**
+
+The algorithm won't be able to detect more than $k$ clusters because there are non. At "the worst case", after the algorithm detected $k$ clusters, there won't be any point in $X$ that its distance from all of those clusters is larger than $b$ and therefore the condition at step $5.2.2.1$ won't be met.
+
+Meaning, at step $6$ it will alway be true that $i \leq k$ and the algorithm will return $true$.
+
+**Case 2: $X$ is $\epsilon$-far from being $(k, 2b)$-diameter clusterable**
+
+Given that the algorithm had already detected $i$ clusters, let $y \sim U(X)$. For any $x_i$ it is true that
+$$
+    Pr(dist(x_i, y) > 2b) \geq \epsilon
+$$
+
+because there are at least $\epsilon |X|$ such points.
+
+And therefore
+$$
+    Pr(dist(x_i, y) \leq 2b) < 1 - \epsilon
+$$
+
+This is the probability for some point **to not satisfy** the condition at step $5.2.2.1$.
+
+The loop at step $5.2$ draws $h$ points. From the above, and because the points are independent, the probability for all such points to not satisfy the condition is at most
+$$
+    (1 - \epsilon)^h \leq \exp (- \epsilon h) = \exp (- \epsilon \cdot \epsilon^{-1} \cdot \ln 3k) = \frac{1}{3k}
+$$
+
+The loop at step $5$ iterates at most $k$ times. If we denote by $A_l$ the event that in iteration $l$ none of the $h$ points sampled satisty the condition at $5.2.2.1$ we can bound the union of those events by
+$$
+    \bigcup_{l\leq k} Pr(A_l) \leq \sum_{l \leq k} Pr(A_l) \leq k \frac{1}{3k} = \frac{1}{3}
+$$
+
+which is the probability that the algorithm will return $true$ (because it will yield $i \leq k$).
+
+Therefore by complement, the probability for the algorithm to return $false$ is at least $\frac{2}{3}$.
+
+**Conclusion**
+
+In the case $X$ is $(k, b)$-diameter clusterable, Algorithm $3$ will always return $true$.
+
+In the case $X$ is $\epsilon$-far from being $(k, 2b)$-diameter clusterable, Algorithm $3$ will return $false$ whp.
