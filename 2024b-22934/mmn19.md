@@ -372,10 +372,29 @@ Algorithm $4(G, D, n, m, \epsilon)$
 1. let $k \leftarrow \frac{2}{\epsilon_{n, m}}$
 1. Let $S$ be a set of $s = 4 \frac{1}{\epsilon_{n, m}}$ vertices sampled uniformly and independently from $V$
 1. For each $v \in S$ do
-    1. Construct $\Gamma_D(v)$ by running BFS from $v$ with a depth limit of $D$
+    1. Construct $\Gamma_D(v)$ by running BFS from $v$ with a depth limit of $D$ and neighbors limit of $k$
     1. if $|\Gamma_D(v)| < k$ then
         1. return $false$
 1. return $true$
+
+## Query Complexity
+
+The queries to the graph are performed when constructing $\Gamma_D(v)$ in step $4.1$ by doing BFS. There are $s = \frac{4}{\epsilon_{n, m}}$ vertices from which we are doing BFS. For each vertex $v$, the depth is limited to $D$ with a maximum of $k$ neighbours.
+
+Therefore the query complexity is
+$$
+    O(s k D) = O(\frac{4}{\epsilon_{n, m}} \frac{2}{\epsilon_{n, m}} D) = O(D \cdot \frac{n^2}{m^2} \cdot \epsilon^{-2})
+$$
+
+(Alternatively we could formulate it more tight using $\min \{D, k\}$, the result is the same since $D$ will be treated as a constant.)
+
+Recall that $D$ is bounded by some constant $d$ and also note that because the graph is connected $n < m + 1$.
+
+Thus we get the query complexity
+
+$$
+    O(\epsilon^{-2})
+$$
 
 ## Correctness
 
