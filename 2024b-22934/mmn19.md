@@ -1,7 +1,7 @@
 ---
 title: 22934, Mmn15
-author: Tal Glanzman
-date: 02/07/2024
+author: Tal Glanzman, 302800354
+date: 21/07/2024
 ...
 
 # Answer to 1.a
@@ -370,7 +370,7 @@ Algorithm $4(G, D, n, m, \epsilon)$
 
 1. Let $\epsilon_{n,m} \leftarrow \frac{m}{n} \epsilon$
 1. let $k \leftarrow \frac{2}{\epsilon_{n, m}}$
-1. Let $S$ be a set of $4 \frac{1}{\epsilon_{n, m}}$ vertices sampled uniformly and independently from $V$
+1. Let $S$ be a set of $s = 4 \frac{1}{\epsilon_{n, m}}$ vertices sampled uniformly and independently from $V$
 1. For each $v \in S$ do
     1. Construct $\Gamma_D(v)$ by running BFS from $v$ with a depth limit of $D$
     1. if $|\Gamma_D(v)| < k$ then
@@ -385,8 +385,44 @@ By definition of the diameter we get for all $v \in V$ that $\Gamma_D(v) = G$. T
 
 **Case 2: $G$ is $\epsilon$-far from having diameter $4D + 2$**
 
+First we will prove the following _Lemma_.
+
+---
+
 _Lemma:_ If the $C$-neighborhood of at least $(1 - \frac{1}{k}) n$ of the vertices contains at least $k$ vertices, then the graph can be transformed into a graph with diameter at most $4C + 2$ by adding at most $\frac{2}{k} n$ edges.
 
-_Proof:_ 
 
-WIP: TODO
+_Proof:_ We will prove by construction.
+
+Define a ball of radius $r$ with center at vertex $v$ to be $\Gamma_r(v)$. Now, we will partially cover the graph with disjoint balls using the following iterative process:
+
+1. The center of the first ball is any vertex $v$ s.t. $|\Gamma_C(v)| \geq k$
+1. At any subsequent step, the next center selected is any vertex $u$ s.t.
+    - $|\Gamma_C(u)| \geq k$
+    - $u$ is not contained in any of the previous balls
+    - The distance from $u$ to any any of the previous balls' centers is at least $2C$
+1. Stop the process once there are no vertices that match the criteria in step $2$
+
+By the way of construction:
+- The balls are disjoint
+- The number of centers (and balls) is at most $\frac{1}{k} \cdot n$ because each ball contains at least $k$ vertices
+- There are at most $\frac{1}{k} \cdot n$ uncovered vertices that are at distance greater than $2C$ from any center
+
+Finally, pick some arbitrary center $v$ and:
+- Connect the rest of the centers to $v$ (adding at most $\frac{n}{k} - 1$ edges). 
+- Connect the the remaining uncovered vertices that are at distance greater than $2C$ from any center to $v$ (adding at most ${\frac{n}{k} - 1}$ edges)
+
+We now have a graph with diameter of at most $4C + 2$ and the total number of edges added is at most $\frac{2}{k} \cdot n$.
+
+---
+
+Now, we want to show that for every graph that is $\epsilon$-far from diameter $4D + 2$ Algorithm $4$ will return $false$ whp (at least $\frac{2}{3}$).
+
+If the $D$-neighborhood of at most $\frac{1}{k}n = \frac{\epsilon_{n, m}}{2}n$ vertices contains less than $k = \frac{2}{\epsilon_{n, m}}$ vertices, it follows that the $D$-neighborhood of at least $(1 - \frac{1}{k})n$ vertices contains at least $k$ vertices. In this case, by the _Lemma_ we get that the graph can be transformed into a graph with diameter at most $4D+2$ by adding at most $\frac{1}{k}\cdot n = \frac{\epsilon_{n, m}}{2} \cdot n = \frac{m}{2n} \epsilon \cdot n \leq \epsilon \cdot m$ edges i.e. it is $\epsilon$-far from diameter $4D + 2$.
+
+The last paragraph implies that a graph that is $\epsilon$-far from diameter $4D + 2$ has more than $\frac{1}{k} \cdot n = \frac{\epsilon_{n, m}}{2}n$ vertices whose $D$-neighborhood contains less than $k$ vertices. The probability not to sample $s = \frac{4}{\epsilon_{n, m}}$ such vertices is at most
+$$
+    (1 - \frac{\epsilon_{n, m}}{2})^s \leq \exp(-\frac{\epsilon_{n, m}}{2} \cdot \frac{4}{\epsilon_{n, m}}) = e^{-2} \sim 0.135 < \frac{1}{3}
+$$
+
+Thus, the probability that Algorithm $4$ such vertex (and return $false$ in step $4.2.1$) is at least $\frac{2}{3}$.
