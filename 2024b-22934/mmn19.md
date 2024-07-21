@@ -1,9 +1,10 @@
 ---
-title: 22934, Mmn15
+title: 22934, Mmn19
 author: Tal Glanzman, 302800354
 date: 21/07/2024
 ...
 
+\newpage
 # Answer to 1.a
 
 First we should notice that
@@ -103,7 +104,7 @@ Having said that, we suggest the following algorithm:
     1. for $j \leftarrow 1$ to $k$
         1. $e_i \leftarrow e_i + (-1)^{j-1}e_{i-j}p_j$
     1. $e_i \leftarrow \frac{e_i}{i}$
-1. factorize and return the roots of the polynomial $P(x) = e_0x^k - e_j x^{k-1} + ... + (-1)^k e_k$
+1. factorize and return the roots of the polynomial ${P(x) = e_0x^k - e_j x^{k-1} + ... + (-1)^k e_k}$
 
 ### Space complexity
 
@@ -121,6 +122,7 @@ $$
     Space(1.b) = O(k^2 \log n)
 $$
 
+\newpage
 # Answer to 2.a
 
 I took the assumption that the graph is undirected. Meaning, an edge $(u, v)$ adds to the degree of both the vertices $u$ and $v$.
@@ -270,6 +272,7 @@ $$
 Pr(d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d) \geq 1 - \delta
 $$
 
+\newpage
 # Answer to 3
 
 The intuition for the following algorithm is that we will iteratively sample $h$ points and compute the distance between them and reference points that act as representative of their corresponding clusters. If any such distance is larger than $b$ for all clusters, it indicates that there is another cluster. The algorithm's answer will depend on whether or not we have detected more than $k$ clusters in that way.
@@ -357,6 +360,7 @@ In the case $X$ is $(k, b)$-diameter clusterable, Algorithm $3$ will always retu
 
 In the case $X$ is $\epsilon$-far from being $(k, 2b)$-diameter clusterable, Algorithm $3$ will return $false$ whp.
 
+\newpage
 # Answer to 4
 
 Note: This is heavily inspired by Michal Parnas and Dana Ron's paper "Testing the Diameter of Graphs".
