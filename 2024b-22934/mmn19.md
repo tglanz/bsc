@@ -170,7 +170,7 @@ $$
     Space(2.a) = O(\epsilon^{-1} \log n)
 $$
 
-### Error Estimates
+### Correctness
 
 We will show that when queried on a token (vertex) $v$, with probability of at least $\frac{1}{2}$, Algorithm $2.a$ outputs a value $\tilde{d_v}$ s.t. $d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d$ where $d_v$ is the actual degree of $v$ and $d$ equals to the sum of all degrees in the graph.
 
@@ -252,7 +252,7 @@ $$
 O(r \epsilon^{-1} \log n) = O(\log \delta^{-1} \epsilon^{-1} \log n)
 $$
 
-### Error Estimate
+### Correctness
 
 We want to show that for every vertex $v$, whp ($1 - \delta$) Algorithm $2.b$ returns and estimate $\tilde{d_v}$ for $d_v$ such that ${d_v \leq \tilde{d_v} \leq d_v + \epsilon \cdot d}$.
 
