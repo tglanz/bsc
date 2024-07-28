@@ -36,7 +36,7 @@ def load_image(location):
     return image
 
 def create_palette(min_val, max_val, m):
-    """ Create a palette of m equally spread gray values between min_value and max_value """"
+    """ Create a palette of m equally spread gray values between min_value and max_value """
     step = (max_val - min_val) // (m - 1)
     palette = []
 

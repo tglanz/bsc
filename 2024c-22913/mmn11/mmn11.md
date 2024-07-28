@@ -52,9 +52,9 @@ $$
 
 # Answer to 3
 
-The code can be found [here](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/q3.py) with example [input](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/lena.png) and [output](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/lena.diffused.png).
+The code below can also be found [here](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/q3.py) with example [input](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/lena.png) and [output](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/lena.diffused.png).
 
-An example of execution (load lena.png and use 4 gray levels):
+An example of execution (lozd the image from `lena.png` and use `5` gray levels):
 
     python q3.py lena.png 5
 
@@ -97,7 +97,7 @@ def load_image(location):
     return image
 
 def create_palette(min_val, max_val, m):
-    """ Create a palette of m equally spread gray values between min_value and max_value """"
+    """ Create a palette of m equally spread gray values between min_value and max_value """
     step = (max_val - min_val) // (m - 1)
     palette = []
 
