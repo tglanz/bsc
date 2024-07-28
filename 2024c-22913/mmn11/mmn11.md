@@ -52,7 +52,7 @@ $$
 
 # Answer to 3
 
-The code can be found [here]() with example [input]() and [output]().
+The code can be found [here](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/q3.py) with example [input](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/lena.png) and [output](https://github.com/tglanz/bsc/blob/master/2024c-22913/mmn11/lena.diffused.png).
 
 An example of execution (load lena.png and use 4 gray levels):
 
