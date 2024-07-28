@@ -158,3 +158,29 @@ def main():
 
 main()
 ```
+
+# Answer to 4
+
+We will show two colors $a$ and $b$ with the same saturation such that their complements have different saturation. We can then conclude that the saturation of the initial colors is not enough to determine the saturation of the complements.
+
+Let $a$ and $b$ be two colors defined by
+
+- $RGB(a) = (1, 0, 0)$
+- $RGB(b) = (0, 0.59, 0)$
+
+We compute the HSI values and get that
+
+- $HSI(a) = (0, 1, 0.033)$
+- $HSI(b) = (0.33, 1, 0.2)$
+
+We will denote complement of some color $X$ by $x^c$ and notice that ${RGB(x^c) = (1, 1, 1) - RGB(x)}$. Therefore:
+
+- $RGB(a^c) = (0, 1, 1)$
+- $RGB(b^c) = (1, 0.41, 1)$
+
+Computing the HSI values of the RGB complements we get that
+
+- $HSI(a^c) = (0.5, 1, 0.66)$
+- $HSI(b^c) = (0.83, 0.48, 0.8)$
+
+What we can see from the above is that the saturation of the original colors $a$ and $c$ are both 1. However, the saturation of their complements are $1$ and $0.48$ respectively. This means that only the saturation of the initial color is not enough to determine the saturation of the complement color.
