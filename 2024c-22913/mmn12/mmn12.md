@@ -10,7 +10,7 @@ Date: 2024/08/10
 
 # Answer to 2
 
-## 1
+## 2.1
 
 $$
 \begin{matrix}
@@ -79,4 +79,53 @@ y = h \circledast x =
 \end{pmatrix}
 $$
 
+## 2.2
 
+By definitions of the fft pair
+
+$$
+\begin{align*}
+f(x, y)
+&= \mathcal{F}^{-1}[\hat{f}(u, x)] \\
+&= \int \hat{f}(u, v) e^{j2\pi (ux + vy)} \mathrm{d}u \mathrm{d}v = \int e^{- \frac{u^2 + v^2}{2 \sigma^2}} e^{j2\pi (ux + vy)} \mathrm{d}u \mathrm{d}v \\
+&= g(x) \cdot g(y)
+\end{align*}
+$$
+
+Where $g(t)$ is defined by:
+$$
+    g(t) = \int e^{- \frac{\omega^2 - j4\pi\sigma^2t\omega}{2\sigma^2}} \mathrm{d}\omega
+$$
+
+Notice that by complementing to the square, we get that
+$$
+\omega^2 - j4\pi\sigma^2t\omega = (\omega - j2\pi\sigma^2 t)^2 + 4\pi^2\sigma^4 t^2
+$$
+
+Therefore
+$$
+g(t) 
+= e^{- 2 \pi^2 \sigma^2 t^2} \cdot \int e^{- \frac{(w - j2\pi \sigma t)^2}{2\sigma^2}} \mathrm{d}\omega
+$$
+
+By using the fact about Gaussian Integrals
+$$
+\int_{-\infty}^{\infty} e^{-a(t + b)^2}\mathrm{d}t = \sqrt{\frac{\pi}{a}}
+$$
+
+we compute
+$$
+\int_{-\infty}^{\infty} e^{- \frac{(\omega - j2\pi \sigma t)^2}{2 \sigma^2}} \mathrm{d}\omega = \sqrt{2 \sigma ^2 \pi} = \sigma \sqrt{2\pi}
+$$
+
+And we get that
+$$
+g(t) = \sigma \sqrt{2\pi} \cdot e^{- 2 \pi^2 \sigma^2 t^2}
+$$
+
+Finally, putting it all together we get that
+$$
+f(x, y) = g(x) \cdot g(y) = 2\pi \sigma^2 e^{- 2 \pi^2 \sigma^2 (x^2 + y^2)}
+$$
+
+as we wanted to show.
