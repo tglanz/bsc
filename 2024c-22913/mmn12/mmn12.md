@@ -81,20 +81,18 @@ $$
 
 ## 2.2
 
-By definitions of the fft pair
+By definitions of the Fourier Pair
 
 $$
-\begin{align*}
 f(x, y)
-&= \mathcal{F}^{-1}[\hat{f}(u, x)] \\
-&= \int \hat{f}(u, v) e^{j2\pi (ux + vy)} \mathrm{d}u \mathrm{d}v = \int e^{- \frac{u^2 + v^2}{2 \sigma^2}} e^{j2\pi (ux + vy)} \mathrm{d}u \mathrm{d}v \\
-&= g(x) \cdot g(y)
-\end{align*}
+= \mathcal{F}^{-1}[\hat{f}(u, x)]
+= \int_{-\infty}^{\infty} e^{- \frac{u^2 + v^2}{2 \sigma^2}} e^{j2\pi (ux + vy)} \mathrm{d}u \mathrm{d}v
+= g(x) \cdot g(y)
 $$
 
-Where $g(t)$ is defined by:
+with $g(t)$ defined by:
 $$
-    g(t) = \int e^{- \frac{\omega^2 - j4\pi\sigma^2t\omega}{2\sigma^2}} \mathrm{d}\omega
+    g(t) = \int_{-\infty}^{\infty} e^{- \frac{\omega^2 - j4\pi\sigma^2t\omega}{2\sigma^2}} \mathrm{d}\omega
 $$
 
 Notice that by complementing to the square, we get that
@@ -102,10 +100,10 @@ $$
 \omega^2 - j4\pi\sigma^2t\omega = (\omega - j2\pi\sigma^2 t)^2 + 4\pi^2\sigma^4 t^2
 $$
 
-Therefore
+and therefore
 $$
 g(t) 
-= e^{- 2 \pi^2 \sigma^2 t^2} \cdot \int e^{- \frac{(w - j2\pi \sigma t)^2}{2\sigma^2}} \mathrm{d}\omega
+= e^{- 2 \pi^2 \sigma^2 t^2} \cdot \int_{-\infty}^{\infty} e^{- \frac{(w - j2\pi \sigma t)^2}{2\sigma^2}} \mathrm{d}\omega
 $$
 
 By using the fact about Gaussian Integrals
