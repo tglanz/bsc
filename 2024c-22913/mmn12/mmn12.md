@@ -127,3 +127,43 @@ f(x, y) = g(x) \cdot g(y) = 2\pi \sigma^2 e^{- 2 \pi^2 \sigma^2 (x^2 + y^2)}
 $$
 
 as we wanted to show.
+
+# Answer to 3
+
+TODO
+
+# Answert to 4
+
+Denote the box function in the interval $[-\frac{1}{2}, \frac{1}{2}]$ by
+$$
+g(t) = \begin{cases}
+1 &  -\frac{1}{2} \leq t \leq \frac{1}{2} \\
+0 & otherwise
+\end{cases}
+$$
+
+We have learnt in class (lecture 2 with $X = 1$) that $\mathcal{F}[g(t)] = sinc(f)$. Therefore, by the duality principle we get that
+
+$$
+\mathcal{F}[sinc(-t)] = g(f)
+$$
+
+and because
+
+$$
+sinc(-t) = \frac{sin (- \pi t)}{- \pi t} = \frac{- sin(\pi t)}{-\pi t} = \frac{sin(\pi t)}{\pi t} = sinc(t)
+$$
+
+we get that
+
+$$
+\mathcal{F}[sinc(t)] = g(f)
+$$
+
+Now, by the convolution theorem:
+
+$$
+sinc(t) \ast sinc(t) = \mathcal{F}^{-1}[g(f) \cdot g(f)] =\mathcal{F}^{-1}[g(f)] = sinc(t)
+$$
+
+as we wanted to show.
