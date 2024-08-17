@@ -2,11 +2,11 @@
 
 Author: Tal Glanzman
 
-Date: 2024/08/10
+Date: 2024/08/17
 
 # Answer to 1
 
-The following are the results of the code below
+Figure 1 and Figure 2 the results of the code below.
 
 ![dogs](./assets/dogs.comparison.png)
 
@@ -218,13 +218,11 @@ $$
 
 Applying the DFT (4-44) we get that
 
-$$
 \begin{align*}
 \mathcal{F}[f(x) \ast h(x)] &= \sum_{x=0}^{M-1} \sum_{m=0}^{M-1} f(m) h(x - m) e^{-2 \pi i ux/M} \\
 &= \sum_{m=0}^{M-1} \sum_{x=0}^{M-1} f(m) h(x - m) e^{-2 \pi i ux/M} \\
 &= \sum_{m=0}^{M-1} f(m) \sum_{x=0}^{M-1} h(x - m) e^{-2 \pi i ux/M} \\
 \end{align*}
-$$
 
 By relying on the translation property of the DFT (problem 4.17) we get that
 
@@ -249,11 +247,9 @@ $$
 To make the solution clearer and only by notation, when there is no ambiguity we will use the letters $t, x, \tau$ and $u$ to indicate the two indices 1,2 of the same letter with expansion. For example, by writting $\delta(t - x)$ we mean ${\delta(t_1 - x_1, t_2 - x_2)}$ and by $du$ we mean $du_1du_2$.
 
 By definition (integral limits are implicitly $(-\infty, \infty)$):
-$$
 \begin{align*}
 f(t) \ast \delta(t - x) = \int \int f(\tau) \delta(t - x - \tau) d\tau
 \end{align*}
-$$
 
 Substituting $u = t - x - \tau$:
 
@@ -262,11 +258,9 @@ Substituting $u = t - x - \tau$:
 - $\tau \rightarrow \infty \Rightarrow u \rightarrow -\infty$
 
 We get that
-$$
 \begin{align*}
 f(t) \ast \delta(t - x) = \int \int f(t - x - u) \delta(u) du = f(t - x)
 \end{align*}
-$$
 
 with the last equality is by definition of dirac's delta.
 
@@ -280,27 +274,23 @@ $$
 **Continuous**
 
 By definition (integral limits are implicitly $(-\infty, \infty)$):
-$$
 \begin{align*}
 \mathcal{F}[a_1 f_1(x, y) + a_2 f_2(x, y)] &= \int \int (a_1 f_1(x, y) + a_2 f_2(x, y)) e^{-2\pi i (ux + vy)} dxdy \\
 &= a_1 \int \int f_1(x, y) e^{-2 \pi i (ux + vy)} dx dy + a_2 \int \int f_2(x, y) e^{-2 \pi i (ux + vy)} dx dy \\
 &= a_1 \mathcal{F}[f_1(x, y)] + a_2 \mathcal{F}[f_2(x, y)]
 \end{align*}
-$$
 
 where the second equality arise from linearity of integration and the third equality arise from the definition of the 2d fourier transform.
 
 **Discrete**
 
 By definition
-$$
 \begin{align*}
 \mathcal{F}[a_1 f_1(x, y) + a_2 f_2(x, y)] &=
 \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} (a_1 f_1(x, y) + a_2 f_2(x, y)) e^{-2\pi i (ux/M + vy/N)} \\
 &= a_1 \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f_1(x, y) e^{-2\pi i (ux/M + vy/N)} + a_2 \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f_2(x, y) e^{-2\pi i (ux/M + vy/N)} \\
 &= a_1 \mathcal{F}[f_1(x,y)] + a_2 \mathcal{F}[f_2(x, y)]
 \end{align*}
-$$
 
 where the second equality arise from linearity of summation and the third equality arise from the definition of the 2d fourier transform.
 
