@@ -252,14 +252,13 @@ $$
 $$
 
 Because $f(x) = \mathcal{F}^{-1}{[F(v)]}$ we get by IDFT definition (applied to $f$) that
-$$
+
 \begin{align*}
 \mathcal{F}[f(x) \cdot h(x)] &= \sum_{x=0}^{M-1} \frac{1}{M} \sum_{v=0}^{M-1} F(v) e^{2 \pi i vx/M} h(x) e^{-2\pi i ux/M} \\
 &= \frac{1}{M} \sum_{v=0}^{M-1} F(v) \sum_{x=0}^{M-1} h(x) e^{-2\pi i (u - v) x/M} \\
 &= \frac{1}{M} \sum_{v=0}^{M-1} F(v) H(u - v) \\
 &= \frac{1}{M} F(u) \ast H(u)
 \end{align*}
-$$
 
 With the third equality arise from the DFT application to $h(x) e^{-2\pi i (u -v)x /M}$.
 
