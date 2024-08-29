@@ -12,11 +12,11 @@ def limit_contrast(cdf: np.ndarray, contrast_limit: float):
 
     The contrast limit is given as a ratio between min and max value.
 
-    Clip the cdf within (0, contrast_limit) and then distribute the excess uniformly on
-    the other bins.
+    Clip the cdf within (0, contrast_limit) and then distribute the excess uniformly
+    on the other bins.
 
-    Note, that after filling the excess, it is possible that the cdf will again have bins that are
-    above the contrast limit.
+    Note, that after filling the excess, it is possible that the cdf will again
+    have bins that are above the contrast limit.
 
     The operation is done in place.
     """
@@ -47,8 +47,8 @@ def equalize(arr: np.ndarray, contrast_limit: int):
 
 image = cv2.imread('./assets/embedded-squares.png', cv2.IMREAD_GRAYSCALE)
 
-# limit the contrast to the 80% value (0.8 * 256)
-contrast_limit = 0.8
+# limit the contrast to reduce some noise
+contrast_limit = 0.9
 
 # the size of the strips
 kernel_width = 16
@@ -56,7 +56,9 @@ kernel_height = 16
 
 for kernel_top in range(0, image.shape[0], kernel_height):
     for kernel_left in range(0, image.shape[1], kernel_width):
-        strip = image[kernel_top:(kernel_top+kernel_height), kernel_left:(kernel_left+kernel_width)]
+        strip = image[
+            kernel_top:(kernel_top+kernel_height),
+            kernel_left:(kernel_left+kernel_width)]
         equalize(strip, contrast_limit)
 
 cv2.imwrite("output.png", image)
