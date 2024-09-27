@@ -56,3 +56,36 @@ $\vdots$ | $\cdot$
 181 | aaaaa
 
 # Answer to 4
+
+> Question 8.5 in the book
+
+a)
+
+According to Shannon's noiseless theorem
+$$
+L_{avg} \geq H = 5.3 \frac{bits}{pixel}
+$$
+
+thus, the compression ratio is at most 
+$$
+\frac{1024 \times 1024\times 8}{1024 \times 1024 \times 5.3} \approx 1.51
+$$
+
+and the compressed image is of size of at least
+$$
+\lceil 1024 \times 1024 \times 5.3 \rceil ~bits
+$$
+
+b) 
+
+No due to the required ceil.
+
+Assuming it is obtained, we could represent fractional bits which is not the case.
+
+c)
+
+Huffman encodes symbols one at a time. Thus, it has to spatial awareness. In case the image has any spatial correlation Huffman code won't capture it.
+
+On the contrary, LZW has spatial awareness and it can map repeating sequences to one-symbol.
+
+Thus, I suggest to perform an LZW compression followed by Huffman. The LZW emits a fixed-length code which then the Huffman encodes to a variable-length code. In that way we have a compression that can leverage both spatial correlations and symbol frequencies.
