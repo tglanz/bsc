@@ -169,31 +169,31 @@ $$
 ## a)
 \begin{align*}
 \mathcal{F}[\delta(x, y)] 
-=& \sum_{xy}\delta(x, y) e^{-2\pi i (ux/M + vy/M)} && \text{By 4-67} \\
-=& e^{-2\pi i (u0/M + v0/M)} && \text{By 4-58} \\
+=& \sum_{xy}\delta(x, y) e^{-2\pi i (ux/M + vy/N)} && \text{By 4-67} \\
+=& e^{-2\pi i (u0/M + v0/N)} && \text{By 4-58} \\
 =& 1
 \end{align*}
 
 ## b)
 \begin{align*}
 \mathcal{F}^{-1}[MN\delta(u,v)]
-&= \frac{1}{MN} \sum_{uv} MN \delta(u,v) e^{2\pi i (ux/M + vy/M)} && \text{By 4-68} \\
-&= e^{2\pi i (0x/M + 0y/M)} && \text{By 4-58} \\
+&= \frac{1}{MN} \sum_{uv} MN \delta(u,v) e^{2\pi i (ux/M + vy/N)} && \text{By 4-68} \\
+&= e^{2\pi i (0x/M + 0y/N)} && \text{By 4-58} \\
 &= 1
 \end{align*}
 
 ## c)
 \begin{align*}
 \mathcal{F}[\delta(x-x_0, y-y_0)] 
-=& \sum_{xy}\delta(x-x_0, y-y_0) e^{-2\pi i (ux/M + vy/M)} && \text{By 4-67} \\
-=& e^{-2\pi i (ux_0/M + vy_0/M)} && \text{By 4-58}
+=& \sum_{xy}\delta(x-x_0, y-y_0) e^{-2\pi i (ux/M + vy/N)} && \text{By 4-67} \\
+=& e^{-2\pi i (ux_0/M + vy_0/N)} && \text{By 4-58}
 \end{align*}
 
 ## d)
 \begin{align*}
 \mathcal{F}^{-1}[MN\delta(u-u_0,v-v_0)]
-&= \frac{1}{MN} \sum_{uv} MN \delta(u-u_0,v-v_0) e^{2\pi i (ux/M + vy/M)} && \text{By 4-68} \\
-&= e^{2\pi i (u_0x/M + v_0y/M)} && \text{By 4-58}
+&= \frac{1}{MN} \sum_{uv} MN \delta(u-u_0,v-v_0) e^{2\pi i (ux/M + vy/N)} && \text{By 4-68} \\
+&= e^{2\pi i (u_0x/M + v_0y/N)} && \text{By 4-58}
 \end{align*}
 
 ## e)
@@ -205,9 +205,9 @@ $$
 
 So
 \begin{align*}
-&\mathcal{F}[\cos(2\pi(u_0x/ + v_0y/N))] \\
-&= \sum_{xy} \frac{e^{2\pi i (u_0x/ + v_0y/N)} + e^{- 2\pi i (u_0x/ + v_0y/N)} }{2} e^{- 2\pi i (ux/M + vy/N)} && \text{By 4-67} \\
-&= \frac{1}{2} \sum_{xy} e^{2\pi i (u_0x/ + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} + \frac{1}{2} \sum_{xy} e^{- 2\pi i (u_0x/ + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} \\
+&\mathcal{F}[\cos(2\pi(u_0x/M + v_0y/N))] \\
+&= \sum_{xy} \frac{e^{2\pi i (u_0x/M + v_0y/N)} + e^{- 2\pi i (u_0x/M + v_0y/N)} }{2} e^{- 2\pi i (ux/M + vy/N)} && \text{By 4-67} \\
+&= \frac{1}{2} \sum_{xy} e^{2\pi i (u_0x/M + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} + \frac{1}{2} \sum_{xy} e^{- 2\pi i (u_0x/M + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} \\
 &= \frac{MN}{2} \delta(u-u_0, v-v_0) + \frac{MN}{2} \delta(u+u_0, v+v_0) && \text{By answer to 4.d} \\
 &= \frac{MN}{2} [ \delta(u+u_0, v+v_0) + \delta(u-u_0, v-v_0) ]
 \end{align*}
@@ -221,9 +221,9 @@ $$
 
 So
 \begin{align*}
-& \mathcal{F}[\sin(2\pi(u_0x/ + v_0y/N))] \\
-&= \sum_{xy} \frac{e^{2\pi i (u_0x/ + v_0y/N)} - e^{- 2\pi i (u_0x/ + v_0y/N)} }{2i} e^{- 2\pi i (ux/M + vy/N)} && \text{By 4-67} \\
-&= \frac{1}{2i} \sum_{xy} e^{2\pi i (u_0x/ + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} - \frac{1}{2i} \sum_{xy} e^{- 2\pi i (u_0x/ + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} \\
+& \mathcal{F}[\sin(2\pi(u_0x/M + v_0y/N))] \\
+&= \sum_{xy} \frac{e^{2\pi i (u_0x/M + v_0y/N)} - e^{- 2\pi i (u_0x/M + v_0y/N)} }{2i} e^{- 2\pi i (ux/M + vy/N)} && \text{By 4-67} \\
+&= \frac{1}{2i} \sum_{xy} e^{2\pi i (u_0x/M + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} - \frac{1}{2i} \sum_{xy} e^{- 2\pi i (u_0x/M + v_0y/N)} e^{- 2\pi i (ux/M + vy/N)} \\
 &= \frac{MN}{2i} \delta(u-u_0, v-v_0) - \frac{MN}{2i} \delta(u+u_0, v+v_0) && \text{By answer to 4.d} \\
 &= \frac{i MN}{2} [ \delta(u+u_0, v+v_0) - \delta(u-u_0, v-v_0)]
 \end{align*}
